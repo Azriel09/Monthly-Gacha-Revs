@@ -11,7 +11,7 @@ import { Typography } from "@mui/material";
 import Glass from "./glass";
 import DnsIcon from "@mui/icons-material/Dns";
 export default function GachaTable() {
-  const [month, setMonth] = useState("");
+  const [month, setMonth] = useState("July 2023");
 
   function ServerImage(server) {
     switch (server.value) {
@@ -56,8 +56,13 @@ export default function GachaTable() {
                 color: "white",
                 position: "absolute",
                 textAlign: "center",
-                width: "100%",
+                width: "90%",
                 left: "0px",
+                textShadow: "0 0 3px #000, 0 0 5px #0000FF",
+                fontSize: "1.5em",
+                letterSpacing: "2px",
+                textTransform: "uppercase",
+                fontFamily: "Encode Sans Condensed",
               }}
             >
               {name.value}
@@ -78,8 +83,13 @@ export default function GachaTable() {
                 color: "white",
                 position: "absolute",
                 textAlign: "center",
-                width: "100%",
+                width: "90%",
                 left: "0px",
+                textShadow: "0 0 3px #000, 0 0 5px #0000FF",
+                fontSize: "1.5em",
+                letterSpacing: "2px",
+                textTransform: "uppercase",
+                fontFamily: "Encode Sans Condensed",
               }}
             >
               {name.value}
@@ -92,19 +102,64 @@ export default function GachaTable() {
 
   const columnGroupingModel = [
     {
-      groupId: "Downloads",
-      children: [{ field: "downloadsAndroid" }, { field: "downloadsApple" }],
+      groupId: "July",
       headerAlign: "center",
+      children: [
+        {
+          groupId: "Downloads",
+          children: [
+            { field: "currentDownloadsAndroid" },
+            { field: "currentDownloadsApple" },
+          ],
+          headerAlign: "center",
+        },
+        {
+          groupId: "Revenue",
+          children: [
+            { field: "currentRevenueAndroid" },
+            { field: "currentRevenueApple" },
+          ],
+          headerAlign: "center",
+        },
+        {
+          groupId: "Total",
+          children: [
+            { field: "currentDownloads" },
+            { field: "currentRevenue" },
+          ],
+          headerAlign: "center",
+        },
+      ],
     },
     {
-      groupId: "Revenue",
-      children: [{ field: "revenueAndroid" }, { field: "revenueApple" }],
+      groupId: "June",
       headerAlign: "center",
-    },
-    {
-      groupId: "Total",
-      children: [{ field: "downloads" }, { field: "revenues" }],
-      headerAlign: "center",
+      children: [
+        {
+          groupId: "Downloads",
+          children: [
+            { field: "previousDownloadsAndroid" },
+            { field: "previousDownloadsApple" },
+          ],
+          headerAlign: "center",
+        },
+        {
+          groupId: "Revenue",
+          children: [
+            { field: "previousRevenueAndroid" },
+            { field: "previousRevenueApple" },
+          ],
+          headerAlign: "center",
+        },
+        {
+          groupId: "Total",
+          children: [
+            { field: "previousDownloads" },
+            { field: "previousRevenue" },
+          ],
+          headerAlign: "center",
+        },
+      ],
     },
   ];
   const columns = [
@@ -121,7 +176,7 @@ export default function GachaTable() {
 
       headerAlign: "center",
       align: "center",
-      flex: 0.03,
+      flex: 0.02,
       renderCell: ServerImage,
       headerClassName: "table-header",
       renderHeader: () => (
@@ -139,9 +194,9 @@ export default function GachaTable() {
     },
     // DOWNLOADS
     {
-      field: "downloadsAndroid",
+      field: "currentDownloadsAndroid",
       type: "number",
-      flex: 0.04,
+      flex: 0.025,
       align: "center",
       headerClassName: "table-header",
       headerAlign: "center",
@@ -159,9 +214,9 @@ export default function GachaTable() {
       ),
     },
     {
-      field: "downloadsApple",
+      field: "currentDownloadsApple",
       type: "number",
-      flex: 0.04,
+      flex: 0.025,
 
       align: "center",
       headerClassName: "table-header",
@@ -182,9 +237,9 @@ export default function GachaTable() {
 
     // REVENUE
     {
-      field: "revenueAndroid",
+      field: "currentRevenueAndroid",
       type: "number",
-      flex: 0.04,
+      flex: 0.025,
       headerAlign: "center",
       align: "center",
       headerClassName: "table-header",
@@ -203,9 +258,9 @@ export default function GachaTable() {
       ),
     },
     {
-      field: "revenueApple",
+      field: "currentRevenueApple",
       type: "number",
-      flex: 0.04,
+      flex: 0.025,
       headerAlign: "center",
       align: "center",
       headerClassName: "table-header",
@@ -226,18 +281,124 @@ export default function GachaTable() {
 
     // TOTAL
     {
-      field: "downloads",
+      field: "currentDownloads",
       type: "number",
-      flex: 0.04,
+      flex: 0.025,
       headerAlign: "center",
       align: "center",
       headerClassName: "table-header",
       headerName: "Downloads",
     },
     {
-      field: "revenues",
+      field: "currentRevenue",
       type: "number",
-      flex: 0.04,
+      flex: 0.025,
+      headerAlign: "center",
+      align: "center",
+      headerClassName: "table-header",
+      headerName: "Revenue ($)",
+    },
+    // DOWNLOADS
+    {
+      field: "previousDownloadsAndroid",
+      type: "number",
+      flex: 0.025,
+      align: "center",
+      headerClassName: "table-header",
+      headerAlign: "center",
+      renderHeader: () => (
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            alignItems: "center",
+            gap: "10px",
+          }}
+        >
+          <AndroidIcon />
+        </div>
+      ),
+    },
+    {
+      field: "previousDownloadsApple",
+      type: "number",
+      flex: 0.025,
+
+      align: "center",
+      headerClassName: "table-header",
+      headerAlign: "center",
+      renderHeader: () => (
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            alignItems: "center",
+            gap: "10px",
+          }}
+        >
+          <AppleIcon />
+        </div>
+      ),
+    },
+
+    // REVENUE
+    {
+      field: "previousRevenueAndroid",
+      type: "number",
+      flex: 0.025,
+      headerAlign: "center",
+      align: "center",
+      headerClassName: "table-header",
+      renderHeader: () => (
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            alignItems: "center",
+            gap: "10px",
+          }}
+        >
+          ($)
+          <AndroidIcon />
+        </div>
+      ),
+    },
+    {
+      field: "previousRevenueApple",
+      type: "number",
+      flex: 0.025,
+      headerAlign: "center",
+      align: "center",
+      headerClassName: "table-header",
+      renderHeader: () => (
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            alignItems: "center",
+            gap: "10px",
+          }}
+        >
+          ($)
+          <AppleIcon />
+        </div>
+      ),
+    },
+
+    // TOTAL
+    {
+      field: "previousDownloads",
+      type: "number",
+      flex: 0.025,
+      headerAlign: "center",
+      align: "center",
+      headerClassName: "table-header",
+      headerName: "Downloads",
+    },
+    {
+      field: "previousRevenue",
+      type: "number",
+      flex: 0.025,
       headerAlign: "center",
       align: "center",
       headerClassName: "table-header",
@@ -250,12 +411,18 @@ export default function GachaTable() {
       id: 1,
       name: "Genshin Impact",
       server: "global",
-      downloadsAndroid: 2_000_000,
-      downloadsApple: 700_000,
-      downloads: 2_700_000,
-      revenueAndroid: 14_000_000,
-      revenueApple: 18_000_000,
-      revenues: 32_000_000,
+      currentDownloadsAndroid: 2_000_000,
+      currentDownloadsApple: 700_000,
+      currentDownloads: 2_700_000,
+      currentRevenueAndroid: 14_000_000,
+      currentRevenueApple: 18_000_000,
+      currentRevenue: 32_000_000,
+      previousDownloadsAndroid: 2_000_000,
+      previousDownloadsApple: 700_000,
+      previousDownloads: 2_700_000,
+      previousRevenueAndroid: 14_000_000,
+      previousRevenueApple: 18_000_000,
+      previousRevenue: 32_000_000,
 
       date: "july-2023",
     },
@@ -263,13 +430,18 @@ export default function GachaTable() {
       id: 2,
       name: "Honkai Star Rail",
       server: "global",
-      downloadsAndroid: 1_000_000,
-      downloadsApple: 600_000,
-      downloads: 1_600_000,
-      revenueAndroid: 19_000_000,
-      revenueApple: 22_000_000,
-      revenues: 41_000_000,
-
+      currentDownloadsAndroid: 1_000_000,
+      currentDownloadsApple: 600_000,
+      currentDownloads: 1_600_000,
+      currentRevenueAndroid: 19_000_000,
+      currentRevenueApple: 22_000_000,
+      currentRevenue: 41_000_000,
+      previousDownloadsAndroid: 1_000_000,
+      previousDownloadsApple: 700_000,
+      previousDownloads: 1_700_000,
+      previousRevenueAndroid: 25_000_000,
+      previousRevenueApple: 33_000_000,
+      previousRevenue: 58_000_000,
       date: "july-2023",
     },
   ];
@@ -278,13 +450,14 @@ export default function GachaTable() {
     <div style={{ height: 900, width: "100%" }}>
       <DataGrid
         rows={rows}
+        disableRowSelectionOnClick
         columns={columns}
-        rowHeight={115}
+        rowHeight={90}
         experimentalFeatures={{ columnGrouping: true }}
         columnGroupingModel={columnGroupingModel}
         initialState={{
           sorting: {
-            sortModel: [{ field: "revenues", sort: "desc" }],
+            sortModel: [{ field: "currentRevenue", sort: "desc" }],
           },
         }}
         sx={{
@@ -311,10 +484,13 @@ export default function GachaTable() {
           "& .css-yrdy0g-MuiDataGrid-columnHeaderRow": {
             backgroundColor: "#1C2133",
             textTransform: "uppercase",
-            fontSize: "1.2em",
+            fontSize: "1.1em",
           },
-          "& .MuiDataGrid-virtualScrollerRenderZone": {
-            fontSize: "1.3em",
+          "& .MuiDataGrid-iconSeparator": {
+            visibility: "hidden",
+          },
+          "& .MuiDataGrid-root": {
+            outline: "none !imporant",
           },
         }}
       />

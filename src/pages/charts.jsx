@@ -1,7 +1,9 @@
+import ChartContainer from "../components/charts/chart-container";
+
 export default function Chart() {
   return (
     <>
-      <h1>Chart</h1>
+      <ChartContainer />
     </>
   );
 }
