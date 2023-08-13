@@ -12,7 +12,7 @@ import { Typography } from "@mui/material";
 import Glass from "./glass";
 import DnsIcon from "@mui/icons-material/Dns";
 import clsx from "clsx";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import GameImageBanner from "./game-image";
 export default function GachaTable() {
   const months = [
@@ -29,6 +29,17 @@ export default function GachaTable() {
     "November",
     "December",
   ];
+
+  useEffect(() => {
+    fetch("http://localhost:8000/test")
+      .then((res) => res.json(res))
+      .then((data) => {
+        console.log(data);
+      })
+      .catch((err) => {
+        console.log(err.message);
+      });
+  }, []);
   const [data, setData] = useState([
     {
       id: 0,
