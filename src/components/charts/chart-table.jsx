@@ -81,11 +81,12 @@ export default function ChartTable() {
   );
 
   return (
-    <div className="card">
+    <div>
       <DataTable
         value={sales}
         headerColumnGroup={headerGroup}
         tableStyle={{ minWidth: "80rem" }}
+        stripedRows
       >
         <Column field="name" />
         <Column field="server" />
