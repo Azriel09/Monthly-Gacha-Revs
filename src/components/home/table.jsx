@@ -6,13 +6,30 @@ import AppleIcon from "@mui/icons-material/Apple";
 import AndroidIcon from "@mui/icons-material/Android";
 import GenshinBG from "../../assets/banners/genshin.jpg";
 import StarRailBG from "../../assets/banners/starrail.jpg";
-import { useState } from "react";
+import DownloadIcon from "@mui/icons-material/Download";
+import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
 import { Typography } from "@mui/material";
 import Glass from "./glass";
 import DnsIcon from "@mui/icons-material/Dns";
 export default function GachaTable() {
-  const [month, setMonth] = useState("July 2023");
+  const months = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
+  ];
 
+  let currentYear = new Date().getFullYear();
+  let currentMonth = months[new Date().getMonth()];
+  console.log(currentMonth);
   function ServerImage(server) {
     switch (server.value) {
       case "global":
@@ -56,7 +73,7 @@ export default function GachaTable() {
                 color: "white",
                 position: "absolute",
                 textAlign: "center",
-                width: "90%",
+                width: "100%",
                 left: "0px",
                 textShadow: "0 0 3px #000, 0 0 5px #0000FF",
                 fontSize: "1.5em",
@@ -83,7 +100,7 @@ export default function GachaTable() {
                 color: "white",
                 position: "absolute",
                 textAlign: "center",
-                width: "90%",
+                width: "100%",
                 left: "0px",
                 textShadow: "0 0 3px #000, 0 0 5px #0000FF",
                 fontSize: "1.5em",
@@ -114,7 +131,7 @@ export default function GachaTable() {
           headerAlign: "center",
         },
         {
-          groupId: "Revenue",
+          groupId: "Revenue ($)",
           children: [
             { field: "currentRevenueAndroid" },
             { field: "currentRevenueApple" },
@@ -144,7 +161,7 @@ export default function GachaTable() {
           headerAlign: "center",
         },
         {
-          groupId: "Revenue",
+          groupId: "Revenue ($)",
           children: [
             { field: "previousRevenueAndroid" },
             { field: "previousRevenueApple" },
@@ -192,6 +209,7 @@ export default function GachaTable() {
         </div>
       ),
     },
+    // CURRENT MONTH
     // DOWNLOADS
     {
       field: "currentDownloadsAndroid",
@@ -252,7 +270,6 @@ export default function GachaTable() {
             gap: "10px",
           }}
         >
-          ($)
           <AndroidIcon />
         </div>
       ),
@@ -273,7 +290,6 @@ export default function GachaTable() {
             gap: "10px",
           }}
         >
-          ($)
           <AppleIcon />
         </div>
       ),
@@ -287,7 +303,18 @@ export default function GachaTable() {
       headerAlign: "center",
       align: "center",
       headerClassName: "table-header",
-      headerName: "Downloads",
+      renderHeader: () => (
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            alignItems: "center",
+            gap: "10px",
+          }}
+        >
+          <DownloadIcon />
+        </div>
+      ),
     },
     {
       field: "currentRevenue",
@@ -296,8 +323,21 @@ export default function GachaTable() {
       headerAlign: "center",
       align: "center",
       headerClassName: "table-header",
-      headerName: "Revenue ($)",
+      renderHeader: () => (
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            alignItems: "center",
+            gap: "10px",
+          }}
+        >
+          <AttachMoneyIcon />
+        </div>
+      ),
     },
+
+    // PREVIOUS MONTH
     // DOWNLOADS
     {
       field: "previousDownloadsAndroid",
@@ -358,7 +398,6 @@ export default function GachaTable() {
             gap: "10px",
           }}
         >
-          ($)
           <AndroidIcon />
         </div>
       ),
@@ -379,7 +418,6 @@ export default function GachaTable() {
             gap: "10px",
           }}
         >
-          ($)
           <AppleIcon />
         </div>
       ),
@@ -393,7 +431,18 @@ export default function GachaTable() {
       headerAlign: "center",
       align: "center",
       headerClassName: "table-header",
-      headerName: "Downloads",
+      renderHeader: () => (
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            alignItems: "center",
+            gap: "10px",
+          }}
+        >
+          <DownloadIcon />
+        </div>
+      ),
     },
     {
       field: "previousRevenue",
@@ -402,7 +451,18 @@ export default function GachaTable() {
       headerAlign: "center",
       align: "center",
       headerClassName: "table-header",
-      headerName: "Revenue ($)",
+      renderHeader: () => (
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            alignItems: "center",
+            gap: "10px",
+          }}
+        >
+          <AttachMoneyIcon />
+        </div>
+      ),
     },
   ];
 
