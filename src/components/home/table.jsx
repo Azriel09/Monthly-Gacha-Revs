@@ -11,6 +11,7 @@ import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
 import { Typography } from "@mui/material";
 import Glass from "./glass";
 import DnsIcon from "@mui/icons-material/Dns";
+import clsx from "clsx";
 export default function GachaTable() {
   const months = [
     "January",
@@ -315,6 +316,19 @@ export default function GachaTable() {
           <DownloadIcon />
         </div>
       ),
+      cellClassName: (params) => {
+        let value = params.value;
+        let id = params.id;
+        let previousMonthValue = rows[id - 1].previousDownloads;
+
+        if (value == null) {
+          return "";
+        }
+        return clsx("total-current-cell", {
+          decrease: value < previousMonthValue,
+          increase: value > previousMonthValue,
+        });
+      },
     },
     {
       field: "currentRevenue",
@@ -335,6 +349,20 @@ export default function GachaTable() {
           <AttachMoneyIcon />
         </div>
       ),
+      cellClassName: (params) => {
+        let value = params.value;
+        let id = params.id;
+        console.log(id);
+        let previousMonthValue = rows[id - 1].previousRevenue;
+
+        if (value == null) {
+          return "";
+        }
+        return clsx("total-current-cell", {
+          decrease: value < previousMonthValue,
+          increase: value > previousMonthValue,
+        });
+      },
     },
 
     // PREVIOUS MONTH
@@ -522,11 +550,21 @@ export default function GachaTable() {
         }}
         sx={{
           color: "lightgray",
+          fontFamily: "Enconde Sans Condensed",
           "& .MuiDataGrid-sortIcon": {
             opacity: 1,
             color: "lightgray",
           },
-
+          "& .total-current-cell.increase": {
+            backgroundColor: "rgba(157, 255, 118, 0.49)",
+            color: "#1a3e72",
+            fontWeight: "600",
+          },
+          "& .total-current-cell.decrease": {
+            backgroundColor: "#d47483",
+            color: "#1a3e72",
+            fontWeight: "600",
+          },
           "& .MuiDataGrid-cellContent": {
             fontSize: "1.2em",
             padding: "0px",
@@ -534,6 +572,7 @@ export default function GachaTable() {
           "& .MuiDataGrid-cell--textLeft": {
             padding: "0px",
             position: "relative",
+            borderRight: 1,
           },
 
           "& .MuiDataGrid-menuIconButton": {
@@ -551,6 +590,9 @@ export default function GachaTable() {
           },
           "& .MuiDataGrid-root": {
             outline: "none !imporant",
+          },
+          "& .MuiDataGrid-columnHeaderTitleContainer": {
+            borderBottom: 0,
           },
         }}
       />
