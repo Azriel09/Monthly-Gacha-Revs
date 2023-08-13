@@ -12,6 +12,8 @@ import { Typography } from "@mui/material";
 import Glass from "./glass";
 import DnsIcon from "@mui/icons-material/Dns";
 import clsx from "clsx";
+import { useState } from "react";
+import GameImageBanner from "./game-image";
 export default function GachaTable() {
   const months = [
     "January",
@@ -27,10 +29,34 @@ export default function GachaTable() {
     "November",
     "December",
   ];
-
+  const [data, setData] = useState([
+    {
+      id: 0,
+      name: "Genshin Impact",
+      server: "global",
+      downloadsAndroid: [2000000, 2000000],
+      downloadsApple: [700000, 700000],
+      revenueAndroid: [14000000, 14000000],
+      revenueApple: [18000000, 18000000],
+      totalDownloads: [2700000, 2700000],
+      totalRevenue: [32000000, 32000000],
+    },
+    {
+      id: 1,
+      name: "Honkai Star Rail",
+      server: "global",
+      downloadsAndroid: [1000000, 1000000],
+      downloadsApple: [600000, 700000],
+      revenueAndroid: [19000000, 25000000],
+      revenueApple: [22000000, 33000000],
+      totalDownloads: [1600000, 1700000],
+      totalRevenue: [60000000, 58000000],
+    },
+  ]);
   let currentYear = new Date().getFullYear();
-  let currentMonth = months[new Date().getMonth()];
-  console.log(currentMonth);
+  let currentMonth = months[new Date().getMonth() - 1];
+
+  let previousMonth = months[new Date().getMonth() - 2];
   function ServerImage(server) {
     switch (server.value) {
       case "global":
@@ -55,72 +81,12 @@ export default function GachaTable() {
   }
 
   function GameImage(name) {
-    switch (name.value) {
-      case "Genshin Impact":
-        return (
-          <>
-            <img
-              src={GenshinBG}
-              style={{
-                objectFit: "fill",
-                width: "300px",
-                height: "115px",
-                position: "absolute",
-              }}
-            />
-            <Glass />
-            <Typography
-              sx={{
-                color: "white",
-                position: "absolute",
-                textAlign: "center",
-                width: "100%",
-                left: "0px",
-                textShadow: "0 0 3px #000, 0 0 5px #0000FF",
-                fontSize: "1.5em",
-                letterSpacing: "2px",
-                textTransform: "uppercase",
-                fontFamily: "Encode Sans Condensed",
-              }}
-            >
-              {name.value}
-            </Typography>
-          </>
-        );
-        break;
-      case "Honkai Star Rail":
-        return (
-          <>
-            <img
-              src={StarRailBG}
-              style={{ objectFit: "fill", width: "300px", height: "115px" }}
-            />
-            <Glass />
-            <Typography
-              sx={{
-                color: "white",
-                position: "absolute",
-                textAlign: "center",
-                width: "100%",
-                left: "0px",
-                textShadow: "0 0 3px #000, 0 0 5px #0000FF",
-                fontSize: "1.5em",
-                letterSpacing: "2px",
-                textTransform: "uppercase",
-                fontFamily: "Encode Sans Condensed",
-              }}
-            >
-              {name.value}
-            </Typography>
-          </>
-        );
-        break;
-    }
+    return <GameImageBanner name={name.value} />;
   }
 
   const columnGroupingModel = [
     {
-      groupId: "July",
+      groupId: currentMonth,
       headerAlign: "center",
       children: [
         {
@@ -319,14 +285,14 @@ export default function GachaTable() {
       cellClassName: (params) => {
         let value = params.value;
         let id = params.id;
-        let previousMonthValue = rows[id - 1].previousDownloads;
-
+        let previousMonthValue = rows[id].previousDownloads;
         if (value == null) {
           return "";
         }
         return clsx("total-current-cell", {
           decrease: value < previousMonthValue,
           increase: value > previousMonthValue,
+          nochange: value == previousMonthValue,
         });
       },
     },
@@ -352,8 +318,8 @@ export default function GachaTable() {
       cellClassName: (params) => {
         let value = params.value;
         let id = params.id;
-        console.log(id);
-        let previousMonthValue = rows[id - 1].previousRevenue;
+
+        let previousMonthValue = rows[id].previousRevenue;
 
         if (value == null) {
           return "";
@@ -361,6 +327,7 @@ export default function GachaTable() {
         return clsx("total-current-cell", {
           decrease: value < previousMonthValue,
           increase: value > previousMonthValue,
+          nochange: value == previousMonthValue,
         });
       },
     },
@@ -494,45 +461,25 @@ export default function GachaTable() {
     },
   ];
 
-  const rows = [
-    {
-      id: 1,
-      name: "Genshin Impact",
-      server: "global",
-      currentDownloadsAndroid: 2_000_000,
-      currentDownloadsApple: 700_000,
-      currentDownloads: 2_700_000,
-      currentRevenueAndroid: 14_000_000,
-      currentRevenueApple: 18_000_000,
-      currentRevenue: 32_000_000,
-      previousDownloadsAndroid: 2_000_000,
-      previousDownloadsApple: 700_000,
-      previousDownloads: 2_700_000,
-      previousRevenueAndroid: 14_000_000,
-      previousRevenueApple: 18_000_000,
-      previousRevenue: 32_000_000,
-
-      date: "july-2023",
-    },
-    {
-      id: 2,
-      name: "Honkai Star Rail",
-      server: "global",
-      currentDownloadsAndroid: 1_000_000,
-      currentDownloadsApple: 600_000,
-      currentDownloads: 1_600_000,
-      currentRevenueAndroid: 19_000_000,
-      currentRevenueApple: 22_000_000,
-      currentRevenue: 41_000_000,
-      previousDownloadsAndroid: 1_000_000,
-      previousDownloadsApple: 700_000,
-      previousDownloads: 1_700_000,
-      previousRevenueAndroid: 25_000_000,
-      previousRevenueApple: 33_000_000,
-      previousRevenue: 58_000_000,
-      date: "july-2023",
-    },
-  ];
+  const rows = data.map((game, index) => {
+    return {
+      id: index,
+      name: game.name,
+      server: game.server,
+      currentDownloadsAndroid: game.downloadsAndroid[0],
+      currentDownloadsApple: game.downloadsApple[0],
+      currentDownloads: game.totalDownloads[0],
+      currentRevenueAndroid: game.revenueAndroid[0],
+      currentRevenueApple: game.revenueApple[0],
+      currentRevenue: game.totalRevenue[0],
+      previousDownloadsAndroid: game.downloadsAndroid[1],
+      previousDownloadsApple: game.downloadsApple[1],
+      previousDownloads: game.totalDownloads[1],
+      previousRevenueAndroid: game.revenueAndroid[1],
+      previousRevenueApple: game.revenueApple[1],
+      previousRevenue: game.totalRevenue[1],
+    };
+  });
 
   return (
     <div style={{ height: 900, width: "100%" }}>
@@ -543,6 +490,7 @@ export default function GachaTable() {
         rowHeight={90}
         experimentalFeatures={{ columnGrouping: true }}
         columnGroupingModel={columnGroupingModel}
+        // Default sort by Current month's revenue
         initialState={{
           sorting: {
             sortModel: [{ field: "currentRevenue", sort: "desc" }],
@@ -555,16 +503,21 @@ export default function GachaTable() {
             opacity: 1,
             color: "lightgray",
           },
+
+          // Changes font color if downloads & revenue increased/decreased/nochange compared to previous month
           "& .total-current-cell.increase": {
-            backgroundColor: "rgba(157, 255, 118, 0.49)",
-            color: "#1a3e72",
+            color: "#90EE90",
             fontWeight: "600",
           },
           "& .total-current-cell.decrease": {
-            backgroundColor: "#d47483",
-            color: "#1a3e72",
+            color: "#FF0000",
             fontWeight: "600",
           },
+          "& .total-current-cell.nochange": {
+            color: "white",
+            fontWeight: "600",
+          },
+
           "& .MuiDataGrid-cellContent": {
             fontSize: "1.2em",
             padding: "0px",
