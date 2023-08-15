@@ -31,6 +31,7 @@ export default function GachaTable({ fetchedData }) {
   let currentMonth = months[new Date().getMonth() - 1];
 
   let previousMonth = months[new Date().getMonth() - 2];
+
   function ServerImage(server) {
     switch (server.value) {
       case "global":
@@ -132,7 +133,6 @@ export default function GachaTable({ fetchedData }) {
     },
     {
       field: "server",
-
       headerAlign: "center",
       align: "center",
       flex: 0.02,
@@ -463,10 +463,9 @@ export default function GachaTable({ fetchedData }) {
         rows={rows}
         disableRowSelectionOnClick
         columns={columns}
-        rowHeight={90}
+        rowHeight={75}
         experimentalFeatures={{ columnGrouping: true }}
         columnGroupingModel={columnGroupingModel}
-        slots={{ toolbar: GridToolbar }}
         disableColumnMenu={true}
         // Default sort by Current month's revenue
         initialState={{
@@ -512,18 +511,12 @@ export default function GachaTable({ fetchedData }) {
           },
 
           "& .css-yrdy0g-MuiDataGrid-columnHeaderRow": {
-            backgroundColor: "#1C2133",
+            backgroundColor: "#071426",
             textTransform: "uppercase",
             fontSize: "1.1em",
           },
           "& .MuiDataGrid-iconSeparator": {
             visibility: "hidden",
-          },
-          "& .MuiDataGrid-root": {
-            outline: "none !imporant",
-          },
-          "& .MuiDataGrid-columnHeaderTitleContainer": {
-            borderBottom: 0,
           },
         }}
       />
