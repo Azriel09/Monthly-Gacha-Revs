@@ -5,6 +5,7 @@ import NavBar from "./components/navbar";
 import Home from "./pages/home";
 import Charts from "./pages/charts";
 import About from "./pages/about";
+import ProtectedRoutes from "./ProtectedRoutes";
 function App() {
   return (
     <>
@@ -13,6 +14,14 @@ function App() {
           <Route index element={<Home />} />
           <Route path="charts" element={<Charts />} />
           <Route path="about" element={<About />} />
+          <Route
+            path="auth"
+            element={
+              <ProtectedRoutes>
+                <Auth />
+              </ProtectedRoutes>
+            }
+          />
         </Route>
       </Routes>
     </>
