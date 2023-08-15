@@ -1,11 +1,11 @@
 import { Box } from "@mui/material";
 import "./home-container.scss";
-import GachaTable from "./table";
+import GetData from "./data-fetch";
 
 export default function HomeContainer() {
   return (
     <div className="home-container">
-      <GachaTable />
+      <GetData />
     </div>
   );
 }

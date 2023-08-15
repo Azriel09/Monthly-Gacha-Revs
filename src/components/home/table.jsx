@@ -1,20 +1,16 @@
-import { DataGrid } from "@mui/x-data-grid";
+import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 import ChinaLogo from "../../assets/icons/china.svg";
 import GlobalLogo from "../../assets/icons/global.svg";
 import JapanLogo from "../../assets/icons/japan.svg";
 import AppleIcon from "@mui/icons-material/Apple";
 import AndroidIcon from "@mui/icons-material/Android";
-import GenshinBG from "../../assets/banners/genshin.jpg";
-import StarRailBG from "../../assets/banners/starrail.jpg";
 import DownloadIcon from "@mui/icons-material/Download";
 import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
-import { Typography } from "@mui/material";
-import Glass from "./glass";
 import DnsIcon from "@mui/icons-material/Dns";
 import clsx from "clsx";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import GameImageBanner from "./game-image";
-export default function GachaTable() {
+export default function GachaTable({ fetchedData }) {
   const months = [
     "January",
     "February",
@@ -29,41 +25,8 @@ export default function GachaTable() {
     "November",
     "December",
   ];
-
-  useEffect(() => {
-    fetch("http://localhost:8000/test")
-      .then((res) => res.json(res))
-      .then((data) => {
-        console.log(data);
-      })
-      .catch((err) => {
-        console.log(err.message);
-      });
-  }, []);
-  const [data, setData] = useState([
-    {
-      id: 0,
-      name: "Genshin Impact",
-      server: "global",
-      downloadsAndroid: [2000000, 2000000],
-      downloadsApple: [700000, 700000],
-      revenueAndroid: [14000000, 14000000],
-      revenueApple: [18000000, 18000000],
-      totalDownloads: [2700000, 2700000],
-      totalRevenue: [32000000, 32000000],
-    },
-    {
-      id: 1,
-      name: "Honkai Star Rail",
-      server: "global",
-      downloadsAndroid: [1000000, 1000000],
-      downloadsApple: [600000, 700000],
-      revenueAndroid: [19000000, 25000000],
-      revenueApple: [22000000, 33000000],
-      totalDownloads: [1600000, 1700000],
-      totalRevenue: [60000000, 58000000],
-    },
-  ]);
+  console.log(fetchedData);
+  const [data, setData] = useState(fetchedData);
   let currentYear = new Date().getFullYear();
   let currentMonth = months[new Date().getMonth() - 1];
 
@@ -160,11 +123,12 @@ export default function GachaTable() {
   const columns = [
     {
       field: "name",
-      headerName: "Name",
+      headerName: "Game",
       flex: 0.06,
       editable: false,
       headerClassName: "table-header",
       renderCell: GameImage,
+      headerAlign: "center",
     },
     {
       field: "server",
@@ -202,6 +166,7 @@ export default function GachaTable() {
             display: "flex",
             flexDirection: "row",
             alignItems: "center",
+
             gap: "10px",
           }}
         >
@@ -501,6 +466,8 @@ export default function GachaTable() {
         rowHeight={90}
         experimentalFeatures={{ columnGrouping: true }}
         columnGroupingModel={columnGroupingModel}
+        slots={{ toolbar: GridToolbar }}
+        disableColumnMenu={true}
         // Default sort by Current month's revenue
         initialState={{
           sorting: {
