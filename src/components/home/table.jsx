@@ -94,7 +94,7 @@ export default function GachaTable({ fetchedData }) {
       ],
     },
     {
-      groupId: "June",
+      groupId: previousMonth,
       headerAlign: "center",
       children: [
         {
