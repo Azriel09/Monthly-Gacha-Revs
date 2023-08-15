@@ -1,0 +1,126 @@
+.MuiDataGrid-columnHeaderTitleContainer {
+  border-bottom: 1px solid #0b213f !important;
+  font-weight: 700 !important;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica,
+    Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol" !important;
+}
+
+.MuiDataGrid-sortIcon {
+  color: white !important;
+}
+
+// Dividing lines between current month and previous month
+.MuiDataGrid-columnHeadersInner {
+  .css-yrdy0g-MuiDataGrid-columnHeaderRow {
+    // Revenue Icon
+    .table-header:nth-child(8) {
+      border-right: 1px solid white;
+    }
+    //Server Icon
+    .table-header:nth-child(2) {
+      border-right: none !important;
+    }
+
+    // Revenue Total
+    .MuiDataGrid-columnHeader--filledGroup:nth-child(4) {
+      border-right: 1px solid white;
+    }
+  }
+
+  .css-yrdy0g-MuiDataGrid-columnHeaderRow:nth-child(1) {
+    .MuiDataGrid-columnHeader:nth-child(2) {
+      border-right: 1px solid white;
+    }
+  }
+}
+
+// Cell background depends if revenue/downloads increased/decrease/nochange
+// REVENUE
+.total-current-cell-revenue {
+  color: white;
+  font-weight: 600;
+}
+.total-current-cell-revenue.increase {
+  border-right: 1px white solid;
+  background: rgb(34, 209, 72);
+  background: linear-gradient(
+    180deg,
+    rgba(34, 209, 72, 1) 4%,
+    rgba(34, 190, 71, 1) 16%,
+    rgba(25, 142, 59, 1) 29%,
+    rgba(13, 74, 40, 1) 46%,
+    rgba(7, 20, 38, 1) 100%
+  );
+}
+.total-current-cell-revenue.decrease {
+  border-right: 1px white solid;
+  background: rgb(251, 33, 49);
+  background: linear-gradient(
+    180deg,
+    rgba(251, 33, 49, 1) 0%,
+    rgba(134, 28, 30, 1) 17%,
+    rgba(76, 24, 34, 1) 36%,
+    rgba(51, 23, 35, 1) 55%,
+    rgba(7, 20, 38, 1) 100%
+  );
+}
+.total-current-cell-revenue.nochange {
+  border-right: 1px white solid;
+  background: rgb(179, 185, 194);
+  background: linear-gradient(
+    180deg,
+    rgba(179, 185, 194, 1) 0%,
+    rgba(157, 166, 180, 1) 6%,
+    rgba(112, 125, 144, 1) 18%,
+    rgba(89, 106, 129, 1) 29%,
+    rgba(68, 88, 115, 1) 42%,
+    rgba(44, 66, 96, 1) 55%,
+    rgba(28, 50, 79, 1) 66%,
+    rgba(11, 26, 47, 1) 82%,
+    rgba(7, 20, 38, 1) 100%
+  );
+}
+
+// DOWNLOADS
+.total-current-cell {
+  color: white;
+  font-weight: 600;
+}
+
+.total-current-cell.increase {
+  background: rgb(34, 209, 72);
+  background: linear-gradient(
+    180deg,
+    rgba(34, 209, 72, 1) 4%,
+    rgba(34, 190, 71, 1) 16%,
+    rgba(25, 142, 59, 1) 29%,
+    rgba(13, 74, 40, 1) 46%,
+    rgba(7, 20, 38, 1) 100%
+  );
+}
+.total-current-cell.decrease {
+  background: rgb(251, 33, 49);
+  background: linear-gradient(
+    180deg,
+    rgba(251, 33, 49, 1) 0%,
+    rgba(134, 28, 30, 1) 17%,
+    rgba(76, 24, 34, 1) 36%,
+    rgba(51, 23, 35, 1) 55%,
+    rgba(7, 20, 38, 1) 100%
+  );
+}
+.total-current-cell.nochange {
+  background: rgb(179, 185, 194);
+  background: linear-gradient(
+    180deg,
+    rgba(179, 185, 194, 1) 0%,
+    rgba(157, 166, 180, 1) 6%,
+    rgba(112, 125, 144, 1) 18%,
+    rgba(89, 106, 129, 1) 29%,
+    rgba(68, 88, 115, 1) 42%,
+    rgba(44, 66, 96, 1) 55%,
+    rgba(28, 50, 79, 1) 66%,
+    rgba(11, 26, 47, 1) 82%,
+    rgba(7, 20, 38, 1) 100%
+  );
+}
