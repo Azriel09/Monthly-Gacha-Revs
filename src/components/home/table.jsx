@@ -465,10 +465,32 @@ export default function GachaTable({ fetchedData }) {
     WebkitFontSmoothing: "auto",
     letterSpacing: "normal",
     "& .MuiDataGrid-withBorderColor": {
-      borderBottom: "1px solid #0b213f",
+      borderBottom: "1px solid #113563",
+    },
+    "& .MuiDataGrid-columnHeadersInner": {
+      letterSpacing: "2px",
     },
     "& .MuiDataGrid-virtualScrollerContent": {
       backgroundColor: "#071426",
+      fontFamily: "Open Sans",
+    },
+
+    "& .MuiDataGrid-cellContent": {
+      fontSize: "1.2em",
+    },
+    // For game banner to utilize the whole cell
+    "& .MuiDataGrid-cell--textLeft": {
+      padding: "0px",
+      position: "relative",
+    },
+    "& .css-yrdy0g-MuiDataGrid-columnHeaderRow": {
+      backgroundColor: "#071426",
+      textTransform: "uppercase",
+      fontSize: "1.1em",
+    },
+    "& .MuiDataGrid-columnHeader": { borderBottom: "none" },
+    "& .MuiDataGrid-iconSeparator": {
+      visibility: "hidden",
     },
   }));
   return (
@@ -489,32 +511,6 @@ export default function GachaTable({ fetchedData }) {
         }}
         sx={{
           color: "lightgray",
-
-          // Changes font color if downloads & revenue increased/decreased/nochange compared to previous month
-
-          "& .MuiDataGrid-cellContent": {
-            fontSize: "1.2em",
-            padding: "0px",
-          },
-          "& .MuiDataGrid-cell--textLeft": {
-            padding: "0px",
-            position: "relative",
-          },
-
-          "& .MuiDataGrid-menuIconButton": {
-            opacity: 1,
-            color: "lightgray",
-          },
-
-          "& .css-yrdy0g-MuiDataGrid-columnHeaderRow": {
-            backgroundColor: "#071426",
-            textTransform: "uppercase",
-            fontSize: "1.1em",
-          },
-          "& .MuiDataGrid-columnHeader": { borderBottom: "none" },
-          "& .MuiDataGrid-iconSeparator": {
-            visibility: "hidden",
-          },
         }}
       />
     </div>
