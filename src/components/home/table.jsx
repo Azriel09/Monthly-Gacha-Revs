@@ -10,7 +10,10 @@ import DnsIcon from "@mui/icons-material/Dns";
 import clsx from "clsx";
 import { useState } from "react";
 import GameImageBanner from "./game-image";
+import { styled } from "@mui/material/styles";
+import "./table.scss";
 export default function GachaTable({ fetchedData }) {
+  const [data, setData] = useState(fetchedData);
   const months = [
     "January",
     "February",
@@ -25,8 +28,7 @@ export default function GachaTable({ fetchedData }) {
     "November",
     "December",
   ];
-  console.log(fetchedData);
-  const [data, setData] = useState(fetchedData);
+
   let currentYear = new Date().getFullYear();
   let currentMonth = months[new Date().getMonth() - 1];
 
@@ -63,6 +65,7 @@ export default function GachaTable({ fetchedData }) {
     {
       groupId: currentMonth,
       headerAlign: "center",
+
       children: [
         {
           groupId: "Downloads",
@@ -300,7 +303,7 @@ export default function GachaTable({ fetchedData }) {
         if (value == null) {
           return "";
         }
-        return clsx("total-current-cell", {
+        return clsx("total-current-cell-revenue", {
           decrease: value < previousMonthValue,
           increase: value > previousMonthValue,
           nochange: value == previousMonthValue,
@@ -456,10 +459,21 @@ export default function GachaTable({ fetchedData }) {
       previousRevenue: game.totalRevenue[1],
     };
   });
-
+  const StyledDataGrid = styled(DataGrid)(({ theme }) => ({
+    border: 0,
+    borderRadius: "15px",
+    WebkitFontSmoothing: "auto",
+    letterSpacing: "normal",
+    "& .MuiDataGrid-withBorderColor": {
+      borderBottom: "1px solid #0b213f",
+    },
+    "& .MuiDataGrid-virtualScrollerContent": {
+      backgroundColor: "#071426",
+    },
+  }));
   return (
     <div style={{ height: 900, width: "100%" }}>
-      <DataGrid
+      <StyledDataGrid
         rows={rows}
         disableRowSelectionOnClick
         columns={columns}
@@ -475,25 +489,8 @@ export default function GachaTable({ fetchedData }) {
         }}
         sx={{
           color: "lightgray",
-          fontFamily: "Enconde Sans Condensed",
-          "& .MuiDataGrid-sortIcon": {
-            opacity: 1,
-            color: "lightgray",
-          },
 
           // Changes font color if downloads & revenue increased/decreased/nochange compared to previous month
-          "& .total-current-cell.increase": {
-            color: "#90EE90",
-            fontWeight: "600",
-          },
-          "& .total-current-cell.decrease": {
-            color: "#FF0000",
-            fontWeight: "600",
-          },
-          "& .total-current-cell.nochange": {
-            color: "white",
-            fontWeight: "600",
-          },
 
           "& .MuiDataGrid-cellContent": {
             fontSize: "1.2em",
@@ -502,7 +499,6 @@ export default function GachaTable({ fetchedData }) {
           "& .MuiDataGrid-cell--textLeft": {
             padding: "0px",
             position: "relative",
-            borderRight: 1,
           },
 
           "& .MuiDataGrid-menuIconButton": {
@@ -515,6 +511,7 @@ export default function GachaTable({ fetchedData }) {
             textTransform: "uppercase",
             fontSize: "1.1em",
           },
+          "& .MuiDataGrid-columnHeader": { borderBottom: "none" },
           "& .MuiDataGrid-iconSeparator": {
             visibility: "hidden",
           },
