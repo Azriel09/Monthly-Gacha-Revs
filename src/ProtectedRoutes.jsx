@@ -5,5 +5,5 @@ const cookies = new Cookies();
 export default function ProtectedRoutes({ children }) {
   const token = cookies.get("TOKEN");
 
-  return token ? children : <Navigate to="/login" />;
+  return token ? children : <Navigate to="/" />;
 }
