@@ -16,6 +16,7 @@ const GetData = () => {
     initialData: () => {
       return queryClient.getQueryData(["games"]);
     },
+    staleTime: 120000,
   });
 };
 

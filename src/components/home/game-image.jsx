@@ -21,9 +21,9 @@ export default function GameImageBanner(props) {
       <img
         src={BGChanger(game)}
         style={{
-          objectFit: "fill",
-          width: "300px",
-          height: "115px",
+          objectFit: "cover",
+          width: "100%",
+          height: "100%",
           position: "absolute",
         }}
       />
