@@ -9,9 +9,13 @@ import Login from "./pages/login";
 import ProtectedRoutes from "./ProtectedRoutes";
 import Auth from "./Auth";
 import Admin from "./pages/admin";
+import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+const queryClient = new QueryClient();
+
 function App() {
   return (
-    <>
+    <QueryClientProvider client={queryClient}>
       <Routes>
         <Route path="/" element={<NavBar />}>
           <Route index element={<Home />} />
@@ -36,7 +40,8 @@ function App() {
         </Route>
         <Route path="login" element={<Login />} />
       </Routes>
-    </>
+      <ReactQueryDevtools initialIsOpen={true} position="bottom-right" />
+    </QueryClientProvider>
   );
 }
 

@@ -63,7 +63,7 @@ export default function GachaTable({ fetchedData }) {
 
   const columnGroupingModel = [
     {
-      groupId: currentMonth,
+      groupId: `${currentMonth} ${currentYear}`,
       headerAlign: "center",
 
       children: [
@@ -94,7 +94,7 @@ export default function GachaTable({ fetchedData }) {
       ],
     },
     {
-      groupId: previousMonth,
+      groupId: `${previousMonth} ${currentYear}`,
       headerAlign: "center",
       children: [
         {
