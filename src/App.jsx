@@ -11,9 +11,12 @@ import Auth from "./Auth";
 import Admin from "./pages/admin";
 import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import Cookies from "universal-cookie";
 const queryClient = new QueryClient();
-
 function App() {
+  const cookies = new Cookies();
+  const token = cookies.get("TOKEN");
+
   return (
     <QueryClientProvider client={queryClient}>
       <Routes>
@@ -40,7 +43,9 @@ function App() {
         </Route>
         <Route path="login" element={<Login />} />
       </Routes>
-      <ReactQueryDevtools initialIsOpen={true} position="bottom-right" />
+      {token ? (
+        <ReactQueryDevtools initialIsOpen={true} position="bottom-right" />
+      ) : null}
     </QueryClientProvider>
   );
 }

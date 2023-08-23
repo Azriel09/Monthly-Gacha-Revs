@@ -12,8 +12,9 @@ import { useState } from "react";
 import GameImageBanner from "./game-image";
 import { styled } from "@mui/material/styles";
 import "./table.scss";
-export default function GachaTable({ fetchedData }) {
-  const [data, setData] = useState(fetchedData);
+import GetData from "../../hooks/data-fetch";
+import Loading from "../loading";
+export default function GachaTable() {
   const months = [
     "January",
     "February",
@@ -28,6 +29,7 @@ export default function GachaTable({ fetchedData }) {
     "November",
     "December",
   ];
+  const { status, data, error, isFetching } = GetData();
 
   let currentYear = new Date().getFullYear();
   let currentMonth = months[new Date().getMonth() - 1];
@@ -439,26 +441,6 @@ export default function GachaTable({ fetchedData }) {
       ),
     },
   ];
-
-  const rows = data.map((game, index) => {
-    return {
-      id: index,
-      name: game.name,
-      server: game.server,
-      currentDownloadsAndroid: game.downloadsAndroid[0],
-      currentDownloadsApple: game.downloadsApple[0],
-      currentDownloads: game.totalDownloads[0],
-      currentRevenueAndroid: game.revenueAndroid[0],
-      currentRevenueApple: game.revenueApple[0],
-      currentRevenue: game.totalRevenue[0],
-      previousDownloadsAndroid: game.downloadsAndroid[1],
-      previousDownloadsApple: game.downloadsApple[1],
-      previousDownloads: game.totalDownloads[1],
-      previousRevenueAndroid: game.revenueAndroid[1],
-      previousRevenueApple: game.revenueApple[1],
-      previousRevenue: game.totalRevenue[1],
-    };
-  });
   const StyledDataGrid = styled(DataGrid)(({ theme }) => ({
     border: 0,
     borderRadius: "15px",
@@ -493,6 +475,30 @@ export default function GachaTable({ fetchedData }) {
       visibility: "hidden",
     },
   }));
+
+  if (status === "loading") {
+    return <Loading />;
+  }
+  const rows = data.map((game, index) => {
+    return {
+      id: index,
+      name: game.name,
+      server: game.server,
+      currentDownloadsAndroid: game.downloadsAndroid[0],
+      currentDownloadsApple: game.downloadsApple[0],
+      currentDownloads: game.totalDownloads[0],
+      currentRevenueAndroid: game.revenueAndroid[0],
+      currentRevenueApple: game.revenueApple[0],
+      currentRevenue: game.totalRevenue[0],
+      previousDownloadsAndroid: game.downloadsAndroid[1],
+      previousDownloadsApple: game.downloadsApple[1],
+      previousDownloads: game.totalDownloads[1],
+      previousRevenueAndroid: game.revenueAndroid[1],
+      previousRevenueApple: game.revenueApple[1],
+      previousRevenue: game.totalRevenue[1],
+    };
+  });
+
   return (
     <div style={{ height: 900, width: "100%" }}>
       <StyledDataGrid
