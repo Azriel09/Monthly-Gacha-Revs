@@ -8,13 +8,18 @@ import DownloadIcon from "@mui/icons-material/Download";
 import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
 import DnsIcon from "@mui/icons-material/Dns";
 import clsx from "clsx";
-import { useState } from "react";
 import GameImageBanner from "./game-image";
 import { styled } from "@mui/material/styles";
 import "./table.scss";
 import GetData from "../../hooks/data-fetch";
 import Loading from "../loading";
+import Cookies from "universal-cookie";
+import { useState, useEffect } from "react";
 export default function GachaTable() {
+  // For Admin
+  const cookies = new Cookies();
+  const token = cookies.get("TOKEN");
+
   const months = [
     "January",
     "February",
@@ -29,11 +34,12 @@ export default function GachaTable() {
     "November",
     "December",
   ];
+
+  // React-query
   const { status, data, error, isFetching } = GetData();
 
   let currentYear = new Date().getFullYear();
   let currentMonth = months[new Date().getMonth() - 1];
-
   let previousMonth = months[new Date().getMonth() - 2];
 
   function ServerImage(server) {
@@ -478,7 +484,11 @@ export default function GachaTable() {
 
   if (status === "loading") {
     return <Loading />;
+  } else if (error) {
+    return <h1>Error LUL</h1>;
   }
+
+  // will only run if the loading status is finished or else mapping data will result an error
   const rows = data.map((game, index) => {
     return {
       id: index,
@@ -503,12 +513,20 @@ export default function GachaTable() {
     <div style={{ height: 900, width: "100%" }}>
       <StyledDataGrid
         rows={rows}
-        disableRowSelectionOnClick
         columns={columns}
         rowHeight={75}
         experimentalFeatures={{ columnGrouping: true }}
         columnGroupingModel={columnGroupingModel}
-        disableColumnMenu={true}
+        disableRowSelectionOnClick
+        disableColumnMenu
+        disableColumnFilter
+        // For export and search function
+        slots={{ toolbar: GridToolbar }}
+        slotProps={{
+          toolbar: {
+            showQuickFilter: true,
+          },
+        }}
         // Default sort by Current month's revenue
         initialState={{
           sorting: {

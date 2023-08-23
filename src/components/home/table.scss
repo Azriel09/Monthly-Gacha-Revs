@@ -38,6 +38,27 @@
   }
 }
 
+.MuiDataGrid-toolbarContainer {
+  .MuiButtonBase-root {
+    color: white;
+  }
+}
+
+// Search
+.MuiInput-root {
+  .MuiSvgIcon-fontSizeSmall {
+    color: white !important;
+  }
+
+  .MuiInput-input {
+    background-color: lightgray !important;
+    border-radius: 5px;
+    padding: 0 10px 0;
+    height: 35px;
+    margin-bottom: 3px;
+  }
+}
+
 // Cell background depends if revenue/downloads increased/decrease/nochange
 // REVENUE
 .total-current-cell-revenue {
