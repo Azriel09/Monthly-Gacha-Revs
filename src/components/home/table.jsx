@@ -1,18 +1,16 @@
 import { DataGrid, GridToolbar } from "@mui/x-data-grid";
-import ChinaLogo from "../../assets/icons/china.svg";
-import GlobalLogo from "../../assets/icons/global.svg";
-import JapanLogo from "../../assets/icons/japan.svg";
+
 import AppleIcon from "@mui/icons-material/Apple";
 import AndroidIcon from "@mui/icons-material/Android";
 import DownloadIcon from "@mui/icons-material/Download";
 import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
-
 import clsx from "clsx";
 import GameImageBanner from "./game-image";
 import { styled } from "@mui/material/styles";
 import "./table.scss";
 import GetData from "../../hooks/data-fetch";
 import Loading from "../loading";
+import ServerIcon from "./server-icon";
 
 export default function GachaTable() {
   // For Admin
@@ -40,37 +38,7 @@ export default function GachaTable() {
   let previousMonth = months[new Date().getMonth() - 2];
 
   function ServerImage(server) {
-    switch (server.value) {
-      case "global":
-        return (
-          <img
-            src={GlobalLogo}
-            style={{
-              height: "40px",
-              width: "40px",
-              filter: "invert(1)",
-              paddingLeft: "15px",
-            }}
-          />
-        );
-        break;
-      case "japan":
-        return (
-          <img
-            src={JapanLogo}
-            style={{ height: "40px", width: "40px", paddingLeft: "15px" }}
-          />
-        );
-        break;
-      case "china":
-        return (
-          <img
-            src={ChinaLogo}
-            style={{ height: "40px", width: "40px", paddingLeft: "15px" }}
-          />
-        );
-        break;
-    }
+    return <ServerIcon server={server.value} />;
   }
 
   function GameImage(name) {

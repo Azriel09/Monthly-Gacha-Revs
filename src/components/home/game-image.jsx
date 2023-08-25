@@ -3,6 +3,7 @@ import GenshinBG from "../../assets/banners/genshin.jpg";
 import StarRailBG from "../../assets/banners/starrail.jpg";
 import Glass from "./glass";
 import { Typography } from "@mui/material";
+
 export default function GameImageBanner(props) {
   const game = props.name;
 
@@ -10,10 +11,9 @@ export default function GameImageBanner(props) {
     switch (game) {
       case "Genshin Impact":
         return GenshinBG;
-        break;
+
       case "Honkai Star Rail":
         return StarRailBG;
-        break;
     }
   }
   return (
