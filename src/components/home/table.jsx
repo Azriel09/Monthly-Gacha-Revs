@@ -6,19 +6,16 @@ import AppleIcon from "@mui/icons-material/Apple";
 import AndroidIcon from "@mui/icons-material/Android";
 import DownloadIcon from "@mui/icons-material/Download";
 import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
-import DnsIcon from "@mui/icons-material/Dns";
+
 import clsx from "clsx";
 import GameImageBanner from "./game-image";
 import { styled } from "@mui/material/styles";
 import "./table.scss";
 import GetData from "../../hooks/data-fetch";
 import Loading from "../loading";
-import Cookies from "universal-cookie";
-import { useState, useEffect } from "react";
+
 export default function GachaTable() {
   // For Admin
-  const cookies = new Cookies();
-  const token = cookies.get("TOKEN");
 
   const months = [
     "January",
@@ -157,7 +154,7 @@ export default function GachaTable() {
       field: "server",
       headerAlign: "center",
       align: "center",
-      flex: 0.015,
+      flex: 0.01,
       renderCell: ServerImage,
       headerClassName: "table-header",
       headerName: "",
