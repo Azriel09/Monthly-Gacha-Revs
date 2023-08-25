@@ -48,18 +48,29 @@ export default function GachaTable() {
         return (
           <img
             src={GlobalLogo}
-            style={{ height: "50px", width: "50px", filter: "invert(1)" }}
+            style={{
+              height: "40px",
+              width: "40px",
+              filter: "invert(1)",
+              paddingLeft: "15px",
+            }}
           />
         );
         break;
       case "japan":
         return (
-          <img src={JapanLogo} style={{ height: "50px", width: "50px" }} />
+          <img
+            src={JapanLogo}
+            style={{ height: "40px", width: "40px", paddingLeft: "15px" }}
+          />
         );
         break;
       case "china":
         return (
-          <img src={ChinaLogo} style={{ height: "50px", width: "50px" }} />
+          <img
+            src={ChinaLogo}
+            style={{ height: "40px", width: "40px", paddingLeft: "15px" }}
+          />
         );
         break;
     }
@@ -136,7 +147,7 @@ export default function GachaTable() {
     {
       field: "name",
       headerName: "Game",
-      flex: 0.06,
+      flex: 0.04,
       editable: false,
       headerClassName: "table-header",
       renderCell: GameImage,
@@ -146,21 +157,10 @@ export default function GachaTable() {
       field: "server",
       headerAlign: "center",
       align: "center",
-      flex: 0.02,
+      flex: 0.015,
       renderCell: ServerImage,
       headerClassName: "table-header",
-      renderHeader: () => (
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "row",
-            alignItems: "center",
-            gap: "10px",
-          }}
-        >
-          <DnsIcon />
-        </div>
-      ),
+      headerName: "",
     },
     // CURRENT MONTH
     // DOWNLOADS
@@ -449,17 +449,17 @@ export default function GachaTable() {
   ];
   const StyledDataGrid = styled(DataGrid)(({ theme }) => ({
     border: 0,
-    borderRadius: "15px",
+    borderRadius: "35px",
     WebkitFontSmoothing: "auto",
     letterSpacing: "normal",
     "& .MuiDataGrid-withBorderColor": {
-      borderBottom: "1px solid #113563",
+      borderBottom: "1px solid #173f5f",
     },
     "& .MuiDataGrid-columnHeadersInner": {
       letterSpacing: "2px",
     },
     "& .MuiDataGrid-virtualScrollerContent": {
-      backgroundColor: "#071426",
+      backgroundColor: "#323c50",
       fontFamily: "Open Sans",
     },
 
@@ -472,13 +472,17 @@ export default function GachaTable() {
       position: "relative",
     },
     "& .css-yrdy0g-MuiDataGrid-columnHeaderRow": {
-      backgroundColor: "#071426",
+      backgroundColor: "#2c3446",
       textTransform: "uppercase",
       fontSize: "1.1em",
     },
     "& .MuiDataGrid-columnHeader": { borderBottom: "none" },
     "& .MuiDataGrid-iconSeparator": {
       visibility: "hidden",
+    },
+    "& .MuiDataGrid-row": {
+      padding: "2px 0",
+      borderBottom: "1px solid #1f2739 ",
     },
   }));
 
@@ -514,6 +518,7 @@ export default function GachaTable() {
       <StyledDataGrid
         rows={rows}
         columns={columns}
+        density="compact"
         rowHeight={75}
         experimentalFeatures={{ columnGrouping: true }}
         columnGroupingModel={columnGroupingModel}

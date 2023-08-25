@@ -17,7 +17,7 @@ export default function AdminContainer() {
       }}
     >
       <Button
-        sx={{ backgroundColor: "#1b5096", width: "200px" }}
+        sx={{ backgroundColor: "#323c50", width: "200px" }}
         onClick={handleOpen}
       >
         <AddIcon sx={{ color: "white" }} />
