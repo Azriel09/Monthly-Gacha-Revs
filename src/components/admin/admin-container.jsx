@@ -23,6 +23,7 @@ export default function AdminContainer() {
         <AddIcon sx={{ color: "white" }} />
         <Typography sx={{ color: "white" }}>Add an item</Typography>
       </Button>
+
       <HomeContainer />
       <StyledEngineProvider injectFirst>
         <ModalContainer open={isModal} closeModal={handleClose} />
