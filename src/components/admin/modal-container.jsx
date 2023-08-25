@@ -27,8 +27,13 @@ export default function ModalContainer({ open, closeModal }) {
     totalRevenue: "",
     totalDownloads: "",
   });
-  const [inputError, setInputError] = useState(false);
-
+  const [inputError, setInputError] = useState({
+    revenueAndroid: false,
+    revenueApple: false,
+    downloadsAndroid: false,
+    downloadsApple: false,
+  });
+  const [cancelSubmit, setCancelSubmit] = useState(false);
   const gameFields = {
     gameList: ["Genshin Impact", "Honkai Star Rail"],
     serverList: ["china", "global", "japan", "korea", "sea"],
@@ -38,18 +43,34 @@ export default function ModalContainer({ open, closeModal }) {
     const { name, value } = e.target;
 
     setSelectedData((prevState) => ({ ...prevState, [name]: value }));
-    console.log(selectedData.name);
-    if (isNaN(Number(selectedData.name))) {
-      setInputError(true);
-      console.log(isNaN(Number(selectedData.name)));
-      return;
-    } else {
-      setInputError(false);
-    }
   };
 
   const handleSubmit = () => {
-    console.log(selectedData);
+    const fieldsChecklist = [
+      "revenueAndroid",
+      "revenueApple",
+      "downloadsAndroid",
+      "downloadsApple",
+    ];
+
+    fieldsChecklist.forEach((element) => {
+      const value = selectedData[element];
+      const convertedValue = Number(value);
+      if (convertedValue === 0) {
+        setInputError((prevState) => ({ ...prevState, [element]: true }));
+        setCancelSubmit(true);
+      } else {
+        setInputError((prevState) => ({ ...prevState, [element]: false }));
+        setCancelSubmit(false);
+      }
+    });
+
+    // Prevents submitting if error is true
+    if (!cancelSubmit) {
+      return;
+    } else {
+      console.log("submitted");
+    }
   };
 
   const selectStyle = {
@@ -166,13 +187,22 @@ export default function ModalContainer({ open, closeModal }) {
                   gap: "10px",
                 }}
               >
-                <AndroidIcon />
+                <AndroidIcon
+                  // Changes the color of icon if input error
+                  sx={() => {
+                    if (inputError.revenueAndroid) {
+                      return { color: "red" };
+                    } else {
+                      return { color: "white" };
+                    }
+                  }}
+                />
                 <TextField
                   type="number"
                   InputLabelProps={{
                     shrink: true,
                   }}
-                  error={inputError}
+                  error={inputError.revenueAndroid}
                   name="revenueAndroid"
                   onChange={(e) => handleChange(e)}
                 />
@@ -198,12 +228,21 @@ export default function ModalContainer({ open, closeModal }) {
                   gap: "10px",
                 }}
               >
-                <AppleIcon />
+                <AppleIcon
+                  sx={() => {
+                    if (inputError.revenueApple) {
+                      return { color: "red" };
+                    } else {
+                      return { color: "white" };
+                    }
+                  }}
+                />
                 <TextField
                   type="number"
                   InputLabelProps={{
                     shrink: true,
                   }}
+                  error={inputError.revenueApple}
                   name="revenueApple"
                   onChange={(e) => handleChange(e)}
                 />
@@ -275,12 +314,21 @@ export default function ModalContainer({ open, closeModal }) {
                   gap: "10px",
                 }}
               >
-                <AndroidIcon />
+                <AndroidIcon
+                  sx={() => {
+                    if (inputError.downloadsAndroid) {
+                      return { color: "red" };
+                    } else {
+                      return { color: "white" };
+                    }
+                  }}
+                />
                 <TextField
                   type="number"
                   InputLabelProps={{
                     shrink: true,
                   }}
+                  error={inputError.downloadsAndroid}
                   name="downloadsAndroid"
                   onChange={(e) => handleChange(e)}
                 />
@@ -306,12 +354,21 @@ export default function ModalContainer({ open, closeModal }) {
                   gap: "10px",
                 }}
               >
-                <AppleIcon />
+                <AppleIcon
+                  sx={() => {
+                    if (inputError.downloadsApple) {
+                      return { color: "red" };
+                    } else {
+                      return { color: "white" };
+                    }
+                  }}
+                />
                 <TextField
                   type="number"
                   InputLabelProps={{
                     shrink: true,
                   }}
+                  error={inputError.downloadsApple}
                   name="downloadsApple"
                   onChange={(e) => handleChange(e)}
                 />
