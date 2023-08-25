@@ -1,14 +1,17 @@
 :root {
   font-family: "Encode Sans Condensed", "Open Sans", Inter, system-ui, Avenir,
     Helvetica, Arial, sans-serif;
-  line-height: 1.5;
 
-  background-color: #1f2739;
+  min-height: 100vh;
   color-scheme: light dark;
-  color: white !important;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  padding: 0;
 }
