@@ -14,7 +14,7 @@ import AndroidIcon from "@mui/icons-material/Android";
 import AppleIcon from "@mui/icons-material/Apple";
 import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
 import DownloadIcon from "@mui/icons-material/Download";
-import { isNumber } from "@mui/x-data-grid/internals";
+
 export default function ModalContainer({ open, closeModal }) {
   const [selectedData, setSelectedData] = useState({
     game: "",
