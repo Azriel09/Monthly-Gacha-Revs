@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, createContext } from "react";
 import "./App.css";
 import { Route, Routes } from "react-router-dom";
 import NavBar from "./components/navbar";
@@ -16,11 +16,13 @@ import GlobalStyling from "./global-styling";
 import "./global-styling.scss";
 import SwitchTheme from "./components/switch/switch-theme";
 import ThemeObject from "./global-styling";
+import { ThemeProvider } from "./context/theme-context";
 const queryClient = new QueryClient();
 
 function App() {
   const cookies = new Cookies();
   const token = cookies.get("TOKEN");
+
   const [mode, setMode] = useState(true);
   const themes = ThemeObject();
   const darkmode = themes.darkmode;
@@ -34,38 +36,40 @@ function App() {
   };
 
   return (
-    <div style={SetTheme(mode)}>
-      <QueryClientProvider client={queryClient}>
-        <SwitchTheme theme={setMode} />
-        <Routes>
-          <Route path="/" element={<NavBar />}>
-            <Route index element={<Home theme={themes} mode={mode} />} />
-            <Route path="charts" element={<Charts />} />
-            <Route path="about" element={<About />} />
-            <Route
-              path="/admin"
-              element={
-                <ProtectedRoutes>
-                  <Admin theme={themes} mode={mode} />
-                </ProtectedRoutes>
-              }
-            />
-            <Route
-              path="auth"
-              element={
-                <ProtectedRoutes>
-                  <Auth />
-                </ProtectedRoutes>
-              }
-            />
-          </Route>
-          <Route path="login" element={<Login />} />
-        </Routes>
-        {token ? (
-          <ReactQueryDevtools initialIsOpen={true} position="bottom-right" />
-        ) : null}
-      </QueryClientProvider>
-    </div>
+    <ThemeProvider>
+      <div style={SetTheme(mode)}>
+        <QueryClientProvider client={queryClient}>
+          <SwitchTheme theme={setMode} />
+          <Routes>
+            <Route path="/" element={<NavBar />}>
+              <Route index element={<Home theme={themes} mode={mode} />} />
+              <Route path="charts" element={<Charts />} />
+              <Route path="about" element={<About />} />
+              <Route
+                path="/admin"
+                element={
+                  <ProtectedRoutes>
+                    <Admin theme={themes} mode={mode} />
+                  </ProtectedRoutes>
+                }
+              />
+              <Route
+                path="auth"
+                element={
+                  <ProtectedRoutes>
+                    <Auth />
+                  </ProtectedRoutes>
+                }
+              />
+            </Route>
+            <Route path="login" element={<Login />} />
+          </Routes>
+          {token ? (
+            <ReactQueryDevtools initialIsOpen={true} position="bottom-right" />
+          ) : null}
+        </QueryClientProvider>
+      </div>
+    </ThemeProvider>
   );
 }
 
