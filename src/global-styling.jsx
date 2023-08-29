@@ -58,7 +58,7 @@ export default function ThemeObject() {
           letterSpacing: "2px",
         },
         "& .MuiDataGrid-virtualScrollerContent": {
-          backgroundColor: "#F2F3F5",
+          backgroundColor: "#e0e0e0",
           fontFamily: "Open Sans",
           color: "black",
         },
@@ -83,7 +83,6 @@ export default function ThemeObject() {
         },
         "& .MuiDataGrid-row": {
           padding: "2px 0",
-          borderBottom: "1px solid #1f2739 ",
         },
       },
     },

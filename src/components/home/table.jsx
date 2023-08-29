@@ -12,9 +12,8 @@ import GetData from "../../hooks/data-fetch";
 import Loading from "../loading";
 import ServerIcon from "./server-icon";
 import { useState, useEffect } from "react";
-
+import { useTheme } from "../../context/theme-context";
 export default function GachaTable({ theme, mode }) {
-  // For Admin
   const [styling, setStyling] = useState(theme.darkmode);
 
   useEffect(() => {
