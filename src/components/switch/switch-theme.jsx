@@ -1,4 +1,5 @@
 import { styled, Switch, FormControlLabel } from "@mui/material";
+import { useState } from "react";
 
 const MaterialUISwitch = styled(Switch)(({ theme }) => ({
   width: 96.875,
@@ -46,10 +47,21 @@ const MaterialUISwitch = styled(Switch)(({ theme }) => ({
     borderRadius: 40 / 2,
   },
 }));
-export default function SwitchTheme() {
+export default function SwitchTheme(props) {
+  const functionHandler = (isChecked) => {
+    props.theme(isChecked);
+  };
   return (
     <FormControlLabel
-      control={<MaterialUISwitch sx={{ m: 1 }} defaultChecked />}
+      sx={{ position: "absolute", right: 0, top: 10 }}
+      control={
+        <MaterialUISwitch
+          defaultChecked
+          onChange={(e) => {
+            functionHandler(e.target.checked);
+          }}
+        />
+      }
     />
   );
 }

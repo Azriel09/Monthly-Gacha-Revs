@@ -3,11 +3,11 @@ import "./home-container.scss";
 import GetData from "../../hooks/data-fetch";
 import GachaTable from "./table";
 
-export default function HomeContainer() {
+export default function HomeContainer({ theme, mode }) {
   console.log("Home render");
   return (
     <div className="home-container">
-      <GachaTable />
+      <GachaTable theme={theme} mode={mode} />
     </div>
   );
 }
