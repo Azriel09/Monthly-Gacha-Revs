@@ -4,7 +4,7 @@ import AddIcon from "@mui/icons-material/Add";
 import { useState } from "react";
 import ModalContainer from "./modal-container";
 import { StyledEngineProvider } from "@mui/material/styles";
-export default function AdminContainer() {
+export default function AdminContainer({ theme, mode }) {
   const [isModal, setIsModal] = useState(false);
   const handleOpen = () => setIsModal(true);
   const handleClose = () => setIsModal(false);
@@ -24,7 +24,7 @@ export default function AdminContainer() {
         <Typography sx={{ color: "white" }}>Add an item</Typography>
       </Button>
 
-      <HomeContainer />
+      <HomeContainer theme={theme} mode={mode} />
       <StyledEngineProvider injectFirst>
         <ModalContainer open={isModal} closeModal={handleClose} />
       </StyledEngineProvider>

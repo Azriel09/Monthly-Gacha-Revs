@@ -11,9 +11,19 @@ import "./table.scss";
 import GetData from "../../hooks/data-fetch";
 import Loading from "../loading";
 import ServerIcon from "./server-icon";
+import { useState, useEffect } from "react";
 
-export default function GachaTable() {
+export default function GachaTable({ theme, mode }) {
   // For Admin
+  const [styling, setStyling] = useState(theme.darkmode);
+
+  useEffect(() => {
+    if (mode) {
+      setStyling(theme.darkmode);
+    } else {
+      setStyling(theme.lightmode);
+    }
+  }, [mode]);
 
   const months = [
     "January",
@@ -412,44 +422,8 @@ export default function GachaTable() {
       ),
     },
   ];
-  const StyledDataGrid = styled(DataGrid)(({ theme }) => ({
-    border: 0,
-    borderRadius: "35px",
-    WebkitFontSmoothing: "auto",
-    letterSpacing: "normal",
-    "& .MuiDataGrid-withBorderColor": {
-      borderBottom: "1px solid #173f5f",
-    },
-    "& .MuiDataGrid-columnHeadersInner": {
-      letterSpacing: "2px",
-    },
-    "& .MuiDataGrid-virtualScrollerContent": {
-      backgroundColor: "#323c50",
-      fontFamily: "Open Sans",
-    },
 
-    "& .MuiDataGrid-cellContent": {
-      fontSize: "1.2em",
-    },
-    // For game banner to utilize the whole cell
-    "& .MuiDataGrid-cell--textLeft": {
-      padding: "0px",
-      position: "relative",
-    },
-    "& .css-yrdy0g-MuiDataGrid-columnHeaderRow": {
-      backgroundColor: "#2c3446",
-      textTransform: "uppercase",
-      fontSize: "1.1em",
-    },
-    "& .MuiDataGrid-columnHeader": { borderBottom: "none" },
-    "& .MuiDataGrid-iconSeparator": {
-      visibility: "hidden",
-    },
-    "& .MuiDataGrid-row": {
-      padding: "2px 0",
-      borderBottom: "1px solid #1f2739 ",
-    },
-  }));
+  const StyledDataGrid = styled(DataGrid)(({ theme }) => styling.table);
 
   if (status === "loading") {
     return <Loading />;

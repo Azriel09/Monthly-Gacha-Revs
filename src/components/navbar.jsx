@@ -7,7 +7,7 @@ export default function NavBar() {
     <>
       <div className="navigation">
         <Box className="nav-links-container">
-          <Box></Box>
+          <Box sx={{ width: 160, height: 50 }}></Box>
           <Box>
             <Link className="nav-link" to="/">
               HOME
@@ -19,10 +19,7 @@ export default function NavBar() {
               ABOUT
             </Link>
           </Box>
-          <Box sx={{ width: "160px", height: "50px" }}>
-            {" "}
-            <SwitchTheme />
-          </Box>
+          <Box sx={{ width: "160px", height: "50px" }}></Box>
         </Box>
       </div>
       <Outlet />
