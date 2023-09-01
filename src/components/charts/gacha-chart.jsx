@@ -48,6 +48,14 @@ export default function ChartTable() {
       revenueApple: 18000000,
       revenue: 32000000,
       date: "july-2023",
+      expandData: [
+        {
+          revenueAndroid: 14000000,
+          revenueApple: 18000000,
+          downloadsAndroid: 2000000,
+          downloadsApple: 700000,
+        },
+      ],
     },
     {
       id: 2,
@@ -60,26 +68,28 @@ export default function ChartTable() {
       revenueApple: 22000000,
       revenue: 41000000,
       date: "july-2023",
+      expandData: [
+        {
+          revenueAndroid: 19000000,
+          revenueApple: 22000000,
+          downloadsAndroid: 1000000,
+          downloadsApple: 600000,
+        },
+      ],
     },
   ]);
 
   const headerGroup = (
     <ColumnGroup>
       <Row>
-        <Column header="" rowSpan={2} />
-        <Column header="Name" rowSpan={2} />
-        <Column header="Server" rowSpan={2} />
-        {/* <Column header="Downloads" colSpan={2} />
-        <Column header="Revenue" colSpan={2} /> */}
-        <Column header="Total" colSpan={2} />
-      </Row>
-      <Row>
-        {/* <Column header="Android" sortable field="downloadsAndroid" />
-        <Column header="Apple" sortable field="downloadsApple" />
-        <Column header="Android" sortable field="revenueAndroid" />
-        <Column header="Apple" sortable field="revenueApple" /> */}
+        <Column header="" />
+        <Column header="" />
+        <Column header="Name" />
+        <Column header="Server" />
         <Column header="Downloads" sortable field="downloads" />
         <Column header="Revenue" sortable field="revenue" />
+        {/* <Column header="Downloads" colSpan={2} />
+        <Column header="Revenue" colSpan={2} /> */}
       </Row>
     </ColumnGroup>
   );
@@ -130,18 +140,50 @@ export default function ChartTable() {
     });
   };
 
+  const formatDownloads = (rowData) => {
+    return rowData.downloads.toLocaleString();
+  };
   const header = renderHeader();
   const textColorRevenue = (rowData) => {
+    const value = formatCurrency(rowData.revenue);
+
     if (rowData.revenue === 32000000) {
-      return <div>{rowData.revenue}</div>;
+      return <div>{value}</div>;
     } else if (rowData.revenue > 32000000) {
-      return <div style={{ color: "green" }}>{rowData.revenue}</div>;
+      return <div style={{ color: "green" }}>{value}</div>;
     } else {
-      return <div style={{ color: "red" }}>{rowData.revenue}</div>;
+      return <div style={{ color: "red" }}>{value}</div>;
     }
   };
+
+  const rowExpansionTemplate = (data) => {
+    return (
+      <div className="p-3">
+        <DataTable
+          value={data.expandData}
+          tableStyle={{
+            overflow: "hidden",
+            minHeight: "15vh",
+          }}
+        >
+          <Column
+            field="revenueAndroid"
+            header="Revenue Android"
+            body={revenueAndroidTemplate}
+          ></Column>
+          <Column
+            field="revenueApple"
+            header="Revenue Apple"
+            body={revenueAppleTemplate}
+          ></Column>
+          <Column field="downloadsAndroid" header="Downloads Android"></Column>
+          <Column field="downloadsApple" header="Downloads Apple"></Column>
+        </DataTable>
+      </div>
+    );
+  };
   const allowExpansion = (rowData) => {
-    return rowData.orders.length > 0;
+    return rowData.expandData.length > 0;
   };
   return (
     <div className="card">
@@ -153,12 +195,16 @@ export default function ChartTable() {
         scrollable
         globalFilterFields={["name"]}
         header={header}
+        expandedRows={expandedRows}
+        onRowToggle={(e) => setExpandedRows(e.data)}
+        rowExpansionTemplate={rowExpansionTemplate}
         scrollHeight="70vh"
         tableStyle={{
           minWidth: "100vw",
           fontSize: "1.2em",
         }}
       >
+        <Column expander={allowExpansion} style={{ width: "5rem" }} />
         <Column field="name" body={gameNameTemplate} />
         <Column field="name" />
         <Column field="server" />
@@ -166,7 +212,7 @@ export default function ChartTable() {
         <Column field="downloadsApple" />
         <Column field="revenueAndroid" body={revenueAndroidTemplate} />
         <Column field="revenueApple" body={revenueAppleTemplate} /> */}
-        <Column field="downloads" />
+        <Column field="downloads" body={formatDownloads} />
         <Column field="revenue" body={textColorRevenue} />
       </DataTable>
     </div>
