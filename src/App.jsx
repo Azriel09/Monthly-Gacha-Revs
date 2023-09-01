@@ -36,40 +36,38 @@ function App() {
   };
 
   return (
-    <ThemeProvider>
-      <div style={SetTheme(mode)}>
-        <QueryClientProvider client={queryClient}>
-          <SwitchTheme theme={setMode} />
-          <Routes>
-            <Route path="/" element={<NavBar />}>
-              <Route index element={<Home theme={themes} mode={mode} />} />
-              <Route path="charts" element={<Charts />} />
-              <Route path="about" element={<About />} />
-              <Route
-                path="/admin"
-                element={
-                  <ProtectedRoutes>
-                    <Admin theme={themes} mode={mode} />
-                  </ProtectedRoutes>
-                }
-              />
-              <Route
-                path="auth"
-                element={
-                  <ProtectedRoutes>
-                    <Auth />
-                  </ProtectedRoutes>
-                }
-              />
-            </Route>
-            <Route path="login" element={<Login />} />
-          </Routes>
-          {token ? (
-            <ReactQueryDevtools initialIsOpen={true} position="bottom-right" />
-          ) : null}
-        </QueryClientProvider>
-      </div>
-    </ThemeProvider>
+    <div style={SetTheme(mode)}>
+      <QueryClientProvider client={queryClient}>
+        <SwitchTheme theme={setMode} />
+        <Routes>
+          <Route path="/" element={<NavBar />}>
+            <Route index element={<Home theme={themes} mode={mode} />} />
+            <Route path="charts" element={<Charts />} />
+            <Route path="about" element={<About />} />
+            <Route
+              path="/admin"
+              element={
+                <ProtectedRoutes>
+                  <Admin theme={themes} mode={mode} />
+                </ProtectedRoutes>
+              }
+            />
+            <Route
+              path="auth"
+              element={
+                <ProtectedRoutes>
+                  <Auth />
+                </ProtectedRoutes>
+              }
+            />
+          </Route>
+          <Route path="login" element={<Login />} />
+        </Routes>
+        {token ? (
+          <ReactQueryDevtools initialIsOpen={true} position="bottom-right" />
+        ) : null}
+      </QueryClientProvider>
+    </div>
   );
 }
 

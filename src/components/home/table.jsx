@@ -15,7 +15,6 @@ import { useState, useEffect } from "react";
 import { useTheme } from "../../context/theme-context";
 export default function GachaTable({ theme, mode }) {
   const [styling, setStyling] = useState(theme.darkmode);
-
   useEffect(() => {
     if (mode) {
       setStyling(theme.darkmode);
