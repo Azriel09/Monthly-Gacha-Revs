@@ -158,12 +158,12 @@ export default function ChartTable() {
 
   const rowExpansionTemplate = (data) => {
     return (
-      <div className="p-3">
+      <div style={{ padding: "10px 50px 10px 200px" }}>
         <DataTable
           value={data.expandData}
           tableStyle={{
             overflow: "hidden",
-            minHeight: "15vh",
+            minHeight: "10vh",
           }}
         >
           <Column
