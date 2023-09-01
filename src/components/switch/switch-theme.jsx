@@ -48,8 +48,19 @@ const MaterialUISwitch = styled(Switch)(({ theme }) => ({
   },
 }));
 export default function SwitchTheme(props) {
+  const [selected, setSelected] = useState("dark");
   const functionHandler = (isChecked) => {
     props.theme(isChecked);
+
+    let themeLink = document.getElementById("app-theme");
+
+    if (selected === "dark") {
+      setSelected("light");
+      themeLink.href = `/themes/lara-light-blue/theme.css`;
+    } else {
+      setSelected("dark");
+      themeLink.href = `/themes/vela-blue/theme.css`;
+    }
   };
   return (
     <FormControlLabel

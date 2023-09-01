@@ -1,13 +1,7 @@
 import HomeContainer from "../components/home/home-container";
 import GachaTable from "../components/home/table";
 
-export default function Home({ theme }) {
+export default function Home({ theme, mode }) {
   console.log(theme);
-  return (
-    <>
-      <HomeContainer>
-        <GachaTable theme={theme} />
-      </HomeContainer>
-    </>
-  );
+  return <HomeContainer theme={theme} mode={mode} />;
 }
