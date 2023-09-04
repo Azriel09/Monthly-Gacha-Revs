@@ -16,7 +16,7 @@ import GlobalStyling from "./global-styling";
 import "./global-styling.scss";
 import SwitchTheme from "./components/switch/switch-theme";
 import ThemeObject from "./global-styling";
-import { ThemeProvider } from "./context/theme-context";
+
 const queryClient = new QueryClient();
 
 function App() {
@@ -40,7 +40,7 @@ function App() {
       <QueryClientProvider client={queryClient}>
         <SwitchTheme theme={setMode} />
         <Routes>
-          <Route path="/" element={<NavBar />}>
+          <Route path="/" element={<NavBar mode={mode}/>}>
             <Route index element={<Home theme={themes} mode={mode} />} />
             <Route path="charts" element={<Charts />} />
             <Route path="about" element={<About />} />
