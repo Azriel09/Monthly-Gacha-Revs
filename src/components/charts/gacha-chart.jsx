@@ -10,7 +10,27 @@ import { FilterMatchMode } from "primereact/api";
 import { InputText } from "primereact/inputtext";
 import GetData from "../../hooks/data-fetch";
 import GenshinBG from "../../assets/banners/genshin.jpg";
+import "./gacha-chart.scss";
 export default function ChartTable() {
+  const months = [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
+  ];
+
+  let currentYear = new Date().getFullYear();
+  let currentMonth = months[new Date().getMonth() - 1];
+  let previousMonth = months[new Date().getMonth() - 2];
+
   // FOR SEARCH
   const [filters, setFilters] = useState({
     global: { value: null, matchMode: FilterMatchMode.CONTAINS },
@@ -35,17 +55,200 @@ export default function ChartTable() {
 
   // REACT-QUERY
   // const { status, data, error, isFetching } = GetData();
-
-  const [games] = useState([
+  const [gachaData, setGachaData] = useState([
     {
       id: 1,
       name: "Genshin Impact",
       server: "global",
-      downloadsAndroid: 2_000_000,
-      downloadsApple: 700_000,
+      data: {
+        July2023: {
+          downloads: 2_700_000,
+          revenue: 32000000,
+          expandData: [
+            {
+              revenueAndroid: 14000000,
+              revenueApple: 18000000,
+              downloadsAndroid: 2000000,
+              downloadsApple: 700000,
+            },
+          ],
+        },
+        June2023: {
+          downloads: 2_700_000,
+          revenue: 32000000,
+          expandData: [
+            {
+              revenueAndroid: 14000000,
+              revenueApple: 18000000,
+              downloadsAndroid: 2000000,
+              downloadsApple: 700000,
+            },
+          ],
+        },
+        May2023: {
+          downloads: 2_700_000,
+          revenue: 32000000,
+          expandData: [
+            {
+              revenueAndroid: 14000000,
+              revenueApple: 18000000,
+              downloadsAndroid: 2000000,
+              downloadsApple: 700000,
+            },
+          ],
+        },
+        April2023: {
+          downloads: 2_700_000,
+          revenue: 32000000,
+          expandData: [
+            {
+              revenueAndroid: 14000000,
+              revenueApple: 18000000,
+              downloadsAndroid: 2000000,
+              downloadsApple: 700000,
+            },
+          ],
+        },
+        March2023: {
+          downloads: 2_700_000,
+          revenue: 32000000,
+          expandData: [
+            {
+              revenueAndroid: 14000000,
+              revenueApple: 18000000,
+              downloadsAndroid: 2000000,
+              downloadsApple: 700000,
+            },
+          ],
+        },
+        February2023: {
+          downloads: 2_700_000,
+          revenue: 32000000,
+          expandData: [
+            {
+              revenueAndroid: 14000000,
+              revenueApple: 18000000,
+              downloadsAndroid: 2000000,
+              downloadsApple: 700000,
+            },
+          ],
+        },
+        January2023: {
+          downloads: 2_700_000,
+          revenue: 32000000,
+          expandData: [
+            {
+              revenueAndroid: 14000000,
+              revenueApple: 18000000,
+              downloadsAndroid: 2000000,
+              downloadsApple: 700000,
+            },
+          ],
+        },
+      },
+    },
+    {
+      id: 1,
+      name: "Genshin Impact",
+      server: "global",
+      data: {
+        July2023: {
+          downloads: 2_700_000,
+          revenue: 32000000,
+          expandData: [
+            {
+              revenueAndroid: 14000000,
+              revenueApple: 18000000,
+              downloadsAndroid: 2000000,
+              downloadsApple: 700000,
+            },
+          ],
+        },
+        June2023: {
+          downloads: 2_700_000,
+          revenue: 32000000,
+          expandData: [
+            {
+              revenueAndroid: 14000000,
+              revenueApple: 18000000,
+              downloadsAndroid: 2000000,
+              downloadsApple: 700000,
+            },
+          ],
+        },
+      },
+    },
+    {
+      id: 1,
+      name: "Genshin Impact",
+      server: "global",
+      data: {
+        July2023: {
+          downloads: 2_700_000,
+          revenue: 32000000,
+          expandData: [
+            {
+              revenueAndroid: 14000000,
+              revenueApple: 18000000,
+              downloadsAndroid: 2000000,
+              downloadsApple: 700000,
+            },
+          ],
+        },
+        June2023: {
+          downloads: 2_700_000,
+          revenue: 32000000,
+          expandData: [
+            {
+              revenueAndroid: 14000000,
+              revenueApple: 18000000,
+              downloadsAndroid: 2000000,
+              downloadsApple: 700000,
+            },
+          ],
+        },
+      },
+    },
+    {
+      id: 1,
+      name: "Genshin Impact",
+      server: "global",
+      data: {
+        July2023: {
+          downloads: 2_700_000,
+          revenue: 32000000,
+          expandData: [
+            {
+              revenueAndroid: 14000000,
+              revenueApple: 18000000,
+              downloadsAndroid: 2000000,
+              downloadsApple: 700000,
+            },
+          ],
+        },
+        June2023: {
+          downloads: 2_700_000,
+          revenue: 32000000,
+          expandData: [
+            {
+              revenueAndroid: 14000000,
+              revenueApple: 18000000,
+              downloadsAndroid: 2000000,
+              downloadsApple: 700000,
+            },
+          ],
+        },
+      },
+    },
+  ]);
+  const [games, setGames] = useState([
+    {
+      id: 1,
+      name: "Genshin Impact",
+      server: "global",
+
       downloads: 2_700_000,
-      revenueAndroid: 14000000,
-      revenueApple: 18000000,
+
       revenue: 32000000,
       date: "july-2023",
       expandData: [
@@ -61,11 +264,9 @@ export default function ChartTable() {
       id: 2,
       name: "Honkai Star Rail",
       server: "global",
-      downloadsAndroid: 1_000_000,
-      downloadsApple: 600_000,
+
       downloads: 1_600_000,
-      revenueAndroid: 19000000,
-      revenueApple: 22000000,
+
       revenue: 41000000,
       date: "july-2023",
       expandData: [
@@ -79,17 +280,28 @@ export default function ChartTable() {
     },
   ]);
 
+  const dates = Object.entries(gachaData[0].data);
+  const dualDates = dates * 2;
   const headerGroup = (
     <ColumnGroup>
       <Row>
-        <Column header="" />
-        <Column header="" />
-        <Column header="Name" />
-        <Column header="Server" />
-        <Column header="Downloads" sortable field="downloads" />
-        <Column header="Revenue" sortable field="revenue" />
-        {/* <Column header="Downloads" colSpan={2} />
-        <Column header="Revenue" colSpan={2} /> */}
+        <Column header="" rowSpan={2} />
+        <Column header="" rowSpan={2} />
+        <Column header="Name" rowSpan={2} />
+        <Column header="Server" rowSpan={2} />
+        {dates.map((month) => {
+          return <Column header={month[0]} colSpan={2} />;
+        })}
+      </Row>
+      <Row>
+        {dates.map((month, index) => {
+          console.log(index);
+          if (index % 2 === 0 || index === 0) {
+            return <Column header="Downloads" sortable field="downloads" />;
+          } else {
+            return <Column header="Revenue" sortable field="revenue" />;
+          }
+        })}
       </Row>
     </ColumnGroup>
   );
@@ -117,6 +329,7 @@ export default function ChartTable() {
     setGlobalFilterValue(value);
   };
 
+  // DATA FORMATTING
   const revenueAndroidTemplate = (rowData) => {
     return `${formatCurrency(rowData.revenueAndroid)}`;
   };
@@ -141,15 +354,16 @@ export default function ChartTable() {
   };
 
   const formatDownloads = (rowData) => {
-    return rowData.downloads.toLocaleString();
+    return Object.values(rowData.data)[0].downloads;
   };
-  const header = renderHeader();
-  const textColorRevenue = (rowData) => {
-    const value = formatCurrency(rowData.revenue);
 
-    if (rowData.revenue === 32000000) {
+  const textColorRevenue = (rowData) => {
+    const revenue = Object.values(rowData.data)[0].revenue;
+    const value = formatCurrency(revenue);
+
+    if (revenue === 30000000) {
       return <div>{value}</div>;
-    } else if (rowData.revenue > 32000000) {
+    } else if (revenue > 30000000) {
       return <div style={{ color: "green" }}>{value}</div>;
     } else {
       return <div style={{ color: "red" }}>{value}</div>;
@@ -160,7 +374,7 @@ export default function ChartTable() {
     return (
       <div style={{ padding: "10px 50px 10px 200px" }}>
         <DataTable
-          value={data.expandData}
+          value={Object.values(data.data)[0].expandData}
           tableStyle={{
             overflow: "hidden",
             minHeight: "10vh",
@@ -183,13 +397,16 @@ export default function ChartTable() {
     );
   };
   const allowExpansion = (rowData) => {
-    return rowData.expandData.length > 0;
+    return Object.values(rowData.data)[0].expandData.length > 0;
   };
+
+  const header = renderHeader();
   return (
     <div className="card">
       <DataTable
         size="small"
-        value={games}
+        stripedRows
+        value={gachaData}
         headerColumnGroup={headerGroup}
         filters={filters}
         scrollable
@@ -213,7 +430,11 @@ export default function ChartTable() {
         <Column field="revenueAndroid" body={revenueAndroidTemplate} />
         <Column field="revenueApple" body={revenueAppleTemplate} /> */}
         <Column field="downloads" body={formatDownloads} />
-        <Column field="revenue" body={textColorRevenue} />
+        <Column
+          field="revenue"
+          body={textColorRevenue}
+          headerStyle="text-align: right"
+        />
       </DataTable>
     </div>
   );
