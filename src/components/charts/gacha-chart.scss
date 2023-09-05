@@ -1,0 +1,21 @@
+.p-datatable-header {
+  text-align: center;
+}
+
+.p-column-header-content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+}
+
+.p-datatable-tbody {
+  [role="row"] {
+    [role="cell"]:nth-child(6),
+    [role="cell"]:nth-child(5),
+    [role="cell"]:nth-child(4),
+    [role="cell"]:nth-child(3) {
+      text-align: center;
+    }
+  }
+}
