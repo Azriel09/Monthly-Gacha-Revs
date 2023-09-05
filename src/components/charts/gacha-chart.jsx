@@ -74,6 +74,97 @@ export default function ChartTable() {
           ],
         },
         June2023: {
+          downloads: 2_600_000,
+          revenue: 31000000,
+          expandData: [
+            {
+              revenueAndroid: 13000000,
+              revenueApple: 17000000,
+              downloadsAndroid: 1900000,
+              downloadsApple: 600000,
+            },
+          ],
+        },
+        May2023: {
+          downloads: 2_700_000,
+          revenue: 32000000,
+          expandData: [
+            {
+              revenueAndroid: 14000000,
+              revenueApple: 18000000,
+              downloadsAndroid: 2000000,
+              downloadsApple: 700000,
+            },
+          ],
+        },
+        April2023: {
+          downloads: 2_700_000,
+          revenue: 32000000,
+          expandData: [
+            {
+              revenueAndroid: 14000000,
+              revenueApple: 18000000,
+              downloadsAndroid: 2000000,
+              downloadsApple: 700000,
+            },
+          ],
+        },
+        March2023: {
+          downloads: 2_700_000,
+          revenue: 32000000,
+          expandData: [
+            {
+              revenueAndroid: 14000000,
+              revenueApple: 18000000,
+              downloadsAndroid: 2000000,
+              downloadsApple: 700000,
+            },
+          ],
+        },
+        February2023: {
+          downloads: 2_700_000,
+          revenue: 32000000,
+          expandData: [
+            {
+              revenueAndroid: 14000000,
+              revenueApple: 18000000,
+              downloadsAndroid: 2000000,
+              downloadsApple: 700000,
+            },
+          ],
+        },
+        January2023: {
+          downloads: 2_700_000,
+          revenue: 32000000,
+          expandData: [
+            {
+              revenueAndroid: 14000000,
+              revenueApple: 18000000,
+              downloadsAndroid: 2000000,
+              downloadsApple: 700000,
+            },
+          ],
+        },
+      },
+    },
+    {
+      id: 2,
+      name: "Genshin Impact",
+      server: "global",
+      data: {
+        July2023: {
+          downloads: 2_700_000,
+          revenue: 32000000,
+          expandData: [
+            {
+              revenueAndroid: 14000000,
+              revenueApple: 18000000,
+              downloadsAndroid: 2000000,
+              downloadsApple: 700000,
+            },
+          ],
+        },
+        June2023: {
           downloads: 2_700_000,
           revenue: 32000000,
           expandData: [
@@ -148,7 +239,7 @@ export default function ChartTable() {
       },
     },
     {
-      id: 1,
+      id: 3,
       name: "Genshin Impact",
       server: "global",
       data: {
@@ -176,14 +267,7 @@ export default function ChartTable() {
             },
           ],
         },
-      },
-    },
-    {
-      id: 1,
-      name: "Genshin Impact",
-      server: "global",
-      data: {
-        July2023: {
+        May2023: {
           downloads: 2_700_000,
           revenue: 32000000,
           expandData: [
@@ -195,7 +279,7 @@ export default function ChartTable() {
             },
           ],
         },
-        June2023: {
+        April2023: {
           downloads: 2_700_000,
           revenue: 32000000,
           expandData: [
@@ -207,14 +291,7 @@ export default function ChartTable() {
             },
           ],
         },
-      },
-    },
-    {
-      id: 1,
-      name: "Genshin Impact",
-      server: "global",
-      data: {
-        July2023: {
+        March2023: {
           downloads: 2_700_000,
           revenue: 32000000,
           expandData: [
@@ -226,7 +303,19 @@ export default function ChartTable() {
             },
           ],
         },
-        June2023: {
+        February2023: {
+          downloads: 2_700_000,
+          revenue: 32000000,
+          expandData: [
+            {
+              revenueAndroid: 14000000,
+              revenueApple: 18000000,
+              downloadsAndroid: 2000000,
+              downloadsApple: 700000,
+            },
+          ],
+        },
+        January2023: {
           downloads: 2_700_000,
           revenue: 32000000,
           expandData: [
@@ -281,7 +370,7 @@ export default function ChartTable() {
   ]);
 
   const dates = Object.entries(gachaData[0].data);
-  const dualDates = dates * 2;
+
   const headerGroup = (
     <ColumnGroup>
       <Row>
@@ -295,11 +384,17 @@ export default function ChartTable() {
       </Row>
       <Row>
         {dates.map((month, index) => {
-          console.log(index);
           if (index % 2 === 0 || index === 0) {
             return <Column header="Downloads" sortable field="downloads" />;
           } else {
             return <Column header="Revenue" sortable field="revenue" />;
+          }
+        })}
+        {dates.map((month, index) => {
+          if (index % 2 === 0 || index === 0) {
+            return <Column header="Revenue" sortable field="revenue" />;
+          } else {
+            return <Column header="Downloads" sortable field="downloads" />;
           }
         })}
       </Row>
@@ -429,12 +524,29 @@ export default function ChartTable() {
         <Column field="downloadsApple" />
         <Column field="revenueAndroid" body={revenueAndroidTemplate} />
         <Column field="revenueApple" body={revenueAppleTemplate} /> */}
+        {dates.map((month, index) => {
+          console.log(index);
+          if (index % 2 === 0 || index === 0) {
+            return <Column field="downloads" body={formatDownloads} />;
+          } else {
+            return <Column field="revenue" body={textColorRevenue} />;
+          }
+        })}
+        {dates.map((month, index) => {
+          console.log(index);
+          if (index % 2 === 0 || index === 0) {
+            return <Column field="revenue" body={textColorRevenue} />;
+          } else {
+            return <Column field="downloads" body={formatDownloads} />;
+          }
+        })}
+        {/* 
         <Column field="downloads" body={formatDownloads} />
         <Column
           field="revenue"
           body={textColorRevenue}
           headerStyle="text-align: right"
-        />
+        /> */}
       </DataTable>
     </div>
   );
