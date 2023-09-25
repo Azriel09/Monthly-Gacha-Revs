@@ -1,16 +1,36 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState } from "react";
 import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
 import { ColumnGroup } from "primereact/columngroup";
 import { Row } from "primereact/row";
 // import "./custom-primereact-table-theme.css";
 import "primereact/resources/primereact.css";
-
+import DownloadIcon from "@mui/icons-material/Download";
+import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
+import Download from "@mui/icons-material/Download";
+import Android from "@mui/icons-material/Android";
 import { FilterMatchMode } from "primereact/api";
 import { InputText } from "primereact/inputtext";
 import GetData from "../../hooks/data-fetch";
-import GenshinBG from "../../assets/banners/genshin.jpg";
+import {
+  revenueAndroidTemplate,
+  revenueAndroidTemplate2,
+  downloadAndroidTemplate,
+  downloadAndroidTemplate2,
+  revenueAppleTemplate,
+  revenueAppleTemplate2,
+  downloadAppleTemplate,
+  downloadAppleTemplate2,
+  gameNameTemplate,
+  formatDownloads,
+  formatDownloads2,
+  textColorRevenue,
+  textColorRevenue2,
+  serverTemplate,
+} from "./formatting";
 import "./gacha-chart.scss";
+
+import Apple from "@mui/icons-material/Apple";
 export default function ChartTable() {
   const months = [
     "January",
@@ -55,297 +75,19 @@ export default function ChartTable() {
 
   // REACT-QUERY
   // const { status, data, error, isFetching } = GetData();
-  const [gachaData, setGachaData] = useState([
+  const [gameData, setGameData] = useState([
     {
       id: 1,
       name: "Genshin Impact",
       server: "global",
-      data: {
-        July2023: {
-          downloads: 2_700_000,
-          revenue: 32000000,
-          expandData: [
-            {
-              revenueAndroid: 14000000,
-              revenueApple: 18000000,
-              downloadsAndroid: 2000000,
-              downloadsApple: 700000,
-            },
-          ],
-        },
-        June2023: {
-          downloads: 2_600_000,
-          revenue: 31000000,
-          expandData: [
-            {
-              revenueAndroid: 13000000,
-              revenueApple: 17000000,
-              downloadsAndroid: 1900000,
-              downloadsApple: 600000,
-            },
-          ],
-        },
-        May2023: {
-          downloads: 2_700_000,
-          revenue: 32000000,
-          expandData: [
-            {
-              revenueAndroid: 14000000,
-              revenueApple: 18000000,
-              downloadsAndroid: 2000000,
-              downloadsApple: 700000,
-            },
-          ],
-        },
-        April2023: {
-          downloads: 2_700_000,
-          revenue: 32000000,
-          expandData: [
-            {
-              revenueAndroid: 14000000,
-              revenueApple: 18000000,
-              downloadsAndroid: 2000000,
-              downloadsApple: 700000,
-            },
-          ],
-        },
-        March2023: {
-          downloads: 2_700_000,
-          revenue: 32000000,
-          expandData: [
-            {
-              revenueAndroid: 14000000,
-              revenueApple: 18000000,
-              downloadsAndroid: 2000000,
-              downloadsApple: 700000,
-            },
-          ],
-        },
-        February2023: {
-          downloads: 2_700_000,
-          revenue: 32000000,
-          expandData: [
-            {
-              revenueAndroid: 14000000,
-              revenueApple: 18000000,
-              downloadsAndroid: 2000000,
-              downloadsApple: 700000,
-            },
-          ],
-        },
-        January2023: {
-          downloads: 2_700_000,
-          revenue: 32000000,
-          expandData: [
-            {
-              revenueAndroid: 14000000,
-              revenueApple: 18000000,
-              downloadsAndroid: 2000000,
-              downloadsApple: 700000,
-            },
-          ],
-        },
-      },
-    },
-    {
-      id: 2,
-      name: "Genshin Impact",
-      server: "global",
-      data: {
-        July2023: {
-          downloads: 2_700_000,
-          revenue: 32000000,
-          expandData: [
-            {
-              revenueAndroid: 14000000,
-              revenueApple: 18000000,
-              downloadsAndroid: 2000000,
-              downloadsApple: 700000,
-            },
-          ],
-        },
-        June2023: {
-          downloads: 2_700_000,
-          revenue: 32000000,
-          expandData: [
-            {
-              revenueAndroid: 14000000,
-              revenueApple: 18000000,
-              downloadsAndroid: 2000000,
-              downloadsApple: 700000,
-            },
-          ],
-        },
-        May2023: {
-          downloads: 2_700_000,
-          revenue: 32000000,
-          expandData: [
-            {
-              revenueAndroid: 14000000,
-              revenueApple: 18000000,
-              downloadsAndroid: 2000000,
-              downloadsApple: 700000,
-            },
-          ],
-        },
-        April2023: {
-          downloads: 2_700_000,
-          revenue: 32000000,
-          expandData: [
-            {
-              revenueAndroid: 14000000,
-              revenueApple: 18000000,
-              downloadsAndroid: 2000000,
-              downloadsApple: 700000,
-            },
-          ],
-        },
-        March2023: {
-          downloads: 2_700_000,
-          revenue: 32000000,
-          expandData: [
-            {
-              revenueAndroid: 14000000,
-              revenueApple: 18000000,
-              downloadsAndroid: 2000000,
-              downloadsApple: 700000,
-            },
-          ],
-        },
-        February2023: {
-          downloads: 2_700_000,
-          revenue: 32000000,
-          expandData: [
-            {
-              revenueAndroid: 14000000,
-              revenueApple: 18000000,
-              downloadsAndroid: 2000000,
-              downloadsApple: 700000,
-            },
-          ],
-        },
-        January2023: {
-          downloads: 2_700_000,
-          revenue: 32000000,
-          expandData: [
-            {
-              revenueAndroid: 14000000,
-              revenueApple: 18000000,
-              downloadsAndroid: 2000000,
-              downloadsApple: 700000,
-            },
-          ],
-        },
-      },
-    },
-    {
-      id: 3,
-      name: "Genshin Impact",
-      server: "global",
-      data: {
-        July2023: {
-          downloads: 2_700_000,
-          revenue: 32000000,
-          expandData: [
-            {
-              revenueAndroid: 14000000,
-              revenueApple: 18000000,
-              downloadsAndroid: 2000000,
-              downloadsApple: 700000,
-            },
-          ],
-        },
-        June2023: {
-          downloads: 2_700_000,
-          revenue: 32000000,
-          expandData: [
-            {
-              revenueAndroid: 14000000,
-              revenueApple: 18000000,
-              downloadsAndroid: 2000000,
-              downloadsApple: 700000,
-            },
-          ],
-        },
-        May2023: {
-          downloads: 2_700_000,
-          revenue: 32000000,
-          expandData: [
-            {
-              revenueAndroid: 14000000,
-              revenueApple: 18000000,
-              downloadsAndroid: 2000000,
-              downloadsApple: 700000,
-            },
-          ],
-        },
-        April2023: {
-          downloads: 2_700_000,
-          revenue: 32000000,
-          expandData: [
-            {
-              revenueAndroid: 14000000,
-              revenueApple: 18000000,
-              downloadsAndroid: 2000000,
-              downloadsApple: 700000,
-            },
-          ],
-        },
-        March2023: {
-          downloads: 2_700_000,
-          revenue: 32000000,
-          expandData: [
-            {
-              revenueAndroid: 14000000,
-              revenueApple: 18000000,
-              downloadsAndroid: 2000000,
-              downloadsApple: 700000,
-            },
-          ],
-        },
-        February2023: {
-          downloads: 2_700_000,
-          revenue: 32000000,
-          expandData: [
-            {
-              revenueAndroid: 14000000,
-              revenueApple: 18000000,
-              downloadsAndroid: 2000000,
-              downloadsApple: 700000,
-            },
-          ],
-        },
-        January2023: {
-          downloads: 2_700_000,
-          revenue: 32000000,
-          expandData: [
-            {
-              revenueAndroid: 14000000,
-              revenueApple: 18000000,
-              downloadsAndroid: 2000000,
-              downloadsApple: 700000,
-            },
-          ],
-        },
-      },
-    },
-  ]);
-  const [games, setGames] = useState([
-    {
-      id: 1,
-      name: "Genshin Impact",
-      server: "global",
-
-      downloads: 2_700_000,
-
-      revenue: 32000000,
-      date: "july-2023",
+      downloads: [2900000, 2700000],
+      revenue: [18000000, 32000000],
       expandData: [
         {
-          revenueAndroid: 14000000,
-          revenueApple: 18000000,
-          downloadsAndroid: 2000000,
-          downloadsApple: 700000,
+          revenueAndroid: [900000, 14000000],
+          revenueApple: [18000000, 18000000],
+          downloadsAndroid: [2000000, 2000000],
+          downloadsApple: [15000000, 700000],
         },
       ],
     },
@@ -353,23 +95,18 @@ export default function ChartTable() {
       id: 2,
       name: "Honkai Star Rail",
       server: "global",
-
-      downloads: 1_600_000,
-
-      revenue: 41000000,
-      date: "july-2023",
+      downloads: [1600000, 1600000],
+      revenue: [50000000, 41000000],
       expandData: [
         {
-          revenueAndroid: 19000000,
-          revenueApple: 22000000,
-          downloadsAndroid: 1000000,
-          downloadsApple: 600000,
+          revenueAndroid: [17000000, 19000000],
+          revenueApple: [31000000, 22000000],
+          downloadsAndroid: [1000000, 1000000],
+          downloadsApple: [600000, 600000],
         },
       ],
     },
   ]);
-
-  const dates = Object.entries(gachaData[0].data);
 
   const headerGroup = (
     <ColumnGroup>
@@ -378,25 +115,15 @@ export default function ChartTable() {
         <Column header="" rowSpan={2} />
         <Column header="Name" rowSpan={2} />
         <Column header="Server" rowSpan={2} />
-        {dates.map((month) => {
-          return <Column header={month[0]} colSpan={2} />;
-        })}
+
+        <Column header="Month" colSpan={2} />
+        <Column header="Month" colSpan={2} />
       </Row>
       <Row>
-        {dates.map((month, index) => {
-          if (index % 2 === 0 || index === 0) {
-            return <Column header="Downloads" sortable field="downloads" />;
-          } else {
-            return <Column header="Revenue" sortable field="revenue" />;
-          }
-        })}
-        {dates.map((month, index) => {
-          if (index % 2 === 0 || index === 0) {
-            return <Column header="Revenue" sortable field="revenue" />;
-          } else {
-            return <Column header="Downloads" sortable field="downloads" />;
-          }
-        })}
+        <Column header={<Download />} sortable field="downloads" />
+        <Column header={<AttachMoneyIcon />} sortable field="revenue" />
+        <Column header={<Download />} sortable field="downloads" />
+        <Column header={<AttachMoneyIcon />} sortable field="revenue" />
       </Row>
     </ColumnGroup>
   );
@@ -425,51 +152,12 @@ export default function ChartTable() {
   };
 
   // DATA FORMATTING
-  const revenueAndroidTemplate = (rowData) => {
-    return `${formatCurrency(rowData.revenueAndroid)}`;
-  };
-
-  const revenueAppleTemplate = (rowData) => {
-    return `${formatCurrency(rowData.revenueApple)}`;
-  };
-
-  const gameNameTemplate = (rowData) => {
-    return (
-      <div className="flex align-items-center">
-        <img src={GenshinBG} width="200" />
-      </div>
-    );
-  };
-
-  const formatCurrency = (value) => {
-    return value.toLocaleString("en-US", {
-      style: "currency",
-      currency: "USD",
-    });
-  };
-
-  const formatDownloads = (rowData) => {
-    return Object.values(rowData.data)[0].downloads;
-  };
-
-  const textColorRevenue = (rowData) => {
-    const revenue = Object.values(rowData.data)[0].revenue;
-    const value = formatCurrency(revenue);
-
-    if (revenue === 30000000) {
-      return <div>{value}</div>;
-    } else if (revenue > 30000000) {
-      return <div style={{ color: "green" }}>{value}</div>;
-    } else {
-      return <div style={{ color: "red" }}>{value}</div>;
-    }
-  };
 
   const rowExpansionTemplate = (data) => {
     return (
-      <div style={{ padding: "10px 50px 10px 200px" }}>
+      <div style={{}}>
         <DataTable
-          value={Object.values(data.data)[0].expandData}
+          value={data.expandData}
           tableStyle={{
             overflow: "hidden",
             minHeight: "10vh",
@@ -477,22 +165,99 @@ export default function ChartTable() {
         >
           <Column
             field="revenueAndroid"
-            header="Revenue Android"
+            header={
+              <div>
+                <AttachMoneyIcon />
+                <Android />
+              </div>
+            }
+            align="center"
             body={revenueAndroidTemplate}
           ></Column>
           <Column
             field="revenueApple"
-            header="Revenue Apple"
+            header={
+              <div>
+                <AttachMoneyIcon />
+                <Apple />
+              </div>
+            }
+            align="center"
             body={revenueAppleTemplate}
           ></Column>
-          <Column field="downloadsAndroid" header="Downloads Android"></Column>
-          <Column field="downloadsApple" header="Downloads Apple"></Column>
+          <Column
+            field="downloadsAndroid"
+            header={
+              <div>
+                <DownloadIcon />
+                <Android />
+              </div>
+            }
+            align="center"
+            body={downloadAndroidTemplate}
+          ></Column>
+          <Column
+            field="downloadsApple"
+            header={
+              <div>
+                <DownloadIcon />
+                <Apple />
+              </div>
+            }
+            align="center"
+            body={downloadAppleTemplate}
+          ></Column>
+          <Column header={<div>-----------</div>} />
+          <Column
+            field="revenueAndroid"
+            header={
+              <div>
+                <AttachMoneyIcon />
+                <Android />
+              </div>
+            }
+            align="center"
+            body={revenueAndroidTemplate2}
+          ></Column>
+          <Column
+            field="revenueApple"
+            header={
+              <div>
+                <AttachMoneyIcon />
+                <Apple />
+              </div>
+            }
+            align="center"
+            body={revenueAppleTemplate2}
+          ></Column>
+          <Column
+            field="downloadsAndroid"
+            header={
+              <div>
+                <DownloadIcon />
+                <Android />
+              </div>
+            }
+            align="center"
+            body={downloadAndroidTemplate2}
+          ></Column>
+          <Column
+            field="downloadsApple"
+            header={
+              <div>
+                <DownloadIcon />
+                <Apple />
+              </div>
+            }
+            align="center"
+            body={downloadAppleTemplate2}
+          ></Column>
         </DataTable>
       </div>
     );
   };
   const allowExpansion = (rowData) => {
-    return Object.values(rowData.data)[0].expandData.length > 0;
+    return rowData.expandData.length > 0;
   };
 
   const header = renderHeader();
@@ -501,7 +266,7 @@ export default function ChartTable() {
       <DataTable
         size="small"
         stripedRows
-        value={gachaData}
+        value={gameData}
         headerColumnGroup={headerGroup}
         filters={filters}
         scrollable
@@ -517,36 +282,37 @@ export default function ChartTable() {
         }}
       >
         <Column expander={allowExpansion} style={{ width: "5rem" }} />
-        <Column field="name" body={gameNameTemplate} />
+        <Column
+          field="name"
+          body={gameNameTemplate}
+          style={{ width: "200px" }}
+        />
         <Column field="name" />
-        <Column field="server" />
-        {/* <Column field="downloadsAndroid" />
-        <Column field="downloadsApple" />
-        <Column field="revenueAndroid" body={revenueAndroidTemplate} />
-        <Column field="revenueApple" body={revenueAppleTemplate} /> */}
-        {dates.map((month, index) => {
-          console.log(index);
-          if (index % 2 === 0 || index === 0) {
-            return <Column field="downloads" body={formatDownloads} />;
-          } else {
-            return <Column field="revenue" body={textColorRevenue} />;
-          }
-        })}
-        {dates.map((month, index) => {
-          console.log(index);
-          if (index % 2 === 0 || index === 0) {
-            return <Column field="revenue" body={textColorRevenue} />;
-          } else {
-            return <Column field="downloads" body={formatDownloads} />;
-          }
-        })}
-        {/* 
-        <Column field="downloads" body={formatDownloads} />
+        <Column field="server" body={serverTemplate} />
+        <Column
+          field="downloads"
+          body={formatDownloads}
+          sortable
+          align="center"
+        />
         <Column
           field="revenue"
           body={textColorRevenue}
-          headerStyle="text-align: right"
-        /> */}
+          sortable
+          align="center"
+        />
+        <Column
+          field="downloads"
+          body={formatDownloads2}
+          sortable
+          align="center"
+        />
+        <Column
+          field="revenue"
+          body={textColorRevenue2}
+          sortable
+          align="center"
+        />
       </DataTable>
     </div>
   );
