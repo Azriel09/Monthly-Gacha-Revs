@@ -8,8 +8,13 @@
   align-items: center;
   flex-direction: row;
 }
-
+.p-datatable-wrapper {
+  font-size: 1.2em;
+}
 .p-datatable-tbody {
+  td {
+    padding: 5px !important;
+  }
   [role="row"] {
     [role="cell"]:nth-child(6),
     [role="cell"]:nth-child(5),
