@@ -1,3 +1,18 @@
+.table-header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-around;
+}
+.select {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 20px;
+  font-family: "Encode Sans Condensed";
+  letter-spacing: 2px;
+}
+
 .p-datatable-header {
   text-align: center;
 }
@@ -11,9 +26,27 @@
 .p-datatable-wrapper {
   font-size: 1.2em;
 }
+.p-datatable-row-expansion {
+  td {
+    div {
+      div {
+        div {
+          table {
+            tbody {
+              tr {
+                height: 40px;
+                background-color: #17212f !important;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
 .p-datatable-tbody {
   td {
-    padding: 5px !important;
+    padding: 0 !important;
   }
   [role="row"] {
     [role="cell"]:nth-child(6),

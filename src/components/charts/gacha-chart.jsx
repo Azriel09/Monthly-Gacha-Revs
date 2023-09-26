@@ -3,7 +3,7 @@ import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
 import { ColumnGroup } from "primereact/columngroup";
 import { Row } from "primereact/row";
-// import "./custom-primereact-table-theme.css";
+
 import "primereact/resources/primereact.css";
 import DownloadIcon from "@mui/icons-material/Download";
 import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
@@ -12,132 +12,60 @@ import Android from "@mui/icons-material/Android";
 import { FilterMatchMode } from "primereact/api";
 import { InputText } from "primereact/inputtext";
 import GetData from "../../hooks/data-fetch";
-import {
-  revenueAndroidTemplate,
-  revenueAndroidTemplate2,
-  downloadAndroidTemplate,
-  downloadAndroidTemplate2,
-  revenueAppleTemplate,
-  revenueAppleTemplate2,
-  downloadAppleTemplate,
-  downloadAppleTemplate2,
-  gameNameTemplate,
-  formatDownloads,
-  formatDownloads2,
-  textColorRevenue,
-  textColorRevenue2,
-  serverTemplate,
-} from "./formatting";
+import TableTemplates from "./formatting";
 import "./gacha-chart.scss";
-
 import Apple from "@mui/icons-material/Apple";
+import { useMonthState } from "../../context/month-context";
+import MonthSelector from "./month-selector";
+import Loading from "../loading";
 export default function ChartTable() {
+  // TEMPLATING/FORMATTING
+  const {
+    revenueAndroidTemplate,
+    revenueAndroidTemplate2,
+    downloadAndroidTemplate,
+    downloadAndroidTemplate2,
+    revenueAppleTemplate,
+    revenueAppleTemplate2,
+    downloadAppleTemplate,
+    downloadAppleTemplate2,
+    gameNameTemplate,
+    formatDownloads,
+    formatDownloads2,
+    textColorRevenue,
+    textColorRevenue2,
+    serverTemplate,
+  } = TableTemplates();
   const months = [
-    "January",
-    "February",
-    "March",
-    "April",
-    "May",
-    "June",
-    "July",
-    "August",
-    "September",
-    "October",
-    "November",
-    "December",
+    "August 2023",
+    "July 2023",
+    "June 2023",
+    "May 2023",
+    "April 2023",
+    "March 2023",
+    "February 2023",
+    "January 2023",
   ];
+  const { selectedMonth, setSelectedMonth } = useMonthState();
 
-  let currentYear = new Date().getFullYear();
-  let currentMonth = months[new Date().getMonth() - 1];
-  let previousMonth = months[new Date().getMonth() - 2];
-
-  // FOR SEARCH
+  // FOR SEARCH FEATURE
   const [filters, setFilters] = useState({
     global: { value: null, matchMode: FilterMatchMode.CONTAINS },
     product: { value: null, matchMode: FilterMatchMode.STARTS_WITH },
   });
   const [globalFilterValue, setGlobalFilterValue] = useState("");
-
-  // FOR COLLAPSING/EXPANDING ROWS
-  const [expandedRows, setExpandedRows] = useState(null);
-
-  const expandAll = () => {
-    let _expandedRows = {};
-
-    products.forEach((p) => (_expandedRows[`${p.id}`] = true));
-
-    setExpandedRows(_expandedRows);
-  };
-
-  const collapseAll = () => {
-    setExpandedRows(null);
-  };
-
-  // REACT-QUERY
-  // const { status, data, error, isFetching } = GetData();
-  const [gameData, setGameData] = useState([
-    {
-      id: 1,
-      name: "Genshin Impact",
-      server: "global",
-      downloads: [2900000, 2700000],
-      revenue: [18000000, 32000000],
-      expandData: [
-        {
-          revenueAndroid: [900000, 14000000],
-          revenueApple: [18000000, 18000000],
-          downloadsAndroid: [2000000, 2000000],
-          downloadsApple: [15000000, 700000],
-        },
-      ],
-    },
-    {
-      id: 2,
-      name: "Honkai Star Rail",
-      server: "global",
-      downloads: [1600000, 1600000],
-      revenue: [50000000, 41000000],
-      expandData: [
-        {
-          revenueAndroid: [17000000, 19000000],
-          revenueApple: [31000000, 22000000],
-          downloadsAndroid: [1000000, 1000000],
-          downloadsApple: [600000, 600000],
-        },
-      ],
-    },
-  ]);
-
-  const headerGroup = (
-    <ColumnGroup>
-      <Row>
-        <Column header="" rowSpan={2} />
-        <Column header="" rowSpan={2} />
-        <Column header="Name" rowSpan={2} />
-        <Column header="Server" rowSpan={2} />
-
-        <Column header="Month" colSpan={2} />
-        <Column header="Month" colSpan={2} />
-      </Row>
-      <Row>
-        <Column header={<Download />} sortable field="downloads" />
-        <Column header={<AttachMoneyIcon />} sortable field="revenue" />
-        <Column header={<Download />} sortable field="downloads" />
-        <Column header={<AttachMoneyIcon />} sortable field="revenue" />
-      </Row>
-    </ColumnGroup>
-  );
   const renderHeader = () => {
     return (
-      <div className="flex justify-content-end">
-        <span className="p-input-icon-left">
-          <i className="pi pi-search" />
-          <InputText
-            value={globalFilterValue}
-            onChange={onGlobalFilterChange}
-            placeholder="Game Search"
-          />
-        </span>
+      <div className="table-header">
+        <InputText
+          value={globalFilterValue}
+          onChange={onGlobalFilterChange}
+          placeholder="Game Search"
+        />
+        <div className="select">
+          <h3>Select Month</h3>
+          <MonthSelector />
+        </div>
       </div>
     );
   };
@@ -151,12 +79,142 @@ export default function ChartTable() {
     setGlobalFilterValue(value);
   };
 
-  // DATA FORMATTING
+  // FOR COLLAPSING/EXPANDING ROWS
+  const [expandedRows, setExpandedRows] = useState(null);
 
+  // REACT-QUERY
+  const { status, data, error, isFetching } = GetData();
+  if (status === "loading") {
+    return <Loading />;
+  }
+
+  const filteredData = data.filter(function (el) {
+    const threshold = selectedMonth + 1;
+
+    return el.downloads.length > threshold;
+  });
+
+  console.log(filteredData);
+  // COLUMN HEADER FORMAT/TEMPLATE
+  const headerGroup = (
+    <ColumnGroup>
+      <Row>
+        <Column header="" rowSpan={2} />
+        <Column header="" rowSpan={2} />
+        <Column header="Game" rowSpan={2} />
+        <Column header="Server" rowSpan={2} />
+
+        <Column header={months[selectedMonth]} colSpan={2} />
+        <Column header={months[selectedMonth + 1]} colSpan={2} />
+      </Row>
+      <Row>
+        <Column header={<Download />} sortable field="downloads" />
+        <Column header={<AttachMoneyIcon />} sortable field="revenue" />
+        <Column header={<Download />} sortable field="downloads" />
+        <Column header={<AttachMoneyIcon />} sortable field="revenue" />
+      </Row>
+    </ColumnGroup>
+  );
+
+  // EXPANDED COLUMN GROUP HEADER FORMAT/TEMPLATE
+  const rowExpansionHeaderGroup = (
+    <ColumnGroup>
+      <Row>
+        <Column header={months[selectedMonth]} colSpan={4} />
+        <Column header="" />
+        <Column header={months[selectedMonth + 1]} colSpan={4} />
+      </Row>
+      <Row>
+        <Column
+          field="revenueAndroid"
+          header={
+            <div>
+              <AttachMoneyIcon />
+              <Android />
+            </div>
+          }
+          style={{ width: "10%" }}
+        ></Column>
+        <Column
+          field="revenueApple"
+          header={
+            <div>
+              <AttachMoneyIcon />
+              <Apple />
+            </div>
+          }
+          style={{ width: "10%" }}
+        ></Column>
+        <Column
+          field="downloadsAndroid"
+          header={
+            <div>
+              <DownloadIcon />
+              <Android />
+            </div>
+          }
+          style={{ width: "10%" }}
+        ></Column>
+        <Column
+          field="downloadsApple"
+          header={
+            <div>
+              <DownloadIcon />
+              <Apple />
+            </div>
+          }
+          style={{ width: "10%" }}
+        ></Column>
+        <Column header={<div>-----------</div>} />
+        <Column
+          field="revenueAndroid"
+          header={
+            <div>
+              <AttachMoneyIcon />
+              <Android />
+            </div>
+          }
+          style={{ width: "10%" }}
+        ></Column>
+        <Column
+          field="revenueApple"
+          header={
+            <div>
+              <AttachMoneyIcon />
+              <Apple />
+            </div>
+          }
+          style={{ width: "10%" }}
+        ></Column>
+        <Column
+          field="downloadsAndroid"
+          header={
+            <div>
+              <DownloadIcon />
+              <Android />
+            </div>
+          }
+          style={{ width: "10%" }}
+        ></Column>
+        <Column
+          field="downloadsApple"
+          header={
+            <div>
+              <DownloadIcon />
+              <Apple />
+            </div>
+          }
+          style={{ width: "10%" }}
+        ></Column>
+      </Row>
+    </ColumnGroup>
+  );
+  // EXPANDED COLUMN HEADER FORMAT/TEMPLATE
   const rowExpansionTemplate = (data) => {
     return (
-      <div style={{}}>
+      <div>
         <DataTable
+          headerColumnGroup={rowExpansionHeaderGroup}
           value={data.expandData}
           tableStyle={{
             overflow: "hidden",
@@ -165,108 +223,90 @@ export default function ChartTable() {
         >
           <Column
             field="revenueAndroid"
-            header={
-              <div>
-                <AttachMoneyIcon />
-                <Android />
-              </div>
-            }
-            align="center"
             body={revenueAndroidTemplate}
+            align="center"
           ></Column>
           <Column
             field="revenueApple"
-            header={
-              <div>
-                <AttachMoneyIcon />
-                <Apple />
-              </div>
-            }
-            align="center"
             body={revenueAppleTemplate}
+            align="center"
           ></Column>
           <Column
             field="downloadsAndroid"
-            header={
-              <div>
-                <DownloadIcon />
-                <Android />
-              </div>
-            }
-            align="center"
             body={downloadAndroidTemplate}
+            align="center"
           ></Column>
           <Column
             field="downloadsApple"
-            header={
-              <div>
-                <DownloadIcon />
-                <Apple />
-              </div>
-            }
-            align="center"
             body={downloadAppleTemplate}
+            align="center"
           ></Column>
-          <Column header={<div>-----------</div>} />
+          <Column />
           <Column
             field="revenueAndroid"
-            header={
-              <div>
-                <AttachMoneyIcon />
-                <Android />
-              </div>
-            }
-            align="center"
             body={revenueAndroidTemplate2}
+            align="center"
           ></Column>
           <Column
             field="revenueApple"
-            header={
-              <div>
-                <AttachMoneyIcon />
-                <Apple />
-              </div>
-            }
-            align="center"
             body={revenueAppleTemplate2}
+            align="center"
           ></Column>
           <Column
             field="downloadsAndroid"
-            header={
-              <div>
-                <DownloadIcon />
-                <Android />
-              </div>
-            }
-            align="center"
             body={downloadAndroidTemplate2}
+            align="center"
           ></Column>
           <Column
             field="downloadsApple"
-            header={
-              <div>
-                <DownloadIcon />
-                <Apple />
-              </div>
-            }
-            align="center"
             body={downloadAppleTemplate2}
+            align="center"
           ></Column>
         </DataTable>
       </div>
     );
   };
+  // WILL ONLY ALLOW EXPANSION IF THERE'S DATA IN THE ASSIGNED SOURCE OF ROW EXPANSION DATA
   const allowExpansion = (rowData) => {
     return rowData.expandData.length > 0;
   };
 
   const header = renderHeader();
+  const osafg = {
+    id: 3,
+    name: "Fate/Grand Order",
+    server: "japan",
+    downloads: [130000, 120000, 110000, 210000, 120000, 120000, 120000, 120000],
+    revenue: [
+      56000000, 27000000, 23000000, 29000000, 30000000, 21000000, 47000000,
+      37000000,
+    ],
+    expandData: [
+      {
+        revenueAndroid: [
+          17000000, 13000000, 11000000, 14000000, 12000000, 11000000, 23000000,
+          19000000,
+        ],
+        revenueApple: [
+          39000000, 14000000, 12000000, 15000000, 18000000, 10000000, 24000000,
+          18000000,
+        ],
+        downloadsAndroid: [
+          100000, 100000, 100000, 200000, 100000, 100000, 100000, 100000,
+        ],
+        downloadsApple: [
+          30000, 20000, 10000, 10000, 20000, 20000, 20000, 20000,
+        ],
+      },
+    ],
+  };
   return (
     <div className="card">
       <DataTable
         size="small"
+        lazy
         stripedRows
-        value={gameData}
+        value={filteredData}
         headerColumnGroup={headerGroup}
         filters={filters}
         scrollable
@@ -287,7 +327,7 @@ export default function ChartTable() {
           body={gameNameTemplate}
           style={{ width: "200px" }}
         />
-        <Column field="name" />
+        <Column field="name" style={{ fontFamily: "Encode Sans Condensed" }} />
         <Column field="server" body={serverTemplate} />
         <Column
           field="downloads"
