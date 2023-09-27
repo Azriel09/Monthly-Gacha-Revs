@@ -3,7 +3,6 @@ import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
 import { ColumnGroup } from "primereact/columngroup";
 import { Row } from "primereact/row";
-
 import "primereact/resources/primereact.css";
 import DownloadIcon from "@mui/icons-material/Download";
 import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
@@ -13,12 +12,12 @@ import { FilterMatchMode } from "primereact/api";
 import { InputText } from "primereact/inputtext";
 import GetData from "../../hooks/data-fetch";
 import TableTemplates from "./formatting";
-import "./gacha-chart.scss";
+import "./gacha-table-styles.scss";
 import Apple from "@mui/icons-material/Apple";
 import { useMonthState } from "../../context/month-context";
 import MonthSelector from "./month-selector";
 import Loading from "../loading";
-export default function ChartTable() {
+export default function GachaTable() {
   const { selectedMonth } = useMonthState();
   const [sortOrder, setSortOrder] = useState(1);
 
@@ -50,7 +49,6 @@ export default function ChartTable() {
     "January 2023",
   ];
 
-  const [gameData, setGameData] = useState();
   // FOR SEARCH FEATURE
   const [filters, setFilters] = useState({
     global: { value: null, matchMode: FilterMatchMode.CONTAINS },
@@ -93,7 +91,7 @@ export default function ChartTable() {
 
   // FILTER TO HIDE GAMES THAT DONT HAVE A DATA DURING A SPECIFIC MONTH
   const filteredData = data.filter(function (el) {
-    const threshold = selectedMonth + 1;
+    const threshold = selectedMonth;
 
     return el.downloads.length > threshold;
   });

@@ -41,7 +41,7 @@ function App() {
         <MonthProvider>
           <Routes>
             <Route path="/" element={<NavBar mode={mode} />}>
-              <Route index element={<Home theme={themes} mode={mode} />} />
+              <Route index element={<Home />} />
               <Route path="charts" element={<Charts />} />
               <Route path="about" element={<About />} />
               <Route

@@ -6,7 +6,7 @@ import { ReactComponent as ChinaLogo } from "../../assets/icons/china.svg";
 import { ReactComponent as JapanLogo } from "../../assets/icons/japan.svg";
 import { ReactComponent as GlobalLogo } from "../../assets/icons/global.svg";
 import "primereact/resources/primereact.css";
-import "./gacha-chart.scss";
+import "./gacha-table-styles.scss";
 import "./formatting-styles.scss";
 import { useState } from "react";
 
@@ -14,32 +14,64 @@ function TableTemplates() {
   const [selectedMonth, setSelectedMonth] = useState(0);
 
   const revenueAndroidTemplate = (rowData) => {
-    return formatCurrency(rowData.revenueAndroid[selectedMonth]);
+    const value = rowData.revenueAndroid[selectedMonth];
+    if (!value) {
+      return "-";
+    }
+    return formatCurrency(value);
   };
 
   const revenueAppleTemplate = (rowData) => {
-    return formatCurrency(rowData.revenueApple[selectedMonth]);
+    const value = rowData.revenueApple[selectedMonth];
+    if (!value) {
+      return "-";
+    }
+    return formatCurrency();
   };
 
   const downloadAndroidTemplate = (rowData) => {
-    return rowData.downloadsAndroid[selectedMonth].toLocaleString();
+    const value = rowData.downloadsAndroid[selectedMonth];
+    if (!value) {
+      return "-";
+    }
+    return value.toLocaleString();
   };
   const downloadAppleTemplate = (rowData) => {
-    return rowData.downloadsApple[selectedMonth].toLocaleString();
+    const value = rowData.downloadsApple[selectedMonth];
+    if (!value) {
+      return "-";
+    }
+    return value.toLocaleString();
   };
   const revenueAndroidTemplate2 = (rowData) => {
-    return formatCurrency(rowData.revenueAndroid[selectedMonth + 1]);
+    const value = rowData.revenueAndroid[selectedMonth + 1];
+    if (!value) {
+      return "-";
+    }
+    return formatCurrency(value);
   };
 
   const revenueAppleTemplate2 = (rowData) => {
-    return formatCurrency(rowData.revenueApple[selectedMonth + 1]);
+    const value = rowData.revenueApple[selectedMonth + 1];
+    if (!value) {
+      return "-";
+    }
+    return formatCurrency(value);
   };
 
   const downloadAndroidTemplate2 = (rowData) => {
-    return rowData.downloadsAndroid[selectedMonth + 1].toLocaleString();
+    const value = rowData.downloadsAndroid[selectedMonth + 1];
+    if (!value) {
+      return "-";
+    }
+    return value.toLocaleString();
   };
   const downloadAppleTemplate2 = (rowData) => {
-    return rowData.downloadsApple[selectedMonth + 1].toLocaleString();
+    const value = rowData.downloadsApple[selectedMonth + 1];
+    if (!value) {
+      return "-";
+    }
+    return value.toLocaleString();
   };
 
   // MAIN ROWS
@@ -48,6 +80,9 @@ function TableTemplates() {
     const downloads2 = rowData.downloads2;
     const formattedDownloads = downloads.toLocaleString();
 
+    if (!downloads2) {
+      return <span className="nochange value">{formattedDownloads}</span>;
+    }
     if (downloads === downloads2) {
       return <span className="nochange value">{formattedDownloads}</span>;
     } else if (downloads > downloads2) {
@@ -58,39 +93,35 @@ function TableTemplates() {
   };
 
   const formatDownloads2 = (rowData) => {
-    const downloads = rowData.downloads2.toLocaleString();
-    return downloads;
+    const value = rowData.downloads2;
+    if (!value) {
+      return "-";
+    }
+    return value.toLocaleString();
   };
 
   const textColorRevenue = (rowData) => {
     const revenue = rowData.revenue;
     const revenue2 = rowData.revenue2;
     const value = formatCurrency(revenue);
-
+    if (!revenue2) {
+      return <span className="nochange value">{value}</span>;
+    }
     if (revenue === revenue2) {
-      return (
-        <div>
-          <span className="nochange value">{value}</span>
-        </div>
-      );
+      return <span className="nochange value">{value}</span>;
     } else if (revenue > revenue2) {
-      return (
-        <div>
-          <span className="increase value">{value}</span>
-        </div>
-      );
+      return <span className="increase value">{value}</span>;
     } else {
-      return (
-        <div>
-          <span className="decrease value">{value}</span>
-        </div>
-      );
+      return <span className="decrease value">{value}</span>;
     }
   };
 
   const textColorRevenue2 = (rowData) => {
-    const value2 = formatCurrency(rowData.revenue2);
-    return value2;
+    const value = rowData.revenue2;
+    if (!value) {
+      return "-";
+    }
+    return formatCurrency(value);
   };
 
   const formatCurrency = (value) => {

@@ -1,5 +1,5 @@
 import { useMonthState } from "../../context/month-context";
-import { Box, InputLabel, MenuItem, FormControl, Select } from "@mui/material";
+import { MenuItem, FormControl, Select } from "@mui/material";
 export default function MonthSelector() {
   const { selectedMonth, setSelectedMonth } = useMonthState();
   const months = [

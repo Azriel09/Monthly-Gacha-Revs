@@ -1,6 +1,5 @@
-import HomeContainer from "../components/home/home-container";
+import GachaTableContainer from "../components/home/gacha-table-container";
 
-export default function Home({ theme, mode }) {
-  console.log(theme);
-  return <HomeContainer theme={theme} mode={mode} />;
+export default function Home() {
+  return <GachaTableContainer />;
 }
