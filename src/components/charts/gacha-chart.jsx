@@ -19,6 +19,9 @@ import { useMonthState } from "../../context/month-context";
 import MonthSelector from "./month-selector";
 import Loading from "../loading";
 export default function ChartTable() {
+  const { selectedMonth } = useMonthState();
+  const [sortOrder, setSortOrder] = useState(1);
+
   // TEMPLATING/FORMATTING
   const {
     revenueAndroidTemplate,
@@ -46,8 +49,8 @@ export default function ChartTable() {
     "February 2023",
     "January 2023",
   ];
-  const { selectedMonth, setSelectedMonth } = useMonthState();
 
+  const [gameData, setGameData] = useState();
   // FOR SEARCH FEATURE
   const [filters, setFilters] = useState({
     global: { value: null, matchMode: FilterMatchMode.CONTAINS },
@@ -88,20 +91,44 @@ export default function ChartTable() {
     return <Loading />;
   }
 
+  // FILTER TO HIDE GAMES THAT DONT HAVE A DATA DURING A SPECIFIC MONTH
   const filteredData = data.filter(function (el) {
     const threshold = selectedMonth + 1;
 
     return el.downloads.length > threshold;
   });
 
-  console.log(filteredData);
+  let indexesToKeep = [selectedMonth, selectedMonth + 1];
+
+  // FILTER TO ONLY KEEP THE SElecTED MONTH DATA AND THE MONTH BEFORE IT
+  // SORTING ONLY WORKS WITH THE INITIAL DATA
+  // IF DATA CHANGED, SORTING WONT WORK PROPERLY, SO THIS IS THE FIX
+  const filteredArray = filteredData.map((item) => ({
+    ...item,
+    downloads: indexesToKeep.map((index) => item.downloads[index]),
+    revenue: indexesToKeep.map((index) => item.revenue[index]),
+    expandData: item.expandData.map((subItem) => ({
+      ...subItem,
+      revenueAndroid: indexesToKeep.map(
+        (index) => subItem.revenueAndroid[index]
+      ),
+      revenueApple: indexesToKeep.map((index) => subItem.revenueApple[index]),
+      downloadsAndroid: indexesToKeep.map(
+        (index) => subItem.downloadsAndroid[index]
+      ),
+      downloadsApple: indexesToKeep.map(
+        (index) => subItem.downloadsApple[index]
+      ),
+    })),
+  }));
+
   // COLUMN HEADER FORMAT/TEMPLATE
   const headerGroup = (
     <ColumnGroup>
       <Row>
         <Column header="" rowSpan={2} />
         <Column header="" rowSpan={2} />
-        <Column header="Game" rowSpan={2} />
+        <Column header="Game" rowSpan={2} sortable sortField="name" />
         <Column header="Server" rowSpan={2} />
 
         <Column header={months[selectedMonth]} colSpan={2} />
@@ -110,8 +137,8 @@ export default function ChartTable() {
       <Row>
         <Column header={<Download />} sortable field="downloads" />
         <Column header={<AttachMoneyIcon />} sortable field="revenue" />
-        <Column header={<Download />} sortable field="downloads" />
-        <Column header={<AttachMoneyIcon />} sortable field="revenue" />
+        <Column header={<Download />} field="downloads" sortable />
+        <Column header={<AttachMoneyIcon />} field="revenue" sortable />
       </Row>
     </ColumnGroup>
   );
@@ -211,6 +238,7 @@ export default function ChartTable() {
   );
   // EXPANDED COLUMN HEADER FORMAT/TEMPLATE
   const rowExpansionTemplate = (data) => {
+    console.log(data);
     return (
       <div>
         <DataTable
@@ -273,40 +301,39 @@ export default function ChartTable() {
 
   const header = renderHeader();
   const osafg = {
-    id: 3,
-    name: "Fate/Grand Order",
-    server: "japan",
-    downloads: [130000, 120000, 110000, 210000, 120000, 120000, 120000, 120000],
+    id: 4,
+    name: "Honkai Impact 3rd",
+    server: "global",
+    downloads: [100000, 100000, 140000, 260000, 270000, 260000, 270000, 260000],
     revenue: [
-      56000000, 27000000, 23000000, 29000000, 30000000, 21000000, 47000000,
-      37000000,
+      1500000, 1300000, 800000, 1300000, 1400000, 1900000, 3000000, 1700000,
     ],
     expandData: [
       {
         revenueAndroid: [
-          17000000, 13000000, 11000000, 14000000, 12000000, 11000000, 23000000,
-          19000000,
+          800000, 700000, 400000, 700000, 700000, 1000000, 2000000, 1000000,
         ],
         revenueApple: [
-          39000000, 14000000, 12000000, 15000000, 18000000, 10000000, 24000000,
-          18000000,
+          700000, 600000, 400000, 600000, 700000, 900000, 1000000, 700000,
         ],
         downloadsAndroid: [
-          100000, 100000, 100000, 200000, 100000, 100000, 100000, 100000,
+          100000, 100000, 140000, 260000, 270000, 260000, 270000, 260000,
         ],
         downloadsApple: [
-          30000, 20000, 10000, 10000, 20000, 20000, 20000, 20000,
+          40000, 40000, 40000, 60000, 70000, 60000, 70000, 60000,
         ],
       },
     ],
   };
+
+  // SET INITIAL SORTING ORDER
+
   return (
     <div className="card">
       <DataTable
         size="small"
-        lazy
         stripedRows
-        value={filteredData}
+        value={filteredArray}
         headerColumnGroup={headerGroup}
         filters={filters}
         scrollable
@@ -327,32 +354,17 @@ export default function ChartTable() {
           body={gameNameTemplate}
           style={{ width: "200px" }}
         />
-        <Column field="name" style={{ fontFamily: "Encode Sans Condensed" }} />
+        <Column
+          field="name"
+          style={{ fontFamily: "Encode Sans Condensed" }}
+          sortable
+          sortField="name"
+        />
         <Column field="server" body={serverTemplate} />
-        <Column
-          field="downloads"
-          body={formatDownloads}
-          sortable
-          align="center"
-        />
-        <Column
-          field="revenue"
-          body={textColorRevenue}
-          sortable
-          align="center"
-        />
-        <Column
-          field="downloads"
-          body={formatDownloads2}
-          sortable
-          align="center"
-        />
-        <Column
-          field="revenue"
-          body={textColorRevenue2}
-          sortable
-          align="center"
-        />
+        <Column field="downloads" body={formatDownloads} align="center" />
+        <Column field="revenue" body={textColorRevenue} align="center" />
+        <Column field="downloads" body={formatDownloads2} align="center" />
+        <Column field="revenue" body={textColorRevenue2} align="center" />
       </DataTable>
     </div>
   );
