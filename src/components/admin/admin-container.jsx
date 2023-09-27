@@ -1,9 +1,10 @@
-import { Box, Button, Typography, Modal } from "@mui/material";
-import HomeContainer from "../home/home-container";
+import { Box, Button, Typography } from "@mui/material";
+
 import AddIcon from "@mui/icons-material/Add";
 import { useState } from "react";
 import ModalContainer from "./modal-container";
 import { StyledEngineProvider } from "@mui/material/styles";
+import GachaTableContainer from "../home/gacha-table-container";
 export default function AdminContainer({ theme, mode }) {
   const [isModal, setIsModal] = useState(false);
   const handleOpen = () => setIsModal(true);
@@ -24,7 +25,7 @@ export default function AdminContainer({ theme, mode }) {
         <Typography sx={{ color: "white" }}>Add an item</Typography>
       </Button>
 
-      <HomeContainer theme={theme} mode={mode} />
+      <GachaTableContainer />
       <StyledEngineProvider injectFirst>
         <ModalContainer open={isModal} closeModal={handleClose} />
       </StyledEngineProvider>

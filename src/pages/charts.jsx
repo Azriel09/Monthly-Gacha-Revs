@@ -1,9 +1,9 @@
-import GachaChartContainer from "../components/charts/chart-container";
+import GachaTableContainer from "../components/home/gacha-table-container";
 
 export default function Chart() {
   return (
     <>
-      <GachaChartContainer />
+      <h1>Charts</h1>
     </>
   );
 }
