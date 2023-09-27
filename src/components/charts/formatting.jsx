@@ -9,13 +9,10 @@ import "primereact/resources/primereact.css";
 import "./gacha-chart.scss";
 import "./formatting-styles.scss";
 import { useState } from "react";
-import { useMonthState } from "../../context/month-context";
-// import { useMonthState } from "../../context/month-context";
 
 function TableTemplates() {
-  const { selectedMonth, setSelectedMonth } = useMonthState();
+  const [selectedMonth, setSelectedMonth] = useState(0);
 
-  // ROWS EXPANDED
   const revenueAndroidTemplate = (rowData) => {
     return formatCurrency(rowData.revenueAndroid[selectedMonth]);
   };
@@ -52,23 +49,11 @@ function TableTemplates() {
     const formattedDownloads = downloads.toLocaleString();
 
     if (downloads === downloads2) {
-      return (
-        <div>
-          <span className="nochange value">{formattedDownloads}</span>
-        </div>
-      );
+      return <span className="nochange value">{formattedDownloads}</span>;
     } else if (downloads > downloads2) {
-      return (
-        <div>
-          <span className="increase value">{formattedDownloads}</span>
-        </div>
-      );
+      return <span className="increase value">{formattedDownloads}</span>;
     } else {
-      return (
-        <div>
-          <span className="decrease value">{formattedDownloads}</span>
-        </div>
-      );
+      return <span className="decrease value">{formattedDownloads}</span>;
     }
   };
 

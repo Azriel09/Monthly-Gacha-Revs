@@ -4,7 +4,7 @@ export const MonthContext = createContext();
 
 export function MonthProvider({ children }) {
   const [selectedMonth, setSelectedMonth] = useState(0);
-  console.log(selectedMonth);
+
   return (
     <MonthContext.Provider value={{ selectedMonth, setSelectedMonth }}>
       {children}

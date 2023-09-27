@@ -7,7 +7,6 @@ const GetData = () => {
     queryFn: () => {
       const data = fetch("http://localhost:8000/games").then((res) =>
         res.json(res).then((resdata) => {
-          console.log(resdata);
           return resdata;
         })
       );
