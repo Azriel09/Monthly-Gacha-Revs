@@ -44,8 +44,8 @@ function TableTemplates() {
 
   // MAIN ROWS
   const formatDownloads = (rowData) => {
-    const downloads = rowData.downloads[selectedMonth];
-    const downloads2 = rowData.downloads[selectedMonth + 1];
+    const downloads = rowData.downloads;
+    const downloads2 = rowData.downloads2;
     const formattedDownloads = downloads.toLocaleString();
 
     if (downloads === downloads2) {
@@ -58,13 +58,13 @@ function TableTemplates() {
   };
 
   const formatDownloads2 = (rowData) => {
-    const downloads = rowData.downloads[selectedMonth + 1].toLocaleString();
+    const downloads = rowData.downloads2.toLocaleString();
     return downloads;
   };
 
   const textColorRevenue = (rowData) => {
-    const revenue = rowData.revenue[selectedMonth];
-    const revenue2 = rowData.revenue[selectedMonth + 1];
+    const revenue = rowData.revenue;
+    const revenue2 = rowData.revenue2;
     const value = formatCurrency(revenue);
 
     if (revenue === revenue2) {
@@ -89,7 +89,7 @@ function TableTemplates() {
   };
 
   const textColorRevenue2 = (rowData) => {
-    const value2 = formatCurrency(rowData.revenue[selectedMonth + 1]);
+    const value2 = formatCurrency(rowData.revenue2);
     return value2;
   };
 

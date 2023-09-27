@@ -103,24 +103,36 @@ export default function ChartTable() {
   // FILTER TO ONLY KEEP THE SElecTED MONTH DATA AND THE MONTH BEFORE IT
   // SORTING ONLY WORKS WITH THE INITIAL DATA
   // IF DATA CHANGED, SORTING WONT WORK PROPERLY, SO THIS IS THE FIX
-  const filteredArray = filteredData.map((item) => ({
-    ...item,
-    downloads: indexesToKeep.map((index) => item.downloads[index]),
-    revenue: indexesToKeep.map((index) => item.revenue[index]),
-    expandData: item.expandData.map((subItem) => ({
-      ...subItem,
-      revenueAndroid: indexesToKeep.map(
-        (index) => subItem.revenueAndroid[index]
-      ),
-      revenueApple: indexesToKeep.map((index) => subItem.revenueApple[index]),
-      downloadsAndroid: indexesToKeep.map(
-        (index) => subItem.downloadsAndroid[index]
-      ),
-      downloadsApple: indexesToKeep.map(
-        (index) => subItem.downloadsApple[index]
-      ),
-    })),
-  }));
+  const filteredArray = filteredData.map((item) => {
+    const transformedObject = {
+      id: item.id,
+      name: item.name,
+      server: item.server,
+      downloads: item.downloads[selectedMonth],
+      downloads2: item.downloads[selectedMonth + 1],
+      revenue: item.revenue[selectedMonth],
+      revenue2: item.revenue[selectedMonth + 1],
+      expandData: item.expandData.map((subItem) => ({
+        revenueAndroid: [
+          subItem.revenueAndroid[selectedMonth],
+          subItem.revenueAndroid[selectedMonth + 1],
+        ],
+        revenueApple: [
+          subItem.revenueApple[selectedMonth],
+          subItem.revenueApple[selectedMonth + 1],
+        ],
+        downloadsAndroid: [
+          subItem.downloadsAndroid[selectedMonth],
+          subItem.downloadsAndroid[selectedMonth + 1],
+        ],
+        downloadsApple: [
+          subItem.downloadsApple[selectedMonth],
+          subItem.downloadsApple[selectedMonth + 1],
+        ],
+      })),
+    };
+    return transformedObject;
+  });
 
   // COLUMN HEADER FORMAT/TEMPLATE
   const headerGroup = (
@@ -137,8 +149,8 @@ export default function ChartTable() {
       <Row>
         <Column header={<Download />} sortable field="downloads" />
         <Column header={<AttachMoneyIcon />} sortable field="revenue" />
-        <Column header={<Download />} field="downloads" sortable />
-        <Column header={<AttachMoneyIcon />} field="revenue" sortable />
+        <Column header={<Download />} field="downloads2" sortable />
+        <Column header={<AttachMoneyIcon />} field="revenue2" sortable />
       </Row>
     </ColumnGroup>
   );
@@ -363,8 +375,8 @@ export default function ChartTable() {
         <Column field="server" body={serverTemplate} />
         <Column field="downloads" body={formatDownloads} align="center" />
         <Column field="revenue" body={textColorRevenue} align="center" />
-        <Column field="downloads" body={formatDownloads2} align="center" />
-        <Column field="revenue" body={textColorRevenue2} align="center" />
+        <Column field="downloads2" body={formatDownloads2} align="center" />
+        <Column field="revenue2" body={textColorRevenue2} align="center" />
       </DataTable>
     </div>
   );
