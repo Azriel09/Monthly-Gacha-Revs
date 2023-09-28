@@ -1,6 +1,13 @@
 .value {
-  padding: 5px 15px;
+  font-size: 25px;
+}
+.value-wrapper {
+  width: 100%;
+  padding: 5px;
+
   border-radius: 10px;
+  margin-left: auto;
+  margin-right: auto;
 }
 .increase {
   background-color: #6ed7d3;

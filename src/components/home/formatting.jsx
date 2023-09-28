@@ -81,14 +81,30 @@ function TableTemplates() {
     const formattedDownloads = downloads.toLocaleString();
 
     if (!downloads2) {
-      return <span className="nochange value">{formattedDownloads}</span>;
+      return (
+        <div className="value-wrapper nochange">
+          <span className=" value">{formattedDownloads}</span>
+        </div>
+      );
     }
     if (downloads === downloads2) {
-      return <span className="nochange value">{formattedDownloads}</span>;
+      return (
+        <div className="value-wrapper nochange">
+          <span className=" value">{formattedDownloads}</span>
+        </div>
+      );
     } else if (downloads > downloads2) {
-      return <span className="increase value">{formattedDownloads}</span>;
+      return (
+        <div className="value-wrapper increase">
+          <span className=" value">{formattedDownloads}</span>
+        </div>
+      );
     } else {
-      return <span className="decrease value">{formattedDownloads}</span>;
+      return (
+        <div className="value-wrapper decrease">
+          <span className=" value">{formattedDownloads}</span>
+        </div>
+      );
     }
   };
 
@@ -105,14 +121,30 @@ function TableTemplates() {
     const revenue2 = rowData.revenue2;
     const value = formatCurrency(revenue);
     if (!revenue2) {
-      return <span className="nochange value">{value}</span>;
+      return (
+        <div className="value-wrapper nochange">
+          <span className=" value">{value}</span>
+        </div>
+      );
     }
     if (revenue === revenue2) {
-      return <span className="nochange value">{value}</span>;
+      return (
+        <div className="value-wrapper nochange">
+          <span className=" value">{value}</span>
+        </div>
+      );
     } else if (revenue > revenue2) {
-      return <span className="increase value">{value}</span>;
+      return (
+        <div className="value-wrapper increase">
+          <span className=" value">{value}</span>
+        </div>
+      );
     } else {
-      return <span className="decrease value">{value}</span>;
+      return (
+        <div className="value-wrapper decrease">
+          <span className=" value">{value}</span>
+        </div>
+      );
     }
   };
 
