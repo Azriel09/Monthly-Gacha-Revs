@@ -25,15 +25,28 @@ export default function ToolbarContainer({
   const leftToolbarTemplate = () => {
     return (
       <Fragment>
-        <ToggleButton onClick={handleShow} sx={{ border: 0 }} value="show">
+        <ToggleButton
+          onClick={handleShow}
+          sx={{ border: 0, width: "350px" }}
+          value="show"
+        >
           {!showAll ? (
-            <VisibilityOffIcon sx={{ color: "#16d6fa" }} />
+            <VisibilityOffIcon
+              sx={{ color: "#16d6fa", width: "40px", height: "40px" }}
+            />
           ) : (
-            <RemoveRedEyeIcon sx={{ color: "#16d6fa" }} />
+            <RemoveRedEyeIcon
+              sx={{ color: "#16d6fa", width: "40px", height: "40px" }}
+            />
           )}
         </ToggleButton>
       </Fragment>
     );
   };
-  return <Toolbar start={leftToolbarTemplate}></Toolbar>;
+  return (
+    <Toolbar
+      start={leftToolbarTemplate}
+      style={{ padding: 0, border: 0 }}
+    ></Toolbar>
+  );
 }

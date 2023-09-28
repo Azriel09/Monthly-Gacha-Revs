@@ -2,7 +2,7 @@
   display: flex;
   flex-direction: row;
   align-items: center;
-  justify-content: space-around;
+  justify-content: space-evenly;
 }
 .select {
   display: flex;
@@ -11,6 +11,7 @@
   gap: 20px;
   font-family: "Encode Sans Condensed";
   letter-spacing: 2px;
+  width: 350px;
 }
 
 .p-datatable-header {
@@ -46,6 +47,7 @@
 }
 .p-datatable-tbody {
   td {
+    padding: 0 0 0 10px !important;
   }
   [role="row"] {
     [role="cell"]:nth-child(6),

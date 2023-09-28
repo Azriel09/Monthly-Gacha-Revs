@@ -83,21 +83,7 @@ export default function GachaTable({
     product: { value: null, matchMode: FilterMatchMode.STARTS_WITH },
   });
   const [globalFilterValue, setGlobalFilterValue] = useState("");
-  const renderHeader = () => {
-    return (
-      <div className="table-header">
-        <InputText
-          value={globalFilterValue}
-          onChange={onGlobalFilterChange}
-          placeholder="Game Search"
-        />
-        <div className="select">
-          <h3>Select Month</h3>
-          <MonthSelector />
-        </div>
-      </div>
-    );
-  };
+
   const onGlobalFilterChange = (e) => {
     const value = e.target.value;
     let _filters = { ...filters };
@@ -110,8 +96,6 @@ export default function GachaTable({
 
   // FOR COLLAPSING/EXPANDING ROWS
   const [expandedRows, setExpandedRows] = useState(null);
-
-  // REACT-QUERY
 
   // COLUMN HEADER FORMAT/TEMPLATE
   const headerGroup = (
@@ -290,7 +274,6 @@ export default function GachaTable({
     return rowData.expandData.length > 0;
   };
 
-  const header = renderHeader();
   const osafg = {
     id: 4,
     name: "Honkai Impact 3rd",
@@ -339,18 +322,35 @@ export default function GachaTable({
     );
     !showAll ? setFilteredGames(filteredArray) : setFilteredGames(filter);
   };
+  const renderHeader = () => {
+    return (
+      <div className="table-header">
+        <ToolbarContainer
+          setShowAll={setShowAll}
+          showAll={showAll}
+          filteredGames={filteredGames}
+          handleShow={handleShow}
+          setFilteredGames={setFilteredGames}
+          hiddenGames={hiddenGames}
+          setHiddenGames={setHiddenGames}
+        />
+        <InputText
+          value={globalFilterValue}
+          onChange={onGlobalFilterChange}
+          placeholder="Game Search"
+          style={{ width: "250px" }}
+        />
+        <div className="select">
+          <h3>Select Month</h3>
+          <MonthSelector />
+        </div>
+      </div>
+    );
+  };
 
+  const header = renderHeader();
   return (
     <div className="card">
-      <ToolbarContainer
-        setShowAll={setShowAll}
-        showAll={showAll}
-        filteredGames={filteredGames}
-        handleShow={handleShow}
-        setFilteredGames={setFilteredGames}
-        hiddenGames={hiddenGames}
-        setHiddenGames={setHiddenGames}
-      />
       <DataTable
         size="small"
         stripedRows
@@ -369,7 +369,7 @@ export default function GachaTable({
         rowExpansionTemplate={rowExpansionTemplate}
         scrollHeight="80vh"
         tableStyle={{
-          minWidth: "100vw",
+          minWidth: "100%",
           fontSize: "1.2em",
         }}
       >
