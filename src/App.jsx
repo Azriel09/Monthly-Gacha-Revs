@@ -17,6 +17,7 @@ import "./global-styling.scss";
 import SwitchTheme from "./components/switch/switch-theme";
 import ThemeObject from "./global-styling";
 import { MonthProvider } from "./context/month-context";
+import { LocalStorageProvider } from "./context/local-storage";
 const queryClient = new QueryClient();
 
 function App() {
@@ -40,30 +41,32 @@ function App() {
       <QueryClientProvider client={queryClient}>
         <SwitchTheme theme={setMode} />
         <MonthProvider>
-          <Routes>
-            <Route path="/" element={<NavBar mode={mode} />}>
-              <Route index element={<Home />} />
-              <Route path="charts" element={<Charts />} />
-              <Route path="about" element={<About />} />
-              <Route
-                path="/admin"
-                element={
-                  <ProtectedRoutes>
-                    <Admin theme={themes} mode={mode} />
-                  </ProtectedRoutes>
-                }
-              />
-              <Route
-                path="auth"
-                element={
-                  <ProtectedRoutes>
-                    <Auth />
-                  </ProtectedRoutes>
-                }
-              />
-            </Route>
-            <Route path="login" element={<Login />} />
-          </Routes>
+          <LocalStorageProvider>
+            <Routes>
+              <Route path="/" element={<NavBar mode={mode} />}>
+                <Route index element={<Home />} />
+                <Route path="charts" element={<Charts />} />
+                <Route path="about" element={<About />} />
+                <Route
+                  path="/admin"
+                  element={
+                    <ProtectedRoutes>
+                      <Admin theme={themes} mode={mode} />
+                    </ProtectedRoutes>
+                  }
+                />
+                <Route
+                  path="auth"
+                  element={
+                    <ProtectedRoutes>
+                      <Auth />
+                    </ProtectedRoutes>
+                  }
+                />
+              </Route>
+              <Route path="login" element={<Login />} />
+            </Routes>
+          </LocalStorageProvider>
         </MonthProvider>
         {token ? (
           <ReactQueryDevtools initialIsOpen={true} position="bottom-right" />

@@ -16,14 +16,18 @@ import "./gacha-table-styles.scss";
 import Apple from "@mui/icons-material/Apple";
 import { useMonthState } from "../../context/month-context";
 import MonthSelector from "./month-selector";
-
 import ToolbarContainer from "./toolbar-container";
-export default function GachaTable({ filteredArray }) {
+
+export default function GachaTable({
+  filteredArray,
+  localStorageData,
+  setLocalStorageData,
+}) {
   const { selectedMonth } = useMonthState();
   const [showAll, setShowAll] = useState(false);
-  const [gamesID, setGamesID] = useState();
-  const [selectedGames, setSelectedGames] = useState(null);
+  const [selectedGames, setSelectedGames] = useState();
   const [filteredGames, setFilteredGames] = useState(filteredArray);
+  const [hiddenGames, setHiddenGames] = useState(localStorageData);
   // COLUMN TEMPLATING/FORMATTING
   const {
     revenueAndroidTemplate,
@@ -52,8 +56,25 @@ export default function GachaTable({ filteredArray }) {
     "February 2023",
     "January 2023",
   ];
+
   useEffect(() => {
-    setFilteredGames(filteredArray);
+    if (!hiddenGames) {
+      return;
+    }
+
+    // REMOVE GAMES THAT ARE SElecTED IN THE TABLE DATA
+    const filter = filteredArray.filter(
+      (game) => !hiddenGames.includes(game.id)
+    );
+
+    // TICKS THE CHECKBOX ON SElecTED GAMES BY DEFAULT
+    const selectedFilter = filteredArray.filter((game) =>
+      hiddenGames.includes(game.id)
+    );
+
+    setFilteredGames(filter);
+    setSelectedGames(selectedFilter);
+    setShowAll(false);
   }, [selectedMonth]);
 
   // FOR SEARCH FEATURE
@@ -296,16 +317,26 @@ export default function GachaTable({ filteredArray }) {
     ],
   };
   const handleSelectionChange = (e) => {
-    const games_selected = e.value.map((game) => {
-      return game.id;
-    });
-    setGamesID(games_selected);
-    setSelectedGames(e.value);
+    if (!e.value) {
+      setSelectedGames([]);
+      setFilteredGames(filteredArray);
+    } else {
+      const games_selected = e.value.map((game) => {
+        return game.id;
+      });
+
+      localStorage.setItem("gameList", JSON.stringify(games_selected));
+      setHiddenGames(games_selected);
+      setSelectedGames(e.value);
+    }
   };
 
   const handleShow = () => {
     setShowAll(!showAll);
-    const filter = filteredGames.filter((game) => !gamesID.includes(game.id));
+
+    const filter = filteredGames.filter(
+      (game) => !hiddenGames.includes(game.id)
+    );
     !showAll ? setFilteredGames(filteredArray) : setFilteredGames(filter);
   };
 
@@ -314,10 +345,11 @@ export default function GachaTable({ filteredArray }) {
       <ToolbarContainer
         setShowAll={setShowAll}
         showAll={showAll}
-        gamesID={gamesID}
         filteredGames={filteredGames}
         handleShow={handleShow}
         setFilteredGames={setFilteredGames}
+        hiddenGames={hiddenGames}
+        setHiddenGames={setHiddenGames}
       />
       <DataTable
         size="small"
@@ -339,7 +371,7 @@ export default function GachaTable({ filteredArray }) {
           fontSize: "1.2em",
         }}
       >
-        <Column selectionMode="multiple" exportable={true}></Column>
+        <Column selectionMode="multiple" exportable={false}></Column>
         <Column expander={allowExpansion} style={{ width: "5rem" }} />
         <Column
           field="name"

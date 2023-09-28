@@ -2,8 +2,12 @@ import GachaTable from "./gacha-table";
 import GetData from "../../hooks/data-fetch";
 import { useMonthState } from "../../context/month-context";
 import Loading from "../loading";
+import { useEffect } from "react";
+import { useLocalStorage } from "../../context/local-storage";
+
 export default function GachaTableContainer() {
   const { selectedMonth } = useMonthState();
+  const { localStorageData, setLocalStorageData } = useLocalStorage();
   const { status, data, error, isFetching } = GetData();
   if (status === "loading") {
     return <Loading />;
@@ -53,5 +57,10 @@ export default function GachaTableContainer() {
     return transformedObject;
   });
 
-  return <GachaTable filteredArray={filteredArray} />;
+  return (
+    <GachaTable
+      filteredArray={filteredArray}
+      localStorageData={localStorageData}
+    />
+  );
 }
