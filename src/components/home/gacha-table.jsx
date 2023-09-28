@@ -117,11 +117,11 @@ export default function GachaTable({
   const headerGroup = (
     <ColumnGroup>
       <Row>
-        <Column header="" rowSpan={2} />
+        {showAll ? <Column header="" rowSpan={2} /> : null}
         <Column header="" rowSpan={2} />
         <Column header="" rowSpan={2} />
         <Column header="Game" rowSpan={2} sortable sortField="name" />
-        <Column header="Server" rowSpan={2} />
+        <Column header="Server" rowSpan={2} align="center" />
 
         <Column header={months[selectedMonth]} colSpan={2} />
         <Column header={months[selectedMonth + 1]} colSpan={2} />
@@ -359,6 +359,8 @@ export default function GachaTable({
         filters={filters}
         scrollable
         globalFilterFields={["name"]}
+        sortField="revenue"
+        sortOrder={-1}
         header={header}
         expandedRows={expandedRows}
         selection={selectedGames}
@@ -371,7 +373,9 @@ export default function GachaTable({
           fontSize: "1.2em",
         }}
       >
-        <Column selectionMode="multiple" exportable={false}></Column>
+        {showAll ? (
+          <Column selectionMode="multiple" exportable={false}></Column>
+        ) : null}
         <Column expander={allowExpansion} style={{ width: "5rem" }} />
         <Column
           field="name"
@@ -384,7 +388,7 @@ export default function GachaTable({
           sortable
           sortField="name"
         />
-        <Column field="server" body={serverTemplate} />
+        <Column field="server" body={serverTemplate} align="center" />
         <Column field="downloads" body={formatDownloads} align="center" />
         <Column field="revenue" body={textColorRevenue} align="center" />
         <Column field="downloads2" body={formatDownloads2} align="center" />
