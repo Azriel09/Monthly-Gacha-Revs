@@ -26,7 +26,7 @@ function TableTemplates() {
     if (!value) {
       return "-";
     }
-    return formatCurrency();
+    return formatCurrency(value);
   };
 
   const downloadAndroidTemplate = (rowData) => {
@@ -149,7 +149,12 @@ function TableTemplates() {
       case "global":
         return (
           <GlobalLogo
-            style={{ filter: "invert()", width: "50px", height: "50px" }}
+            style={{
+              fill: "currentColor",
+              width: "50px",
+              height: "50px",
+              color: "#16d6fa",
+            }}
           />
         );
       case "china":

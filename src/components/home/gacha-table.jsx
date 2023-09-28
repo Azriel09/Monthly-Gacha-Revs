@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
 import { ColumnGroup } from "primereact/columngroup";
@@ -16,12 +16,15 @@ import "./gacha-table-styles.scss";
 import Apple from "@mui/icons-material/Apple";
 import { useMonthState } from "../../context/month-context";
 import MonthSelector from "./month-selector";
-import Loading from "../loading";
-export default function GachaTable() {
-  const { selectedMonth } = useMonthState();
-  const [sortOrder, setSortOrder] = useState(1);
 
-  // TEMPLATING/FORMATTING
+import ToolbarContainer from "./toolbar-container";
+export default function GachaTable({ filteredArray }) {
+  const { selectedMonth } = useMonthState();
+  const [showAll, setShowAll] = useState(false);
+  const [gamesID, setGamesID] = useState();
+  const [selectedGames, setSelectedGames] = useState(null);
+  const [filteredGames, setFilteredGames] = useState(filteredArray);
+  // COLUMN TEMPLATING/FORMATTING
   const {
     revenueAndroidTemplate,
     revenueAndroidTemplate2,
@@ -38,6 +41,7 @@ export default function GachaTable() {
     textColorRevenue2,
     serverTemplate,
   } = TableTemplates();
+
   const months = [
     "August 2023",
     "July 2023",
@@ -48,6 +52,9 @@ export default function GachaTable() {
     "February 2023",
     "January 2023",
   ];
+  useEffect(() => {
+    setFilteredGames(filteredArray);
+  }, [selectedMonth]);
 
   // FOR SEARCH FEATURE
   const [filters, setFilters] = useState({
@@ -84,58 +91,12 @@ export default function GachaTable() {
   const [expandedRows, setExpandedRows] = useState(null);
 
   // REACT-QUERY
-  const { status, data, error, isFetching } = GetData();
-  if (status === "loading") {
-    return <Loading />;
-  }
-
-  // FILTER TO HIDE GAMES THAT DONT HAVE A DATA DURING A SPECIFIC MONTH
-  const filteredData = data.filter(function (el) {
-    const threshold = selectedMonth;
-
-    return el.downloads.length > threshold;
-  });
-
-  let indexesToKeep = [selectedMonth, selectedMonth + 1];
-
-  // FILTER TO ONLY KEEP THE SElecTED MONTH DATA AND THE MONTH BEFORE IT
-  // SORTING ONLY WORKS WITH THE INITIAL DATA
-  // IF DATA CHANGED, SORTING WONT WORK PROPERLY, SO THIS IS THE FIX
-  const filteredArray = filteredData.map((item) => {
-    const transformedObject = {
-      id: item.id,
-      name: item.name,
-      server: item.server,
-      downloads: item.downloads[selectedMonth],
-      downloads2: item.downloads[selectedMonth + 1],
-      revenue: item.revenue[selectedMonth],
-      revenue2: item.revenue[selectedMonth + 1],
-      expandData: item.expandData.map((subItem) => ({
-        revenueAndroid: [
-          subItem.revenueAndroid[selectedMonth],
-          subItem.revenueAndroid[selectedMonth + 1],
-        ],
-        revenueApple: [
-          subItem.revenueApple[selectedMonth],
-          subItem.revenueApple[selectedMonth + 1],
-        ],
-        downloadsAndroid: [
-          subItem.downloadsAndroid[selectedMonth],
-          subItem.downloadsAndroid[selectedMonth + 1],
-        ],
-        downloadsApple: [
-          subItem.downloadsApple[selectedMonth],
-          subItem.downloadsApple[selectedMonth + 1],
-        ],
-      })),
-    };
-    return transformedObject;
-  });
 
   // COLUMN HEADER FORMAT/TEMPLATE
   const headerGroup = (
     <ColumnGroup>
       <Row>
+        <Column header="" rowSpan={2} />
         <Column header="" rowSpan={2} />
         <Column header="" rowSpan={2} />
         <Column header="Game" rowSpan={2} sortable sortField="name" />
@@ -248,7 +209,6 @@ export default function GachaTable() {
   );
   // EXPANDED COLUMN HEADER FORMAT/TEMPLATE
   const rowExpansionTemplate = (data) => {
-    console.log(data);
     return (
       <div>
         <DataTable
@@ -335,29 +295,51 @@ export default function GachaTable() {
       },
     ],
   };
+  const handleSelectionChange = (e) => {
+    const games_selected = e.value.map((game) => {
+      return game.id;
+    });
+    setGamesID(games_selected);
+    setSelectedGames(e.value);
+  };
 
-  // SET INITIAL SORTING ORDER
+  const handleShow = () => {
+    setShowAll(!showAll);
+    const filter = filteredGames.filter((game) => !gamesID.includes(game.id));
+    !showAll ? setFilteredGames(filteredArray) : setFilteredGames(filter);
+  };
 
   return (
     <div className="card">
+      <ToolbarContainer
+        setShowAll={setShowAll}
+        showAll={showAll}
+        gamesID={gamesID}
+        filteredGames={filteredGames}
+        handleShow={handleShow}
+        setFilteredGames={setFilteredGames}
+      />
       <DataTable
         size="small"
         stripedRows
-        value={filteredArray}
+        value={filteredGames}
         headerColumnGroup={headerGroup}
         filters={filters}
         scrollable
         globalFilterFields={["name"]}
         header={header}
         expandedRows={expandedRows}
+        selection={selectedGames}
+        onSelectionChange={(e) => handleSelectionChange(e)}
         onRowToggle={(e) => setExpandedRows(e.data)}
         rowExpansionTemplate={rowExpansionTemplate}
-        scrollHeight="70vh"
+        scrollHeight="80vh"
         tableStyle={{
           minWidth: "100vw",
           fontSize: "1.2em",
         }}
       >
+        <Column selectionMode="multiple" exportable={true}></Column>
         <Column expander={allowExpansion} style={{ width: "5rem" }} />
         <Column
           field="name"

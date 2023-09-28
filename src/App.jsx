@@ -23,6 +23,7 @@ function App() {
   const cookies = new Cookies();
   const token = cookies.get("TOKEN");
   const [mode, setMode] = useState(true);
+
   const themes = ThemeObject();
   const darkmode = themes.darkmode;
   const lightmode = themes.lightmode;
