@@ -24,12 +24,8 @@ export default function ToolbarContainer({
   // TOOLBAR TEMPLATE
   const leftToolbarTemplate = () => {
     return (
-      <Fragment>
-        <ToggleButton
-          onClick={handleShow}
-          sx={{ border: 0, width: "350px" }}
-          value="show"
-        >
+      <div style={{ minWidth: "100%" }}>
+        <ToggleButton onClick={handleShow} sx={{ border: 0 }} value="show">
           {!showAll ? (
             <VisibilityOffIcon
               sx={{ color: "#16d6fa", width: "40px", height: "40px" }}
@@ -40,7 +36,7 @@ export default function ToolbarContainer({
             />
           )}
         </ToggleButton>
-      </Fragment>
+      </div>
     );
   };
   return (
