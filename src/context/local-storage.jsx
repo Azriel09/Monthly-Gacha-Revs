@@ -1,4 +1,3 @@
-import GetData from "../hooks/data-fetch";
 import React, { useContext, createContext, useState, useEffect } from "react";
 
 export const LocalStorageContext = createContext();

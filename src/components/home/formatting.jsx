@@ -8,11 +8,17 @@ import { ReactComponent as GlobalLogo } from "../../assets/icons/global.svg";
 import "primereact/resources/primereact.css";
 import "./gacha-table-styles.scss";
 import "./formatting-styles.scss";
+import { Typography, useMediaQuery, useTheme } from "@mui/material/";
 import { useState } from "react";
+import Glass from "./glass";
 
 function TableTemplates() {
   const [selectedMonth, setSelectedMonth] = useState(0);
-
+  const theme = useTheme();
+  const breakpoint1 = useMediaQuery(theme.breakpoints.down("1230"));
+  const breakpoint2 = useMediaQuery(theme.breakpoints.down("920"));
+  const breakpoint3 = useMediaQuery(theme.breakpoints.down("840"));
+  const breakpoint4 = useMediaQuery(theme.breakpoints.down("670"));
   const revenueAndroidTemplate = (rowData) => {
     const value = rowData.revenueAndroid[selectedMonth];
     if (!value) {
@@ -78,7 +84,7 @@ function TableTemplates() {
   const formatDownloads = (rowData) => {
     const downloads = rowData.downloads;
     const downloads2 = rowData.downloads2;
-    const formattedDownloads = downloads.toLocaleString();
+    const formattedDownloads = breakPointFormat(downloads).toLocaleString();
 
     if (!downloads2) {
       return (
@@ -109,7 +115,7 @@ function TableTemplates() {
   };
 
   const formatDownloads2 = (rowData) => {
-    const value = rowData.downloads2;
+    const value = breakPointFormat(rowData.downloads2);
     if (!value) {
       return "-";
     }
@@ -157,23 +163,88 @@ function TableTemplates() {
   };
 
   const formatCurrency = (value) => {
-    return value.toLocaleString("en-US", {
+    const revenue = breakPointFormat(value);
+    return revenue.toLocaleString("en-US", {
       style: "currency",
       currency: "USD",
     });
   };
 
+  const breakPointFormat = (value) => {
+    if (breakpoint3) {
+      if (value >= 1000000) {
+        return (value / 1000000).toFixed(1) + "M";
+      } else if (value >= 1000) {
+        return (value / 1000).toFixed(1) + "K";
+      } else {
+        return value;
+      }
+    } else if (breakpoint2) {
+      return value;
+    } else if (breakpoint1) {
+      if (value >= 1000000) {
+        return (value / 1000000).toFixed(1) + "M";
+      } else if (value >= 1000) {
+        return (value / 1000).toFixed(1) + "K";
+      } else {
+        return value;
+      }
+    } else {
+      return value;
+    }
+  };
   const gameNameTemplate = (rowData) => {
-    switch (rowData.name) {
-      case "Genshin Impact":
-        return <img src={GenshinBG} width="250" />;
-      case "Honkai Star Rail":
-        return <img src={StarRailBG} width="250" />;
-      case "Honkai Impact 3rd":
-        return <img src={HonkaiBG} width="250" />;
+    if (breakpoint4) {
+      switch (rowData.name) {
+        case "Genshin Impact":
+          return (
+            <div className="game-banner-container">
+              <Glass>
+                <div className="game-banner-name">{rowData.name}</div>
+              </Glass>
+              <img src={GenshinBG} minWidth="100%" height="100%" />
+            </div>
+          );
+        case "Honkai Star Rail":
+          return (
+            <div className="game-banner-container">
+              <Glass>
+                <div className="game-banner-name">{rowData.name}</div>
+              </Glass>
+              <img src={StarRailBG} minWidth="100%" height="100%" />
+            </div>
+          );
+        case "Honkai Impact 3rd":
+          return (
+            <div className="game-banner-container">
+              <Glass>
+                <div className="game-banner-name">{rowData.name}</div>
+              </Glass>
+              <img src={HonkaiBG} minWidth="100%" height="100%" />
+            </div>
+          );
+        case "Fate/Grand Order":
+          return (
+            <div className="game-banner-container">
+              <Glass>
+                <div className="game-banner-name">{rowData.name}</div>
+              </Glass>
+              <img src={FGOBG} minWidth="100%" height="100%" />
+            </div>
+          );
+      }
+    } else {
+      switch (rowData.name) {
+        case "Genshin Impact":
+          return <img src={GenshinBG} width="250" />;
+        case "Honkai Star Rail":
+          return <img src={StarRailBG} width="250" />;
+        case "Honkai Impact 3rd":
+          return <img src={HonkaiBG} width="250" />;
 
-      case "Fate/Grand Order":
-        return <img src={FGOBG} width="250" />;
+        case "Fate/Grand Order":
+          return <img src={FGOBG} width="250" />;
+      }
     }
   };
   const serverTemplate = (rowData) => {

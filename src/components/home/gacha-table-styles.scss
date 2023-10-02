@@ -11,9 +11,25 @@
   gap: 20px;
   font-family: "Encode Sans Condensed";
   letter-spacing: 2px;
-  width: 350px;
+  min-width: 33%;
+}
+@media only screen and (max-width: 840px) {
+  .select {
+    flex-direction: column;
+    gap: 0;
+    justify-content: center;
+    h3 {
+      margin: 10px;
+    }
+  }
 }
 
+@media only screen and (max-width: 840px) {
+  .select {
+    flex-direction: column;
+    gap: 0;
+  }
+}
 .p-datatable-header {
   text-align: center;
 }

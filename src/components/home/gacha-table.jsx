@@ -3,31 +3,32 @@ import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
 import { ColumnGroup } from "primereact/columngroup";
 import { Row } from "primereact/row";
-import "primereact/resources/primereact.css";
 import DownloadIcon from "@mui/icons-material/Download";
 import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
 import Download from "@mui/icons-material/Download";
 import Android from "@mui/icons-material/Android";
+import Apple from "@mui/icons-material/Apple";
 import { FilterMatchMode } from "primereact/api";
 import { InputText } from "primereact/inputtext";
-import GetData from "../../hooks/data-fetch";
 import TableTemplates from "./formatting";
+import "primereact/resources/primereact.css";
 import "./gacha-table-styles.scss";
-import Apple from "@mui/icons-material/Apple";
 import { useMonthState } from "../../context/month-context";
 import MonthSelector from "./month-selector";
 import ToolbarContainer from "./toolbar-container";
-
-export default function GachaTable({
-  filteredArray,
-  localStorageData,
-  setLocalStorageData,
-}) {
+import { useMediaQuery, useTheme } from "@mui/material/";
+export default function GachaTable({ filteredArray, localStorageData }) {
   const { selectedMonth } = useMonthState();
   const [showAll, setShowAll] = useState(false);
   const [selectedGames, setSelectedGames] = useState();
   const [filteredGames, setFilteredGames] = useState(filteredArray);
   const [hiddenGames, setHiddenGames] = useState(localStorageData);
+
+  // BREAKPOINT
+  const theme = useTheme();
+  const breakpoint1 = useMediaQuery(theme.breakpoints.down("920"));
+  const breakpoint2 = useMediaQuery(theme.breakpoints.down("670"));
+
   // COLUMN TEMPLATING/FORMATTING
   const {
     revenueAndroidTemplate,
@@ -67,7 +68,7 @@ export default function GachaTable({
       (game) => !hiddenGames.includes(game.id)
     );
 
-    // TICKS THE CHECKBOX ON SElecTED GAMES BY DEFAULT
+    // TICKS THE CHECKBOX ON SElecTED GAMES BY DEFAULT WHEN WEBSITE IS OPENED
     const selectedFilter = filteredArray.filter((game) =>
       hiddenGames.includes(game.id)
     );
@@ -104,17 +105,44 @@ export default function GachaTable({
         {showAll ? <Column header="" rowSpan={2} /> : null}
         <Column header="" rowSpan={2} />
         <Column header="" rowSpan={2} />
-        <Column header="Game" rowSpan={2} sortable sortField="name" />
+        {breakpoint2 ? null : (
+          <Column header="Game" rowSpan={2} sortable sortField="name" />
+        )}
         <Column header="Server" rowSpan={2} align="center" />
 
-        <Column header={months[selectedMonth]} colSpan={2} />
-        <Column header={months[selectedMonth + 1]} colSpan={2} />
+        {breakpoint1 ? (
+          <Column header={months[selectedMonth]} colSpan={1} />
+        ) : (
+          <Column
+            header={months[selectedMonth]}
+            colSpan={2}
+            style={{ textAlign: "center" }}
+          />
+        )}
+        {breakpoint1 ? (
+          <Column header={months[selectedMonth + 1]} colSpan={1} />
+        ) : (
+          <Column header={months[selectedMonth + 1]} colSpan={2} />
+        )}
       </Row>
       <Row>
-        <Column header={<Download />} sortable field="downloads" />
-        <Column header={<AttachMoneyIcon />} sortable field="revenue" />
-        <Column header={<Download />} field="downloads2" sortable />
-        <Column header={<AttachMoneyIcon />} field="revenue2" sortable />
+        {breakpoint1 ? null : (
+          <Column header={<Download />} sortable field="downloads" />
+        )}
+        {breakpoint1 ? (
+          <Column header={<AttachMoneyIcon />} sortable field="revenue" />
+        ) : (
+          <Column header={<AttachMoneyIcon />} sortable field="revenue" />
+        )}
+        {/*  */}
+        {breakpoint1 ? null : (
+          <Column header={<Download />} sortable field="downloads2" />
+        )}
+        {breakpoint1 ? (
+          <Column header={<AttachMoneyIcon />} sortable field="revenue2" />
+        ) : (
+          <Column header={<AttachMoneyIcon />} sortable field="revenue2" />
+        )}
       </Row>
     </ColumnGroup>
   );
@@ -338,7 +366,7 @@ export default function GachaTable({
           value={globalFilterValue}
           onChange={onGlobalFilterChange}
           placeholder="Game Search"
-          style={{ width: "250px" }}
+          style={{ minWidth: "33%" }}
         />
         <div className="select">
           <h3>Select Month</h3>
@@ -354,13 +382,12 @@ export default function GachaTable({
       <DataTable
         size="small"
         stripedRows
+        removableSort
         value={filteredGames}
         headerColumnGroup={headerGroup}
         filters={filters}
         scrollable
         globalFilterFields={["name"]}
-        sortField="revenue"
-        sortOrder={-1}
         header={header}
         expandedRows={expandedRows}
         selection={selectedGames}
@@ -376,22 +403,29 @@ export default function GachaTable({
         {showAll ? (
           <Column selectionMode="multiple" exportable={false}></Column>
         ) : null}
-        <Column expander={allowExpansion} style={{ width: "5rem" }} />
+
+        <Column expander={allowExpansion} style={{ width: "50px" }} />
         <Column
           field="name"
           body={gameNameTemplate}
           style={{ width: "200px" }}
         />
-        <Column
-          field="name"
-          style={{ fontFamily: "Encode Sans Condensed" }}
-          sortable
-          sortField="name"
-        />
+        {breakpoint2 ? null : (
+          <Column
+            field="name"
+            style={{ fontFamily: "Encode Sans Condensed" }}
+            sortable
+            sortField="name"
+          />
+        )}
         <Column field="server" body={serverTemplate} align="center" />
-        <Column field="downloads" body={formatDownloads} align="center" />
+        {breakpoint1 ? null : (
+          <Column field="downloads" body={formatDownloads} align="center" />
+        )}
         <Column field="revenue" body={textColorRevenue} align="center" />
-        <Column field="downloads2" body={formatDownloads2} align="center" />
+        {breakpoint1 ? null : (
+          <Column field="downloads2" body={formatDownloads2} align="center" />
+        )}
         <Column field="revenue2" body={textColorRevenue2} align="center" />
       </DataTable>
     </div>

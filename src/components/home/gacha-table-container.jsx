@@ -22,6 +22,7 @@ export default function GachaTableContainer() {
 
   let indexesToKeep = [selectedMonth, selectedMonth + 1];
 
+  // SElecTEDMONTH + 1 is the previous month
   // FILTER TO ONLY KEEP THE SElecTED MONTH DATA AND THE MONTH BEFORE IT
   // SORTING ONLY WORKS WITH THE INITIAL DATA
   // IF DATA CHANGED, SORTING WONT WORK PROPERLY, SO THIS IS THE FIX
@@ -57,9 +58,31 @@ export default function GachaTableContainer() {
     return transformedObject;
   });
 
+  const userPins = [3, 4];
+  const filteredArray2 = [...filteredArray];
+
+  const reorderedArray = filteredArray2.sort((a, b) => {
+    const aIndex = userPins.indexOf(a.id);
+    const bIndex = userPins.indexOf(b.id);
+
+    // IF BOTH A & B IN USER PINS, MAINTAIN ORDER
+    // IF BOTH A & B NOT IN USER PINS, MAINTAIN ORDER
+    if ((aIndex !== -1 && bIndex !== -1) || (aIndex === -1 && bIndex === -1)) {
+      return 0;
+    }
+
+    // IF A IN USERPINS, IT SHOULD BE PLACED BEFORE B
+    if (aIndex !== -1) {
+      return -1;
+    }
+
+    // IF B IN USER PINS, IT SHOULD BE PLACED AFTER A
+    return 1;
+  });
+  console.log(reorderedArray);
   return (
     <GachaTable
-      filteredArray={filteredArray}
+      filteredArray={reorderedArray}
       localStorageData={localStorageData}
     />
   );
