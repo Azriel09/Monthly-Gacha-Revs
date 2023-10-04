@@ -3,69 +3,107 @@ import { Box, useTheme, useMediaQuery } from "@mui/material";
 import "./navbar.scss";
 
 import { useState } from "react";
-import PropTypes from "prop-types";
-import AppBar from "@mui/material/AppBar";
 
-import CssBaseline from "@mui/material/CssBaseline";
-import Divider from "@mui/material/Divider";
 import Drawer from "@mui/material/Drawer";
-import IconButton from "@mui/material/IconButton";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemText from "@mui/material/ListItemText";
 import MenuIcon from "@mui/icons-material/Menu";
-import Toolbar from "@mui/material/Toolbar";
-import Typography from "@mui/material/Typography";
+
 import Button from "@mui/material/Button";
 
-const drawerWidth = 240;
 export default function NavBar({ mode }) {
   const theme = useTheme();
+  const [open, setOpen] = useState(false);
   const breakpoint1 = useMediaQuery(theme.breakpoints.down("451"));
-
-  const handleDrawerToggle = () => {
-    setMobileOpen((prevState) => !prevState);
+  const toggleDrawer = (open) => (event) => {
+    if (
+      event.type === "keydown" &&
+      (event.key === "Tab" || event.key === "Shift")
+    ) {
+      return;
+    }
+    console.log(open);
+    setOpen(open);
   };
 
-  const drawer = (
-    <Box onClick={handleDrawerToggle} sx={{ textAlign: "center" }}>
-      <Typography variant="h6" sx={{ my: 2 }}>
-        MUI
-      </Typography>
-      <Divider />
-      <List>
-        <Link
-          className="nav-link"
-          to="/"
-          style={mode ? { color: "white" } : { color: "black" }}
-        >
-          HOME
-        </Link>
-        <Link
-          className="nav-link"
-          to="/charts"
-          style={mode ? { color: "white" } : { color: "black" }}
-        >
-          CHARTS
-        </Link>
-        <Link
-          className="nav-link"
-          to="/about"
-          style={mode ? { color: "white" } : { color: "black" }}
-        >
-          ABOUT
-        </Link>
+  const list = (anchor) => (
+    <Box
+      sx={{
+        width: "50vw",
+      }}
+      role="presentation"
+      onClick={toggleDrawer(false)}
+      onKeyDown={toggleDrawer(false)}
+    >
+      <List
+        sx={{
+          marginLeft: "auto",
+          marginRight: "auto",
+          fontSize: "30px",
+          fontFamily: "Encode Sans Condensed",
+          textTransform: "uppercase",
+        }}
+        className="list"
+      >
+        {["home", "charts", "about"].map((text) => (
+          <ListItem
+            key={text}
+            disablePadding
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              justifyContent: "center",
+              textAlign: "center",
+              marginTop: "40px",
+              marginBottom: "40px",
+            }}
+          >
+            <Link
+              className="nav-link"
+              to={text === "home" ? "/" : `/${text}`}
+              style={
+                mode
+                  ? { color: "white", textDecoration: "none" }
+                  : { color: "black", textDecoration: "none" }
+              }
+            >
+              {text}
+            </Link>
+          </ListItem>
+        ))}
       </List>
     </Box>
   );
-
   return (
     <>
       <div className="navigation">
         {breakpoint1 ? (
           <Button>
-            <MenuIcon sx={{ width: "100px", color: "#fff" }} />
+            <MenuIcon
+              sx={{ width: "100px", color: "#fff" }}
+              onClick={toggleDrawer(true)}
+            />
+            <Drawer
+              anchor="left"
+              open={open}
+              onClose={toggleDrawer(false)}
+              PaperProps={{
+                sx: {
+                  backgroundColor: "#1f2739",
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  textAlign: "center",
+                },
+              }}
+              sx={{ backdropFilter: "blur(5px)" }}
+            >
+              {list("left")}
+            </Drawer>
           </Button>
         ) : (
           <Box className="nav-links-container">
@@ -97,6 +135,7 @@ export default function NavBar({ mode }) {
           </Box>
         )}
       </div>
+
       <Outlet />
     </>
   );
