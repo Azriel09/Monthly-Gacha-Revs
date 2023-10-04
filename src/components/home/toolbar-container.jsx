@@ -23,26 +23,7 @@ export default function ToolbarContainer({
 
   // TOOLBAR TEMPLATE
   const leftToolbarTemplate = () => {
-    return (
-      <div style={{ minWidth: "100%" }}>
-        <ToggleButton onClick={handleShow} sx={{ border: 0 }} value="show">
-          {!showAll ? (
-            <VisibilityOffIcon
-              sx={{ color: "#16d6fa", width: "40px", height: "40px" }}
-            />
-          ) : (
-            <RemoveRedEyeIcon
-              sx={{ color: "#16d6fa", width: "40px", height: "40px" }}
-            />
-          )}
-        </ToggleButton>
-      </div>
-    );
+    return <div style={{ minWidth: "100%" }}></div>;
   };
-  return (
-    <Toolbar
-      start={leftToolbarTemplate}
-      style={{ padding: 0, border: 0 }}
-    ></Toolbar>
-  );
+  return leftToolbarTemplate;
 }

@@ -11,25 +11,12 @@
   gap: 20px;
   font-family: "Encode Sans Condensed";
   letter-spacing: 2px;
-  min-width: 33%;
-}
-@media only screen and (max-width: 840px) {
-  .select {
-    flex-direction: column;
-    gap: 0;
-    justify-content: center;
-    h3 {
-      margin: 10px;
-    }
+
+  .select-header {
+    font-size: 25px;
   }
 }
 
-@media only screen and (max-width: 840px) {
-  .select {
-    flex-direction: column;
-    gap: 0;
-  }
-}
 .p-datatable-header {
   text-align: center;
 }
@@ -39,6 +26,9 @@
   justify-content: center;
   align-items: center;
   flex-direction: row;
+  .p-column-title {
+    text-align: center;
+  }
 }
 .p-datatable-wrapper {
   font-size: 1.2em;
@@ -72,5 +62,53 @@
     [role="cell"]:nth-child(3) {
       text-align: center;
     }
+  }
+}
+.MuiInputAdornment-root {
+  .MuiButtonBase-root {
+    .MuiSvgIcon-root {
+      color: #16d6fa !important;
+    }
+  }
+}
+
+.MuiTouchRipple-root {
+  color: blue;
+}
+@media only screen and (max-width: 840px) {
+  .select {
+    flex-direction: column;
+    gap: 0;
+    justify-content: center;
+    h3 {
+      margin: 10px;
+    }
+  }
+
+  .p-column-header-content {
+    .p-column-title {
+      font-size: 20px;
+    }
+  }
+}
+@media only screen and (max-width: 540px) {
+  .select {
+    width: 150px;
+  }
+
+  .p-column-header-content {
+    .p-column-title {
+      font-size: 15px;
+    }
+  }
+}
+
+@media only screen and (max-width: 450px) {
+  .select {
+    width: 100px;
+  }
+
+  .p-datatable-wrapper {
+    font-size: 15px;
   }
 }
