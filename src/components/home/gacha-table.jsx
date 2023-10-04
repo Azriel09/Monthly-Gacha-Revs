@@ -8,6 +8,8 @@ import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
 import Download from "@mui/icons-material/Download";
 import Android from "@mui/icons-material/Android";
 import Apple from "@mui/icons-material/Apple";
+import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
+import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import { FilterMatchMode } from "primereact/api";
 import { InputText } from "primereact/inputtext";
 import TableTemplates from "./formatting";
@@ -16,7 +18,14 @@ import "./gacha-table-styles.scss";
 import { useMonthState } from "../../context/month-context";
 import MonthSelector from "./month-selector";
 import ToolbarContainer from "./toolbar-container";
-import { useMediaQuery, useTheme } from "@mui/material/";
+import {
+  TextField,
+  useMediaQuery,
+  useTheme,
+  InputAdornment,
+  ToggleButton,
+} from "@mui/material/";
+import { StyledTextField } from "./styled-textfield";
 export default function GachaTable({ filteredArray, localStorageData }) {
   const { selectedMonth } = useMonthState();
   const [showAll, setShowAll] = useState(false);
@@ -24,10 +33,13 @@ export default function GachaTable({ filteredArray, localStorageData }) {
   const [filteredGames, setFilteredGames] = useState(filteredArray);
   const [hiddenGames, setHiddenGames] = useState(localStorageData);
 
-  // BREAKPOINT
+  // BREAKPOINTS
   const theme = useTheme();
-  const breakpoint1 = useMediaQuery(theme.breakpoints.down("920"));
-  const breakpoint2 = useMediaQuery(theme.breakpoints.down("670"));
+  const breakpoint1 = useMediaQuery(theme.breakpoints.down("921"));
+  const breakpoint2 = useMediaQuery(theme.breakpoints.down("751"));
+  const breakpoint3 = useMediaQuery(theme.breakpoints.down("541"));
+  const breakpoint4 = useMediaQuery(theme.breakpoints.down("521"));
+  const breakpoint5 = useMediaQuery(theme.breakpoints.down("381"));
 
   // COLUMN TEMPLATING/FORMATTING
   const {
@@ -104,20 +116,30 @@ export default function GachaTable({ filteredArray, localStorageData }) {
       <Row>
         {showAll ? <Column header="" rowSpan={2} /> : null}
         <Column header="" rowSpan={2} />
-        <Column header="" rowSpan={2} />
+        {breakpoint2 ? (
+          <Column header="Game" rowSpan={2} sortable sortField="name" />
+        ) : (
+          <Column header="" rowSpan={2} />
+        )}
         {breakpoint2 ? null : (
           <Column header="Game" rowSpan={2} sortable sortField="name" />
         )}
-        <Column header="Server" rowSpan={2} align="center" />
+        {breakpoint2 ? (
+          <Column rowSpan={2} align="center" sortable sortField="server" />
+        ) : (
+          <Column
+            header="Server"
+            rowSpan={2}
+            align="center"
+            sortable
+            sortField="server"
+          />
+        )}
 
         {breakpoint1 ? (
           <Column header={months[selectedMonth]} colSpan={1} />
         ) : (
-          <Column
-            header={months[selectedMonth]}
-            colSpan={2}
-            style={{ textAlign: "center" }}
-          />
+          <Column header={months[selectedMonth]} colSpan={2} />
         )}
         {breakpoint1 ? (
           <Column header={months[selectedMonth + 1]} colSpan={1} />
@@ -242,60 +264,7 @@ export default function GachaTable({ filteredArray, localStorageData }) {
   );
   // EXPANDED COLUMN HEADER FORMAT/TEMPLATE
   const rowExpansionTemplate = (data) => {
-    return (
-      <div>
-        <DataTable
-          headerColumnGroup={rowExpansionHeaderGroup}
-          value={data.expandData}
-          tableStyle={{
-            overflow: "hidden",
-            minHeight: "10vh",
-          }}
-        >
-          <Column
-            field="revenueAndroid"
-            body={revenueAndroidTemplate}
-            align="center"
-          ></Column>
-          <Column
-            field="revenueApple"
-            body={revenueAppleTemplate}
-            align="center"
-          ></Column>
-          <Column
-            field="downloadsAndroid"
-            body={downloadAndroidTemplate}
-            align="center"
-          ></Column>
-          <Column
-            field="downloadsApple"
-            body={downloadAppleTemplate}
-            align="center"
-          ></Column>
-          <Column />
-          <Column
-            field="revenueAndroid"
-            body={revenueAndroidTemplate2}
-            align="center"
-          ></Column>
-          <Column
-            field="revenueApple"
-            body={revenueAppleTemplate2}
-            align="center"
-          ></Column>
-          <Column
-            field="downloadsAndroid"
-            body={downloadAndroidTemplate2}
-            align="center"
-          ></Column>
-          <Column
-            field="downloadsApple"
-            body={downloadAppleTemplate2}
-            align="center"
-          ></Column>
-        </DataTable>
-      </div>
-    );
+    return <div className="row-expanded"></div>;
   };
   // WILL ONLY ALLOW EXPANSION IF THERE'S DATA IN THE ASSIGNED SOURCE OF ROW EXPANSION DATA
   const allowExpansion = (rowData) => {
@@ -353,7 +322,7 @@ export default function GachaTable({ filteredArray, localStorageData }) {
   const renderHeader = () => {
     return (
       <div className="table-header">
-        <ToolbarContainer
+        {/* <ToolbarContainer
           setShowAll={setShowAll}
           showAll={showAll}
           filteredGames={filteredGames}
@@ -361,15 +330,34 @@ export default function GachaTable({ filteredArray, localStorageData }) {
           setFilteredGames={setFilteredGames}
           hiddenGames={hiddenGames}
           setHiddenGames={setHiddenGames}
-        />
-        <InputText
+        /> */}
+        {/* <InputText
           value={globalFilterValue}
           onChange={onGlobalFilterChange}
           placeholder="Game Search"
-          style={{ minWidth: "33%" }}
+          style={breakpoint4 ? { width: "150px" } : { minWidth: "33%" }}
+        /> */}
+        <StyledTextField
+          value={globalFilterValue}
+          onChange={onGlobalFilterChange}
+          placeholder="Search"
+          InputProps={{
+            startAdornment: (
+              <InputAdornment position="start">
+                <ToggleButton
+                  onClick={handleShow}
+                  sx={{ border: 0 }}
+                  value="show"
+                  disableRipple
+                >
+                  {!showAll ? <VisibilityOffIcon /> : <RemoveRedEyeIcon />}
+                </ToggleButton>
+              </InputAdornment>
+            ),
+          }}
         />
+
         <div className="select">
-          <h3>Select Month</h3>
           <MonthSelector />
         </div>
       </div>
@@ -401,15 +389,30 @@ export default function GachaTable({ filteredArray, localStorageData }) {
         }}
       >
         {showAll ? (
-          <Column selectionMode="multiple" exportable={false}></Column>
+          <Column
+            selectionMode="multiple"
+            exportable={false}
+            style={{ width: "20px" }}
+          ></Column>
         ) : null}
 
-        <Column expander={allowExpansion} style={{ width: "50px" }} />
         <Column
-          field="name"
-          body={gameNameTemplate}
-          style={{ width: "200px" }}
+          expander={allowExpansion}
+          style={breakpoint3 ? { width: "10px" } : { width: "50px" }}
         />
+        {breakpoint3 ? (
+          <Column
+            field="name"
+            body={gameNameTemplate}
+            style={breakpoint5 ? { width: "100px" } : { width: "130px" }}
+          />
+        ) : (
+          <Column
+            field="name"
+            body={gameNameTemplate}
+            style={{ width: "200px" }}
+          />
+        )}
         {breakpoint2 ? null : (
           <Column
             field="name"
@@ -422,11 +425,21 @@ export default function GachaTable({ filteredArray, localStorageData }) {
         {breakpoint1 ? null : (
           <Column field="downloads" body={formatDownloads} align="center" />
         )}
-        <Column field="revenue" body={textColorRevenue} align="center" />
+        <Column
+          field="revenue"
+          body={textColorRevenue}
+          align="center"
+          style={{ minWidth: "60px" }}
+        />
         {breakpoint1 ? null : (
           <Column field="downloads2" body={formatDownloads2} align="center" />
         )}
-        <Column field="revenue2" body={textColorRevenue2} align="center" />
+        <Column
+          field="revenue2"
+          body={textColorRevenue2}
+          align="center"
+          style={{ minWidth: "60px" }}
+        />
       </DataTable>
     </div>
   );

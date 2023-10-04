@@ -15,10 +15,12 @@ import Glass from "./glass";
 function TableTemplates() {
   const [selectedMonth, setSelectedMonth] = useState(0);
   const theme = useTheme();
-  const breakpoint1 = useMediaQuery(theme.breakpoints.down("1230"));
-  const breakpoint2 = useMediaQuery(theme.breakpoints.down("920"));
-  const breakpoint3 = useMediaQuery(theme.breakpoints.down("840"));
-  const breakpoint4 = useMediaQuery(theme.breakpoints.down("670"));
+  const breakpoint1 = useMediaQuery(theme.breakpoints.down("1231"));
+  const breakpoint2 = useMediaQuery(theme.breakpoints.down("921"));
+  const breakpoint3 = useMediaQuery(theme.breakpoints.down("841"));
+  const breakpoint4 = useMediaQuery(theme.breakpoints.down("751"));
+  const breakpoint5 = useMediaQuery(theme.breakpoints.down("541"));
+  const breakpoint6 = useMediaQuery(theme.breakpoints.down("451"));
   const revenueAndroidTemplate = (rowData) => {
     const value = rowData.revenueAndroid[selectedMonth];
     if (!value) {
@@ -155,23 +157,41 @@ function TableTemplates() {
   };
 
   const textColorRevenue2 = (rowData) => {
-    const value = rowData.revenue2;
-    if (!value) {
-      return "-";
+    const revenue = rowData.revenue2;
+
+    if (!revenue) {
+      return (
+        <div>
+          <span className=" value">-</span>
+        </div>
+      );
+    } else {
+      const value = formatCurrency(revenue);
+      return (
+        <div>
+          <span className=" value">{value}</span>
+        </div>
+      );
     }
-    return formatCurrency(value);
   };
 
   const formatCurrency = (value) => {
     const revenue = breakPointFormat(value);
-    return revenue.toLocaleString("en-US", {
-      style: "currency",
-      currency: "USD",
-    });
+    return revenue.toLocaleString();
   };
 
   const breakPointFormat = (value) => {
-    if (breakpoint3) {
+    if (breakpoint6) {
+      if (value >= 1000000) {
+        return (value / 1000000).toFixed(1) + "M";
+      } else if (value >= 1000) {
+        return (value / 1000).toFixed(1) + "K";
+      } else {
+        return value;
+      }
+    } else if (breakpoint5) {
+      return value;
+    } else if (breakpoint3) {
       if (value >= 1000000) {
         return (value / 1000000).toFixed(1) + "M";
       } else if (value >= 1000) {
@@ -202,7 +222,7 @@ function TableTemplates() {
               <Glass>
                 <div className="game-banner-name">{rowData.name}</div>
               </Glass>
-              <img src={GenshinBG} minWidth="100%" height="100%" />
+              <img src={GenshinBG} className="image" />
             </div>
           );
         case "Honkai Star Rail":
@@ -211,7 +231,7 @@ function TableTemplates() {
               <Glass>
                 <div className="game-banner-name">{rowData.name}</div>
               </Glass>
-              <img src={StarRailBG} minWidth="100%" height="100%" />
+              <img src={StarRailBG} className="image" />
             </div>
           );
         case "Honkai Impact 3rd":
@@ -220,7 +240,7 @@ function TableTemplates() {
               <Glass>
                 <div className="game-banner-name">{rowData.name}</div>
               </Glass>
-              <img src={HonkaiBG} minWidth="100%" height="100%" />
+              <img src={HonkaiBG} className="image" />
             </div>
           );
         case "Fate/Grand Order":
@@ -229,7 +249,7 @@ function TableTemplates() {
               <Glass>
                 <div className="game-banner-name">{rowData.name}</div>
               </Glass>
-              <img src={FGOBG} minWidth="100%" height="100%" />
+              <img src={FGOBG} className="image" />
             </div>
           );
       }
@@ -250,20 +270,11 @@ function TableTemplates() {
   const serverTemplate = (rowData) => {
     switch (rowData.server) {
       case "global":
-        return (
-          <GlobalLogo
-            style={{
-              fill: "currentColor",
-              width: "50px",
-              height: "50px",
-              color: "#16d6fa",
-            }}
-          />
-        );
+        return <GlobalLogo className="global server-logo" />;
       case "china":
-        return <ChinaLogo style={{ width: "50px", height: "50px" }} />;
+        return <ChinaLogo className="server-logo" />;
       case "japan":
-        return <JapanLogo style={{ width: "50px", height: "50px" }} />;
+        return <JapanLogo className="server-logo" />;
     }
   };
 

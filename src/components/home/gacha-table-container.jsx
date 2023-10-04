@@ -79,11 +79,13 @@ export default function GachaTableContainer() {
     // IF B IN USER PINS, IT SHOULD BE PLACED AFTER A
     return 1;
   });
-  console.log(reorderedArray);
+
   return (
-    <GachaTable
-      filteredArray={reorderedArray}
-      localStorageData={localStorageData}
-    />
+    <div style={{ overflow: "hidden" }}>
+      <GachaTable
+        filteredArray={reorderedArray}
+        localStorageData={localStorageData}
+      />
+    </div>
   );
 }
