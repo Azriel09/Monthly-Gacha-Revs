@@ -112,3 +112,9 @@
     font-size: 15px;
   }
 }
+
+@media only screen and (max-width: 360px) {
+  .p-datatable-wrapper {
+    font-size: 8px;
+  }
+}

@@ -429,7 +429,7 @@ export default function GachaTable({ filteredArray, localStorageData }) {
           field="revenue"
           body={textColorRevenue}
           align="center"
-          style={{ minWidth: "60px" }}
+          style={{ minWidth: "60px", maxHeight: "30px" }}
         />
         {breakpoint1 ? null : (
           <Column field="downloads2" body={formatDownloads2} align="center" />
@@ -438,7 +438,7 @@ export default function GachaTable({ filteredArray, localStorageData }) {
           field="revenue2"
           body={textColorRevenue2}
           align="center"
-          style={{ minWidth: "60px" }}
+          style={{ minWidth: "60px", maxHeight: "30px" }}
         />
       </DataTable>
     </div>
