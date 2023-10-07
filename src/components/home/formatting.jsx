@@ -20,7 +20,7 @@ function TableTemplates() {
   const breakpoint3 = useMediaQuery(theme.breakpoints.down("841"));
   const breakpoint4 = useMediaQuery(theme.breakpoints.down("751"));
   const breakpoint5 = useMediaQuery(theme.breakpoints.down("541"));
-  const breakpoint6 = useMediaQuery(theme.breakpoints.down("451"));
+  const breakpoint6 = useMediaQuery(theme.breakpoints.down("491"));
   const revenueAndroidTemplate = (rowData) => {
     const value = rowData.revenueAndroid[selectedMonth];
     if (!value) {
@@ -161,14 +161,14 @@ function TableTemplates() {
 
     if (!revenue) {
       return (
-        <div>
+        <div className="value-wrapper">
           <span className=" value">-</span>
         </div>
       );
     } else {
       const value = formatCurrency(revenue);
       return (
-        <div>
+        <div className="value-wrapper">
           <span className=" value">{value}</span>
         </div>
       );
@@ -256,14 +256,30 @@ function TableTemplates() {
     } else {
       switch (rowData.name) {
         case "Genshin Impact":
-          return <img src={GenshinBG} width="250" />;
+          return (
+            <div className="game-banner-container">
+              <img src={GenshinBG} width="250" alt="Genshin Impact" />
+            </div>
+          );
         case "Honkai Star Rail":
-          return <img src={StarRailBG} width="250" />;
+          return (
+            <div className="game-banner-container">
+              <img src={StarRailBG} width="250" alt="Honkai Star Rail" />
+            </div>
+          );
         case "Honkai Impact 3rd":
-          return <img src={HonkaiBG} width="250" />;
+          return (
+            <div className="game-banner-container">
+              <img src={HonkaiBG} width="250" alt="Honkai Impact 3rd" />
+            </div>
+          );
 
         case "Fate/Grand Order":
-          return <img src={FGOBG} width="250" />;
+          return (
+            <div className="game-banner-container">
+              <img src={FGOBG} width="250" alt="Fate/Grand Order" />
+            </div>
+          );
       }
     }
   };
