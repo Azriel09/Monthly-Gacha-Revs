@@ -90,14 +90,6 @@
     }
   }
 
-  .value {
-    font-size: 15px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-  }
-
   .image {
     width: 130px;
   }
@@ -112,7 +104,7 @@
   }
 }
 
-@media only screen and (max-width: 380px) {
+@media only screen and (max-width: 400px) {
   .game-banner-container {
     width: 100px;
     height: 33.5px;
@@ -133,5 +125,17 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
+  }
+  .value-wrapper {
+    height: 33.5px;
+    width: 100%;
+    border-radius: 0px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  .value {
+    font-size: 15px;
   }
 }

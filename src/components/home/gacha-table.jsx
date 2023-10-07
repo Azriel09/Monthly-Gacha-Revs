@@ -26,6 +26,8 @@ import {
   ToggleButton,
 } from "@mui/material/";
 import { StyledTextField } from "./styled-textfield";
+import Example from "./row-graphs";
+import RowGraphs from "./row-graphs";
 export default function GachaTable({ filteredArray, localStorageData }) {
   const { selectedMonth } = useMonthState();
   const [showAll, setShowAll] = useState(false);
@@ -39,7 +41,7 @@ export default function GachaTable({ filteredArray, localStorageData }) {
   const breakpoint2 = useMediaQuery(theme.breakpoints.down("751"));
   const breakpoint3 = useMediaQuery(theme.breakpoints.down("541"));
   const breakpoint4 = useMediaQuery(theme.breakpoints.down("521"));
-  const breakpoint5 = useMediaQuery(theme.breakpoints.down("381"));
+  const breakpoint5 = useMediaQuery(theme.breakpoints.down("401"));
 
   // COLUMN TEMPLATING/FORMATTING
   const {
@@ -264,7 +266,15 @@ export default function GachaTable({ filteredArray, localStorageData }) {
   );
   // EXPANDED COLUMN HEADER FORMAT/TEMPLATE
   const rowExpansionTemplate = (data) => {
-    return <div className="row-expanded"></div>;
+    return (
+      <div className="row-expanded">
+        <RowGraphs
+          gameData={data}
+          month1={months[selectedMonth]}
+          month2={months[selectedMonth + 1]}
+        />
+      </div>
+    );
   };
   // WILL ONLY ALLOW EXPANSION IF THERE'S DATA IN THE ASSIGNED SOURCE OF ROW EXPANSION DATA
   const allowExpansion = (rowData) => {
@@ -322,21 +332,6 @@ export default function GachaTable({ filteredArray, localStorageData }) {
   const renderHeader = () => {
     return (
       <div className="table-header">
-        {/* <ToolbarContainer
-          setShowAll={setShowAll}
-          showAll={showAll}
-          filteredGames={filteredGames}
-          handleShow={handleShow}
-          setFilteredGames={setFilteredGames}
-          hiddenGames={hiddenGames}
-          setHiddenGames={setHiddenGames}
-        /> */}
-        {/* <InputText
-          value={globalFilterValue}
-          onChange={onGlobalFilterChange}
-          placeholder="Game Search"
-          style={breakpoint4 ? { width: "150px" } : { minWidth: "33%" }}
-        /> */}
         <StyledTextField
           value={globalFilterValue}
           onChange={onGlobalFilterChange}
@@ -384,7 +379,6 @@ export default function GachaTable({ filteredArray, localStorageData }) {
         rowExpansionTemplate={rowExpansionTemplate}
         scrollHeight="80vh"
         tableStyle={{
-          minWidth: "100%",
           fontSize: "1.2em",
         }}
       >
