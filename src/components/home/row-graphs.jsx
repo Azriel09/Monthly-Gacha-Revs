@@ -12,11 +12,15 @@ export default function RowGraphs({ month1, month2, gameData }) {
           month: month1,
           android: androidDownloads,
           apple: appleDownloads,
+          androidColor: "#6ed7d3",
+          appleColor: "#96b6c5",
         },
         {
           month: month2,
           android: androidDownloads2,
           apple: appleDownloads2,
+          androidColor: "#6ed7d3",
+          appleColor: "#96b6c5",
         },
       ];
     })
@@ -33,8 +37,16 @@ export default function RowGraphs({ month1, month2, gameData }) {
           month: month1,
           android: androidRevenue,
           apple: appleRevenue,
+          androidColor: "#6ed7d3",
+          appleColor: "#96b6c5",
         },
-        { month: month2, android: androidRevenue2, apple: appleRevenue2 },
+        {
+          month: month2,
+          android: androidRevenue2,
+          apple: appleRevenue2,
+          androidColor: "#6ed7d3",
+          appleColor: "#96b6c5",
+        },
       ];
     })
     .flat();
@@ -48,7 +60,14 @@ export default function RowGraphs({ month1, month2, gameData }) {
           indexBy="month"
           margin={{ top: 50, right: 50, bottom: 40, left: 50 }}
           padding={0.3}
+          valueFormat=">-,"
           theme={{
+            text: {
+              fontSize: 100,
+              fill: "#333333",
+              outlineWidth: 0,
+              outlineColor: "transparent",
+            },
             axis: {
               ticks: {
                 line: {
@@ -78,7 +97,7 @@ export default function RowGraphs({ month1, month2, gameData }) {
           layout="vertical"
           valueScale={{ type: "linear" }}
           indexScale={{ type: "band", round: true }}
-          colors={{ scheme: "paired" }}
+          colors={({ id, data }) => String(data[`${id}Color`])}
           borderColor={{
             from: "color",
             modifiers: [["darker", 1.6]],
@@ -97,12 +116,9 @@ export default function RowGraphs({ month1, month2, gameData }) {
             legendPosition: "middle",
             legendOffset: 32,
           }}
-          labelSkipWidth={12}
-          labelSkipHeight={12}
-          labelTextColor={{
-            from: "color",
-            modifiers: [["darker", 1.6]],
-          }}
+          labelSkipWidth={0}
+          labelSkipHeight={0}
+          labelTextColor="#0a524a"
           role="application"
           barAriaLabel={(e) =>
             e.id + ": " + e.formattedValue + " in category: " + e.indexValue
@@ -116,6 +132,7 @@ export default function RowGraphs({ month1, month2, gameData }) {
           indexBy="month"
           margin={{ top: 50, right: 50, bottom: 40, left: 50 }}
           padding={0.3}
+          valueFormat=" >-,"
           theme={{
             text: {
               fontSize: 36,
@@ -158,7 +175,7 @@ export default function RowGraphs({ month1, month2, gameData }) {
           layout="vertical"
           valueScale={{ type: "linear" }}
           indexScale={{ type: "band", round: true }}
-          colors={{ scheme: "paired" }}
+          colors={({ id, data }) => String(data[`${id}Color`])}
           borderColor={{
             from: "color",
             modifiers: [["darker", 1.6]],
@@ -185,14 +202,16 @@ export default function RowGraphs({ month1, month2, gameData }) {
             legendPosition: "middle",
             legendOffset: -90,
           }}
-          labelTextColor={{
-            from: "color",
-            modifiers: [["darker", 1.6]],
+          motionConfig={{
+            mass: 1,
+            tension: 500,
+            friction: 35,
+            clamp: false,
+            precision: 0.01,
+            velocity: 0,
           }}
+          labelTextColor="#0a524a"
           role="application"
-          barAriaLabel={(e) =>
-            e.id + ": " + e.formattedValue + " in category: " + e.indexValue
-          }
         />
       ) : null}
     </div>
