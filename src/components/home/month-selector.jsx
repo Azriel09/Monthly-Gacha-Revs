@@ -5,6 +5,7 @@ export default function MonthSelector() {
   const { selectedMonth, setSelectedMonth } = useMonthState();
   const theme = useTheme();
   const months = [
+    "September 2023",
     "August 2023",
     "July 2023",
     "June 2023",

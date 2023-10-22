@@ -11,22 +11,19 @@ import Apple from "@mui/icons-material/Apple";
 import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import { FilterMatchMode } from "primereact/api";
-import { InputText } from "primereact/inputtext";
 import TableTemplates from "./formatting";
 import "primereact/resources/primereact.css";
 import "./gacha-table-styles.scss";
 import { useMonthState } from "../../context/month-context";
 import MonthSelector from "./month-selector";
-import ToolbarContainer from "./toolbar-container";
 import {
-  TextField,
   useMediaQuery,
   useTheme,
   InputAdornment,
   ToggleButton,
 } from "@mui/material/";
 import { StyledTextField } from "./styled-textfield";
-import Example from "./row-graphs";
+
 import RowGraphs from "./row-graphs";
 export default function GachaTable({ filteredArray, localStorageData }) {
   const { selectedMonth } = useMonthState();
@@ -62,6 +59,7 @@ export default function GachaTable({ filteredArray, localStorageData }) {
   } = TableTemplates();
 
   const months = [
+    "September 2023",
     "August 2023",
     "July 2023",
     "June 2023",
@@ -268,6 +266,16 @@ export default function GachaTable({ filteredArray, localStorageData }) {
   const rowExpansionTemplate = (data) => {
     return (
       <div className="row-expanded">
+        <div className="legends">
+          <div className="platform">
+            <div className="android-color color"></div>
+            <div className="name">Android</div>
+          </div>
+          <div className="platform">
+            <div className="apple-color color"></div>
+            <div className="name">Apple</div>
+          </div>
+        </div>
         <RowGraphs
           gameData={data}
           month1={months[selectedMonth]}

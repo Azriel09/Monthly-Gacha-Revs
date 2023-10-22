@@ -14,18 +14,17 @@ import AndroidIcon from "@mui/icons-material/Android";
 import AppleIcon from "@mui/icons-material/Apple";
 import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
 import DownloadIcon from "@mui/icons-material/Download";
-
-export default function ModalContainer({ open, closeModal }) {
+import axios from "axios";
+export default function ModalContainer({ open, closeModal, data }) {
   const [selectedData, setSelectedData] = useState({
     game: "",
     server: "",
-    date: "",
-    revenueAndroid: "",
-    revenueApple: "",
-    downloadsAndroid: "",
-    downloadsApple: "",
-    totalRevenue: "",
-    totalDownloads: "",
+    revenueAndroid: null,
+    revenueApple: null,
+    downloadsAndroid: null,
+    downloadsApple: null,
+    totalRevenue: null,
+    totalDownloads: null,
   });
   const [inputError, setInputError] = useState({
     revenueAndroid: false,
@@ -35,7 +34,9 @@ export default function ModalContainer({ open, closeModal }) {
   });
   const [cancelSubmit, setCancelSubmit] = useState(false);
   const gameFields = {
-    gameList: ["Genshin Impact", "Honkai Star Rail"],
+    gameList: data.map((item) => {
+      return item.name;
+    }),
     serverList: ["china", "global", "japan", "korea", "sea"],
   };
 
@@ -52,27 +53,90 @@ export default function ModalContainer({ open, closeModal }) {
       "downloadsAndroid",
       "downloadsApple",
     ];
+    console.log("Submit");
 
-    fieldsChecklist.forEach((element) => {
-      const value = selectedData[element];
-      const convertedValue = Number(value);
-      if (convertedValue === 0) {
-        setInputError((prevState) => ({ ...prevState, [element]: true }));
-        setCancelSubmit(true);
-      } else {
-        setInputError((prevState) => ({ ...prevState, [element]: false }));
-        setCancelSubmit(false);
+    // fieldsChecklist.forEach((element) => {
+    //   const value = selectedData[element];
+    //   const convertedValue = Number(value);
+    //   if (convertedValue === 0) {
+    //     setInputError((prevState) => ({ ...prevState, [element]: true }));
+    //     setCancelSubmit(true);
+    //   } else {
+    //     setInputError((prevState) => ({ ...prevState, [element]: false }));
+    //     setCancelSubmit(false);
+    //   }
+    // });
+
+    // Prevents submitting if error is true
+    // if (!cancelSubmit) {
+    //   return;
+    // } else {
+    //   console.log("submitted");
+    // }
+  };
+
+  const handleClick = () => {
+    const game = selectedData.game;
+    let downloads;
+    let revenue;
+    let expandData = [
+      {
+        revenueAndroid: null,
+        revenueApple: null,
+        downloadsAndroid: null,
+        downloadsApple: null,
+      },
+    ];
+    data.map((item) => {
+      if (item.name === selectedData.game) {
+        let tempDl = item.downloads;
+        let tempR = item.revenue;
+        let tempXRAn = item.expandData[0].revenueAndroid;
+        let tempXRAp = item.expandData[0].revenueApple;
+        let tempXDAn = item.expandData[0].downloadsAndroid;
+        let tempXDAp = item.expandData[0].downloadsApple;
+        tempDl.unshift(
+          Number(selectedData.downloadsAndroid) +
+            Number(selectedData.downloadsApple)
+        );
+        tempR.unshift(
+          Number(selectedData.revenueAndroid) +
+            Number(selectedData.revenueApple)
+        );
+        tempXRAn.unshift(Number(selectedData.revenueAndroid));
+        tempXRAp.unshift(Number(selectedData.revenueApple));
+        tempXDAn.unshift(Number(selectedData.downloadsAndroid));
+        tempXDAp.unshift(Number(selectedData.downloadsApple));
+        downloads = tempDl;
+        revenue = tempR;
+        expandData[0].downloadsAndroid = tempXDAn;
+        expandData[0].downloadsApple = tempXDAp;
+        expandData[0].revenueAndroid = tempXRAn;
+        expandData[0].revenueApple = tempXRAp;
       }
     });
 
-    // Prevents submitting if error is true
-    if (!cancelSubmit) {
-      return;
-    } else {
-      console.log("submitted");
-    }
-  };
+    const configuration = {
+      method: "post",
 
+      url: "http://localhost:8000/insert",
+      data: {
+        game,
+        downloads,
+        revenue,
+        expandData,
+      },
+    };
+
+    axios(configuration)
+      .then((result) => {
+        console.log(result.data);
+      })
+      .catch((error) => {
+        console.log(error);
+        error = new Error();
+      });
+  };
   const selectStyle = {
     display: "flex",
     flexDirection: "column",
@@ -273,8 +337,8 @@ export default function ModalContainer({ open, closeModal }) {
                   type="number"
                   InputLabelProps={{
                     shrink: true,
+                    readOnly: true,
                   }}
-                  disabled
                   name="totalRevenue"
                   value={
                     Number(selectedData.revenueAndroid) +
@@ -414,7 +478,7 @@ export default function ModalContainer({ open, closeModal }) {
         </Box>
         <Button
           sx={{ backgroundColor: "#1a4971", color: "#aad4f5" }}
-          onClick={handleSubmit}
+          onClick={handleClick}
         >
           I AM A BUTTON
         </Button>
