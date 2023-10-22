@@ -56,6 +56,7 @@ export default function RowGraphs({ month1, month2, gameData }) {
       {downloadsData ? (
         <ResponsiveBar
           data={downloadsData}
+          animate={false}
           keys={["android", "apple"]}
           indexBy="month"
           margin={{ top: 50, right: 50, bottom: 40, left: 50 }}
@@ -127,6 +128,7 @@ export default function RowGraphs({ month1, month2, gameData }) {
       ) : null}
       {revenueData ? (
         <ResponsiveBar
+          animate={false}
           data={revenueData}
           keys={["android", "apple"]}
           indexBy="month"
