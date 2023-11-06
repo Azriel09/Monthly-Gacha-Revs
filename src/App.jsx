@@ -35,6 +35,7 @@ function App() {
       return lightmode.home;
     }
   };
+  // TEST
 
   return (
     <div style={SetTheme(mode)}>
