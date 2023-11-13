@@ -23,7 +23,7 @@ import {
   ToggleButton,
 } from "@mui/material/";
 import { StyledTextField } from "./styled-textfield";
-
+import MonthsList from '../../months.json'
 import RowGraphs from "./row-graphs";
 export default function GachaTable({ filteredArray, localStorageData }) {
   const { selectedMonth } = useMonthState();
@@ -58,17 +58,7 @@ export default function GachaTable({ filteredArray, localStorageData }) {
     serverTemplate,
   } = TableTemplates();
 
-  const months = [
-    "September 2023",
-    "August 2023",
-    "July 2023",
-    "June 2023",
-    "May 2023",
-    "April 2023",
-    "March 2023",
-    "February 2023",
-    "January 2023",
-  ];
+  const months = MonthsList.months
 
   useEffect(() => {
     if (!hiddenGames) {

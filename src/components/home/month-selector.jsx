@@ -1,19 +1,10 @@
 import { useMonthState } from "../../context/month-context";
 import { MenuItem, FormControl, Select, useTheme } from "@mui/material";
-
+import MonthsList from '../../months.json'
 export default function MonthSelector() {
   const { selectedMonth, setSelectedMonth } = useMonthState();
   const theme = useTheme();
-  const months = [
-    "September 2023",
-    "August 2023",
-    "July 2023",
-    "June 2023",
-    "May 2023",
-    "April 2023",
-    "March 2023",
-    "February 2023",
-  ];
+  const months = MonthsList.months
 
   const handleChange = (e) => {
     const value = e.target.value;
