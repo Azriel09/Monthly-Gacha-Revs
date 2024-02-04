@@ -200,7 +200,6 @@ export default function ModalContainer({ open, closeModal, data }) {
               sx={{
                 minWidth: "200px",
                 color: "white",
-                backgroundColor: "#02060c",
               }}
             >
               <Typography>Select Server</Typography>
