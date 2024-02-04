@@ -167,12 +167,12 @@ export default function RowGraphs({ month1, month2, gameData }) {
             tooltip: {
               color: "#000",
             },
-            text: {
-              fontSize: 40,
-              fill: "#333333",
-              outlineWidth: 0,
-              outlineColor: "transparent",
-            },
+            // text: {
+            //   fontSize: 40,
+            //   fill: "#333333",
+            //   outlineWidth: 0,
+            //   outlineColor: "transparent",
+            // },
           }}
           layout="vertical"
           valueScale={{ type: "linear" }}
