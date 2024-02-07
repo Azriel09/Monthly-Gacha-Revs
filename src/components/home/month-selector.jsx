@@ -37,49 +37,58 @@ export default function MonthSelector() {
 
   return (
     <>
-      <Stack>
-        {selectedMonth === 0 ? (
-          <Button disableRipple disabled>
-            <ArrowBackIosIcon sx={{ color: "gray" }} />
-          </Button>
-        ) : (
-          <Button disableRipple onClick={() => handleButtonDecrease()}>
-            <ArrowBackIosIcon sx={{ color: "#fff" }} />
-          </Button>
-        )}
-      </Stack>
-      <FormControl
-        sx={{
-          width: "200px",
-          [theme.breakpoints.down("600")]: {
-            width: "150px",
-          },
-          [theme.breakpoints.down("450")]: {
-            width: "125px",
-          },
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "row",
+          alignItems: "center",
+          justifyContent: "center",
         }}
       >
-        <Select value={selectedMonth} onChange={handleChange}>
-          {months.map((month, i) => {
-            return (
-              <MenuItem value={i} key={month}>
-                {month}
-              </MenuItem>
-            );
-          })}
-        </Select>
-      </FormControl>
-      <Stack>
-        {selectedMonth === months.length - 1 ? (
-          <Button disableRipple disabled>
-            <ArrowForwardIosIcon sx={{ color: "gray" }} />
-          </Button>
-        ) : (
-          <Button disableRipple onClick={() => handleButtonIncrease()}>
-            <ArrowForwardIosIcon sx={{ color: "#fff" }} />
-          </Button>
-        )}
-      </Stack>
+        <Stack>
+          {selectedMonth === 0 ? (
+            <Button disableRipple disabled>
+              <ArrowBackIosIcon sx={{ color: "gray" }} />
+            </Button>
+          ) : (
+            <Button disableRipple onClick={() => handleButtonDecrease()}>
+              <ArrowBackIosIcon sx={{ color: "#fff" }} />
+            </Button>
+          )}
+        </Stack>
+        <FormControl
+          sx={{
+            width: "200px",
+            [theme.breakpoints.down("600")]: {
+              width: "100px",
+            },
+            [theme.breakpoints.down("450")]: {
+              width: "75px",
+            },
+          }}
+        >
+          <Select value={selectedMonth} onChange={handleChange}>
+            {months.map((month, i) => {
+              return (
+                <MenuItem value={i} key={month}>
+                  {month}
+                </MenuItem>
+              );
+            })}
+          </Select>
+        </FormControl>
+        <Stack>
+          {selectedMonth === months.length - 1 ? (
+            <Button disableRipple disabled>
+              <ArrowForwardIosIcon sx={{ color: "gray" }} />
+            </Button>
+          ) : (
+            <Button disableRipple onClick={() => handleButtonIncrease()}>
+              <ArrowForwardIosIcon sx={{ color: "#fff" }} />
+            </Button>
+          )}
+        </Stack>
+      </div>
     </>
   );
 }
